@@ -17,6 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 
-Route::resource('companies', 'CompanyController')->except(['show']);
+
+// Companies
+Route::resource('companies', 'CompanyController')->only([
+    'index', 'create', 'store', 'edit', 'update', 'destroy'
+]);
+
+// Users
+Route::resource('users', 'UserController')->only([
+    'index', 'create', 'store', 'edit', 'update', 'destroy'
+]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use AWS;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -23,6 +24,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        // $s3 = AWS::createClient('s3');
+
+        // try {
+        //     $result = $s3->listObjects(['Bucket' => 'cybernext']);
+        // } catch (Aws\S3\Exception\S3Exception $e) {
+        //     echo $e->getMessage();
+        // }
+
+        return view('dashboard.index');
     }
 }

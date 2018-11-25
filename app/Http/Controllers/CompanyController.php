@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Company\CreateCompanyRequest;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Company\CreateCompanyRequest $request
+     * @param \App\Http\Requests\Company\StoreCompanyRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCompanyRequest $request)
