@@ -1,46 +1,46 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+<div class="row log-in-page">
+    <div class="col-xs-12">
+        <div id="login" class="animate form">
+            <section class="login_content">
+                
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong> There were some problems with your input:<br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li style="list-style: none;">-{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                {!! Form::open(['route' => 'password.email', 'id' => 'login', 'class' => 'form-horizontal form-label-left']) !!}
+                    
+                    <h1>Covalent Forgot Password</h1>
+                    
+                    <div class="col-xs-12">
+                        {{ Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email']) }}
+                    </div>
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-forward"> </i>
+                            Send Password Reset Link
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                {!! Form::close() !!}
+            
+            </section>
         </div>
     </div>
 </div>

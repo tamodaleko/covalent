@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="icon" href="#/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <title>{{ config('app.name', 'Covalent Metrology') }}</title>
 
@@ -54,6 +54,9 @@
         #contentFolder3 li:nth-child(1) {
             display: block;
         }
+        .fa.fa-bars {
+            color: red;
+        }
     </style>
 </head>
 <body class="nav-sm">
@@ -62,16 +65,16 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view" tabindex="5000" style="overflow: hidden; outline: none; cursor: -webkit-grab;">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title"><img class="img-fluid" src="./img/cavalent-logo.png" alt="logo"></a>
+                        <a href="{{ route('dashboard.index') }}" class="site_title"><img class="img-fluid" src="/img/cavalent-logo.png" alt="logo"></a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- Menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="./img/1459167985_users-13.png" alt="" class="img-circle profile_img">
+                            <img src="/img/1459167985_users-13.png" alt="{{ Auth::user()->name }}" class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                            <span>{{ Auth::user()->first_name }}</span>
+                            <span>{{ Auth::user()->name }}</span>
                         </div>
                     </div>
                     <!-- /Menu profile quick info -->
@@ -95,7 +98,7 @@
                                         <i class="fa fa-user-o" aria-hidden="true"></i>Users
                                     </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="#">
                                         <i class="fa fa-cogs" aria-hidden="true"></i>Permissions
                                     </a>
@@ -104,7 +107,7 @@
                                     <a href="#">
                                         <i class="fa fa-cog" aria-hidden="true"></i>Settings
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out" aria-hidden="true"></i>Log Out
@@ -158,6 +161,14 @@
             <!-- Page content -->
             <div class="right_col" role="main">
                 <div class="clearfix"></div>
+
+                @if(Session::has('success'))
+                    <p class="alert alert-success" style="margin-top: 70px;">{{ Session::get('success') }}</p>
+                @endif
+
+                @if(Session::has('error'))
+                    <p class="alert alert-danger" style="margin-top: 70px;"><strong>{{ Session::get('error') }}</strong></p>
+                @endif
 
                 @yield('content')
             

@@ -25,8 +25,10 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
+            'logo' => 'sometimes|image',
             'name' => 'required|string|max:191',
-            'password' => 'sometimes|string|max:191'
+            'info' => 'required|string|max:191',
+            'status' => 'required|integer'
         ];
     }
 }

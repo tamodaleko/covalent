@@ -1,68 +1,49 @@
-@extends('layouts.app_old')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
+<div class="row log-in-page">
+    <div class="col-xs-12">
+        <div id="login" class="animate form">
+            <section class="login_content">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong> There were some problems with your input:<br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li style="list-style: none;">-{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                {!! Form::open(['route' => 'login', 'id' => 'login', 'class' => 'form-horizontal form-label-left']) !!}
+                    
+                    <h1>Covalent User Portal</h1>
+                    
+                    <p class="small">
+                        <i class="fa fa-lock"></i>Please login to continue
+                    </p>
+                    
+                    <div class="col-xs-12">
+                        {{ Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email']) }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
+                    </div>
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-forward"> </i>
+                            Sign in
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p class="sub-btn">Don't have an account? <b><a href="{{ route('register') }}">Register</a></b></p>
+                    <p class="sub-btn"><b><a href="{{ route('password.request') }}">Forgot password</a></b></p>
+                
+                {!! Form::close() !!}
+            
+            </section>
         </div>
     </div>
 </div>
