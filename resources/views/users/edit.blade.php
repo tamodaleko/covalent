@@ -6,7 +6,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2> <i class="fa fa-plus-square"></i> Create User</h2>
+                    <h2> <i class="fa fa-edit"></i> Update User</h2>
                     <hr>
                 </div>
                 <div class="panel-body">
@@ -25,24 +25,24 @@
                     <div class="row">
                         <div class="col-lg-12">
 
-                            {!! Form::open(['route' => 'users.store']) !!}
+                            {!! Form::model($user, ['method' => 'PATCH', 'route' => ['users.update', $user->id]]) !!}
 
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('first_name', 'First Name') }}
-                                        {{ Form::text('first_name', old('first_name'), ['class' => 'form-control', 'placeholder' => 'First Name']) }}
+                                        {{ Form::text('first_name', $user->first_name, ['class' => 'form-control', 'placeholder' => 'First Name']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('last_name', 'Last Name') }}
-                                        {{ Form::text('last_name', old('last_name'), ['class' => 'form-control', 'placeholder' => 'Last Name']) }}
+                                        {{ Form::text('last_name', $user->last_name, ['class' => 'form-control', 'placeholder' => 'Last Name']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('email', 'Email') }}
-                                        {{ Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email']) }}
+                                        {{ Form::text('email', $user->email, ['class' => 'form-control', 'placeholder' => 'Email']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
@@ -75,13 +75,13 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
-                                        {{ Form::select('status', \App\Models\User::getStatusList(), old('status'), ['class' => 'form-control']) }}
+                                        {{ Form::select('status', \App\Models\User::getStatusList(), $user->status, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('is_admin', 'Admin') }}
-                                        {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], old('is_admin'), ['class' => 'form-control']) }}
+                                        {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], $user->is_admin, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,7 +14,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->is_admin;
+        return auth()->user()->is_admin;
     }
 
     /**
@@ -26,9 +25,13 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:191',
-            'email'    => ['required', 'email', 'max:255', Rule::unique('users')], 
-            'password' => 'sometimes|string|max:191'
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'    => 'required|email|max:255|unique:users',
+            'company_id' => 'required|integer|exists:companies,id',
+            'password' => 'required|string|min:6|max:255|confirmed',
+            'status' => 'required|integer',
+            'is_admin' => 'required|boolean'
         ];
     }
 }

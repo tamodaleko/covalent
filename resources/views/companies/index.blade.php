@@ -7,7 +7,7 @@
             <div class="x_title">
                 <h2><i class="fa fa-list"></i> Companies</h2>
                 <span class="right">
-                    <a class="btn btn-danger" href="{{ route('companies.create') }}">
+                    <a class="btn btn-default" href="{{ route('companies.create') }}">
                         <i class="fa fa-plus-square"></i> Add New Company
                     </a>
                 </span>         

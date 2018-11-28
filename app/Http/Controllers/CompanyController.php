@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
@@ -17,7 +16,7 @@ class CompanyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
     /**
@@ -57,7 +56,7 @@ class CompanyController extends Controller
         }
 
         $image = $request->file('logo');
-        $name = Auth::user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+        $name = auth()->user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
 
         try {
             $image->move('uploads/images/companies', $name);
@@ -100,7 +99,7 @@ class CompanyController extends Controller
 
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
-            $name = Auth::user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $name = auth()->user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
 
             try {
                 $image->move('uploads/images/companies', $name);

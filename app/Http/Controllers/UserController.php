@@ -49,7 +49,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->validated);
+        $validated = $request->validated();
+        $validated['password'] = bcrypt($validated['password']);
+
+        $user = User::create($validated);
 
         if (!$user) {
             return redirect()->route('users.index')->withError('User could not be created.');
@@ -76,9 +79,17 @@ class UserController extends Controller
      * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCompanyRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->validated);
+        $validated = $request->validated();
+
+        if ($validated['password']) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->fill($validated);
 
         if (!$user->save()) {
             return redirect()->route('users.index')->withError('User could not be updated.');

@@ -27,13 +27,13 @@
                             
                             {!! Form::open(['route' => 'companies.store', 'files' => true]) !!}
                                 
-                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('logo', 'Logo') }}
                                         {{ Form::file('logo', ['class' => 'form-control']) }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('name', 'Name') }}
                                         {{ Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Name']) }}
@@ -56,7 +56,7 @@
                                         <p class="help-block">Leave blank if you dont want to assign.</p>
                                     </div>
                                 </div> -->
-                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
                                         {{ Form::select('status', \App\Models\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}

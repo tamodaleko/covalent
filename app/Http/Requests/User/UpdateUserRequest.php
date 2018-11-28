@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -14,7 +13,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->is_admin;
+        return auth()->user()->is_admin;
     }
 
     /**
@@ -25,8 +24,13 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:191',
-            'password' => 'sometimes|string|max:191'
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'    => 'required|email|max:255|unique:users,email,' . $this->route()->user->id,
+            'company_id' => 'required|integer|exists:companies,id',
+            'password' => 'nullable|string|min:6|max:255|confirmed',
+            'status' => 'required|integer',
+            'is_admin' => 'required|boolean'
         ];
     }
 }

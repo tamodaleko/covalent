@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Company;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCompanyRequest extends FormRequest
@@ -14,7 +13,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->is_admin;
+        return auth()->user()->is_admin;
     }
 
     /**
@@ -26,8 +25,8 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'logo' => 'required|image',
-            'name' => 'required|string|max:191',
-            'info' => 'required|string|max:191',
+            'name' => 'required|string|max:255',
+            'info' => 'required|string|max:255',
             'status' => 'required|integer'
         ];
     }
