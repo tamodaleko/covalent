@@ -22,7 +22,7 @@
                     <h1>Covalent User Portal</h1>
                     
                     <p class="small">
-                        <i class="fa fa-lock"></i>Please login to continue
+                        <i class="fa fa-lock"></i> Please login to continue
                     </p>
                     
                     <div class="col-xs-12">

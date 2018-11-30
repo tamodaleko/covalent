@@ -47,17 +47,8 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
-                                        {{ Form::label('company', 'Company') }}
-                                        <select id="com_id" name="company_id" class="form-control" onchange="getFolders(this.value);">
-                                            <option value="">Select Company</option>
-                                            <option value="3">cybernext</option>
-                                            <option value="10">Hindustan Times Pvt Ltd</option>
-                                            <option value="11">IBM India Ltd</option>
-                                            <option value="22">sdddsdds</option>
-                                            <option value="25">Cybernext 5</option>
-                                            <option value="27">Test com 5</option>
-                                            <option value="28">Company D</option>
-                                        </select>
+                                        {{ Form::label('company_id', 'Company') }}
+                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), $user->company_id, ['class' => 'form-control', 'onchange' => 'getFolders(this.value)']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">

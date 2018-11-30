@@ -15,7 +15,16 @@ class CreateFoldersTable extends Migration
     {
         Schema::create('folders', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('parent_folder_id')->nullable();
+            $table->string('name');
+            $table->string('tag')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
+
+            $table->foreign('parent_folder_id')
+                ->references('id')
+                ->on('folders')
+                ->onDelete('cascade');
         });
     }
 
@@ -26,6 +35,10 @@ class CreateFoldersTable extends Migration
      */
     public function down()
     {
+        Schema::table('folders', function (Blueprint $table) {
+            $table->dropForeign(['parent_folder_id']);
+        });
+
         Schema::dropIfExists('folders');
     }
 }

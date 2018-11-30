@@ -27,6 +27,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Company</th>
                                         <th>Admin</th>
                                         <th>Status</th>
                                         <th>Joined</th>
@@ -39,6 +40,7 @@
                                             <td>#{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
+                                            <td>{{ $user->company ? $user->company->name : '-' }}</td>
                                             <td>
                                                 @if ($user->is_admin)
                                                     <span style="color: green;"><b>Yes</b></span>

@@ -44,7 +44,7 @@
                                             </td>
                                             <td>{{ $company->name }}</td>
                                             <td>
-                                                @if ($company->status === \App\Models\Company::STATUS_ACTIVE)
+                                                @if ($company->status === \App\Models\Company\Company::STATUS_ACTIVE)
                                                     <span style="color: green;"><b>Active</b></span>
                                                 @else
                                                     <span style="color: orange;"><b>In-Active</b></span>

@@ -31,6 +31,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the company associated with the user.
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Models\Company\Company');
+    }
+
+    /**
      * Get the user's name.
      *
      * @return string

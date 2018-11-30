@@ -45,23 +45,40 @@
                                         {{ Form::text('info', old('info'), ['class' => 'form-control', 'placeholder' => 'Info']) }}
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label><span class="txt-lg"> Select Folder :</span></label><span id="show_error" style="display:none"></span><br>
-                                        <div id="contentFolder3" class="contentFolder" style="position: relative;"><span class="loading"></span></div>
-                                        <button id="btn-panel-create-new-folder" type="button" class="btn btn-info">
-                                            <i class="fa fa-folder-open-o"></i>
-                                            Create folder
-                                        </button>
-                                        <p class="help-block">Leave blank if you dont want to assign.</p>
-                                    </div>
-                                </div> -->
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
-                                        {{ Form::select('status', \App\Models\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}
+                                        {{ Form::select('status', \App\Models\Company\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <div class="form-group">
+                                        {{ Form::label('folder', 'Folder') }}
+                                        <div>
+                                            <ul class="tree-file">
+                                                <li>
+                                                    <span class="item">
+                                                        <input type="checkbox" name="folder[]" value="Cybernext/" class="chb">
+                                                        <a href="javascript:;" class="arrow"><span><i class="fa fa-caret-right"></i></span></a>
+                                                        <i class="fa fa-folder-open-o"></i> <a href="javascript:;"><span class="name-prefix name"> Cybernext</span></a>
+                                                    </span>
+                                                    <span class="sub" style="display: none;">
+                                                        <ul class="tree-file">
+                                                            <li id="pKamal" class="sub">
+                                                                <span class="item Kamal">
+                                                                    <input type="checkbox" name="folder[]" value="Cybernext/" class="chb">
+                                                                    <span class="no-sub"></span>
+                                                                    <i class="fa fa-folder-open-o"></i> <a href="javascript:;"><span class="name-prefix name">Kamal</span></a>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
                                     

@@ -66,7 +66,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
-                                        {{ Form::select('status', \App\Models\Company::getStatusList(), $company->status, ['class' => 'form-control']) }}
+                                        {{ Form::select('status', \App\Models\Company\Company::getStatusList(), $company->status, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">

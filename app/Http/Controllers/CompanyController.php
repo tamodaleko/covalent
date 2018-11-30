@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
-use App\Models\Company;
+use App\Models\Company\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -74,7 +74,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Company $company
+     * @param \App\Models\Company\Company $company
      * @return \Illuminate\Http\Response
      */
     public function edit(Company $company)
@@ -86,7 +86,7 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\Company\UpdateCompanyRequest $request
-     * @param \App\Models\Company $company
+     * @param \App\Models\Company\Company $company
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCompanyRequest $request, Company $company)
@@ -118,7 +118,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Company $company
+     * @param \App\Models\Company\Company $company
      * @return \Illuminate\Http\Response
      */
     public function destroy(Company $company)
