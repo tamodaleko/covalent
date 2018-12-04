@@ -23,3 +23,5 @@ Route::resource('users', 'UserController')->except(['show']);
 
 // Folders
 Route::post('folders', 'FolderController@store')->name('folders.store');
+Route::patch('folders/{folder}', 'FolderController@update')->name('folders.update');
+Route::get('folders/{folder}/files', 'FolderController@files')->name('folders.files');

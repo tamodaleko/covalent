@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company\Company;
+use App\Models\Folder;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -49,24 +50,13 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        $company = Company::create($request->validated());
+        $company = Company::add($request->validated(), $request->file('logo'));
 
         if (!$company) {
             return redirect()->route('companies.index')->withError('Company could not be created.');
         }
 
-        $image = $request->file('logo');
-        $name = auth()->user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-
-        try {
-            $image->move('uploads/images/companies', $name);
-        } catch (\Exception $e) {
-            $company->delete();
-            return redirect()->route('companies.index')->withError('Company could not be created.');
-        }
-
-        $company->logo = $name;
-        $company->save();
+        Folder::addForCompany($company->name, $company->id);
 
         return redirect()->route('companies.index')->withSuccess('Company has been created successfully.');
     }
@@ -91,25 +81,10 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $company->fill($request->validated());
+        $company = $company->edit($request->validated(), $request->file('logo'));
 
-        if (!$company->save()) {
+        if (!$company) {
             return redirect()->route('companies.index')->withError('Company could not be updated.');
-        }
-
-        if ($request->hasFile('logo')) {
-            $image = $request->file('logo');
-            $name = auth()->user()->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-
-            try {
-                $image->move('uploads/images/companies', $name);
-            } catch (\Exception $e) {
-                $company->delete();
-                return redirect()->route('companies.index')->withError('Company could not be updated.');
-            }
-
-            $company->logo = $name;
-            $company->save();
         }
 
         return redirect()->route('companies.index')->withSuccess('Company has been updated successfully.');

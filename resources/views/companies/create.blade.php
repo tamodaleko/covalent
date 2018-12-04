@@ -10,18 +10,6 @@
                     <hr>
                 </div>
                 <div class="panel-body">
-
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input:<br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li style="list-style: none;">-{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    
                     <div class="row">
                         <div class="col-lg-12">
                             
@@ -51,7 +39,7 @@
                                         {{ Form::select('status', \App\Models\Company\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                <!-- <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('folder', 'Folder') }}
                                         <div>
@@ -77,7 +65,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}

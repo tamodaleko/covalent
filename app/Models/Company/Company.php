@@ -28,7 +28,7 @@ class Company extends Model
      * Get company list.
      *
      * @param bool $prepend
-     * @var array
+     * @return array
      */
     public static function getList($prepend = false)
     {
@@ -48,7 +48,7 @@ class Company extends Model
     /**
      * Get status list.
      *
-     * @var array
+     * @return array
      */
     public static function getStatusList()
     {
@@ -56,5 +56,118 @@ class Company extends Model
             static::STATUS_ACTIVE => 'Active',
             static::STATUS_INACTIVE => 'In-Active'
         ];
+    }
+
+    /**
+     * Add new company.
+     *
+     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool
+     */
+    public static function add($data, $image)
+    {
+        $logo = static::uploadLogo($image);
+
+        if (!$logo) {
+            return false;
+        }
+
+        $data['logo'] = $logo;
+
+        return static::create($data);
+    }
+
+    /**
+     * Edit company.
+     *
+     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool
+     */
+    public function edit($data, $image)
+    {
+        if ($image) {
+            $logo = static::uploadLogo($image);
+
+            if (!$logo) {
+                return false;
+            }
+
+            $data['logo'] = $logo;
+        }
+
+        return $this->update($data);
+    }
+
+    /**
+     * Upload logo.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool
+     */
+    public static function uploadLogo($image)
+    {
+        $name = md5(time() . '_' . auth()->user()->id) . '.' . $image->getClientOriginalExtension();
+
+        try {
+            $image->move('uploads/images/companies', $name);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $name;
+    }
+
+    /**
+     * Get folder structure.
+     *
+     * @return array
+     */
+    public function getFolderStructure()
+    {
+        $folders = $this->folders()->whereNull('parent_folder_id')->get();
+
+        $data = [];
+
+        foreach ($folders as $folder) {
+            $data[$folder->id] = [
+                'id' => $folder->id,
+                'name' => $folder->name,
+                'tag' => $folder->tag,
+                'status' => $folder->status,
+                'status_tag' => $folder->getStatusTag(),
+                'subFolders' => $this->getSubFolderStructure($folder->id)
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get sub folder structure.
+     *
+     * @param integer $parent_folder_id
+     * @return array
+     */
+    public function getSubFolderStructure($parent_folder_id)
+    {
+        $folders = $this->folders()->where('parent_folder_id', $parent_folder_id)->get();
+
+        $data = [];
+
+        foreach ($folders as $folder) {
+            $data[$folder->id] = [
+                'id' => $folder->id,
+                'parent_folder_id' => $folder->parent_folder_id,
+                'name' => $folder->name,
+                'tag' => $folder->tag,
+                'status' => $folder->status,
+                'status_tag' => $folder->getStatusTag(),
+                'subFolders' => $this->getSubFolderStructure($folder->id)
+            ];
+        }
+
+        return $data;
     }
 }

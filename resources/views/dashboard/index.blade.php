@@ -7,52 +7,49 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12 file_browser">
                     <div class="x_panel">
-                        <div class="x_title">
-                            <div class="form-group">
-                                <br>
-                                <select id="company" name="company" class="form-control" onchange="getFolders(this.value);">
-                                    <option value="">Select Company</option>
-                                </select>
+                        
+                        @if (auth()->user()->is_admin)
+                            <div class="x_title">
+                                <div class="form-group">
+                                    <br>
+                                    <select id="company" name="company" class="form-control">
+                                        <option value="">Select Company</option>
+
+                                        @foreach (\App\Models\Company\Company::all() as $company)
+                                            <option value="{{ $company->id }}" @if(app('request')->input('company_id') == $company->id) selected @endif>
+                                                {{ $company->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        @endif
+                        
                         <div class="x_content">
                             <div class="col-md-12 col-sm-12 col-xs-12 search-col">
                                 <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 search-col-inner">
                                     <div class="dashboard-widget-content">
                                         <div>
                                             <ul class="tree-file">
-                                                <li>
-                                                    <span class="item">
-                                                        <a href="javascript:;" class="arrow"><span><i class="fa fa-caret-down"></i></span></a>
-                                                        <i class="fa fa-folder-open-o"></i> <a href="javascript:;"><span class="name-prefix name active"> Cybernext</span></a>
-                                                        <span class="create-sub-folder"><span id="status-Cybernext" class="status complete">complete</span><span id="meta-Cybernext" class="metadata test  ">test   </span><a href="javascript:;"><i class="fa fa-remove"></i>  </a></span>
-                                                    </span>
-                                                    <span class="sub">
-                                                        <ul class="tree-file">
-                                                            <li id="pKamal" class="sub">
-                                                                <span class="item Kamal">
-                                                                    <span class="no-sub"></span>
-                                                                    <i class="fa fa-folder-open-o"></i> <a href="javascript:;"><span class="name-prefix name">Kamal</span></a>
-                                                                    <span class="create-sub-folder" style="display: none;"><span id="status-Kamal" class="status notstarted">notstarted</span><span id="meta-Kamal" class="metadata  no"> no </span><a href="javascript:;"><i class="fa fa-eye"></i>  </a><a href="javascript:;"><i class="fa fa-remove"></i>  </a></span>
-                                                                </span>
-                                                            </li>
-                                                        </ul>
-                                                    </span>
-                                                </li>
+
+                                                @foreach ($folders as $folder)
+                                                    @include('partials.folders')
+                                                @endforeach
+
                                             </ul>
                                         </div>
                                         <div class="btn-sec">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFile">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal">
                                                 <i class="fa fa-cloud-upload"></i> Upload File
                                             </button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFolder">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal">
                                                 <i class="fa fa-folder-open-o"></i> Create Folder
                                             </button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStatus">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal">
                                                 <i class="fa fa-file-o"></i> Edit Status
                                             </button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTag">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTagModal">
                                                 <i class="fa fa-tags"></i> Edit Tag
                                             </button>
                                         </div>
@@ -61,11 +58,11 @@
                                 <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 search-files">
                                     <div class="clearfix"></div>
                                     <div class="breadcrumbs">
-                                        <ul class="folder-breadcrumb">
+                                        <!-- <ul class="folder-breadcrumb">
                                             <li><i class="fa fa-folder-open-o"></i> <b>Current path :</b> </li>
                                             <li><a href="javascript:;">/</a></li>
                                             <li class="active">Cybernext</li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                     <!-- <div class="input-group search">
                                         <input id="search" type="text" class="form-control" placeholder="Input file name here">

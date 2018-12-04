@@ -10,18 +10,6 @@
                     <hr>
                 </div>
                 <div class="panel-body">
-
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input:<br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li style="list-style: none;">-{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     <div class="row">
                         <div class="col-lg-12">
                             

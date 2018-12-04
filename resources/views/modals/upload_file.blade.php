@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,9 +33,7 @@
                     <b>Note:</b> Choose available folder on the left panel to specify the target path where your new folder will be created.
                 </p>
             </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-primary">Save</button> -->
-            </div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>

@@ -48,10 +48,10 @@ class FolderController extends Controller
         $folder->fill($request->validated());
 
         if (!$folder->save()) {
-            return redirect()->route('users.index')->withError('User could not be updated.');
+            return redirect()->route('dashboard.index')->withError('Folder could not be updated.');
         }
 
-        return redirect()->route('users.index')->withSuccess('User has been updated successfully.');
+        return redirect()->route('dashboard.index')->withSuccess('Folder has been updated successfully.');
     }
 
     /**
@@ -67,5 +67,16 @@ class FolderController extends Controller
         }
 
         return redirect()->route('dashboard.index')->withSuccess('Folder has been deleted successfully.');
+    }
+
+    /**
+     * Show the folder's files.
+     *
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function files(Folder $folder)
+    {
+        return response()->json($folder->files);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use AWS;
+use App\Models\Company\Company;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,15 +16,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
         // $s3 = AWS::createClient('s3');
 
         // try {
@@ -31,7 +24,23 @@ class DashboardController extends Controller
         // } catch (Aws\S3\Exception\S3Exception $e) {
         //     echo $e->getMessage();
         // }
+    }
 
-        return view('dashboard.index');
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->company_id && auth()->user()->is_admin) {
+            $company = Company::find($request->company_id);
+        } else {
+            $company = auth()->user()->company;
+        }
+
+        $folders = $company ? $company->getFolderStructure() : [];
+
+        return view('dashboard.index')->withFolders($folders);
     }
 }
