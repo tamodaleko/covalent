@@ -6,7 +6,6 @@ use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company\Company;
 use App\Models\Folder;
-use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {

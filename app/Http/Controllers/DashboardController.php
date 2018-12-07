@@ -33,7 +33,7 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->company_id && auth()->user()->is_admin) {
+        if (auth()->user()->is_admin) {
             $company = Company::find($request->company_id);
         } else {
             $company = auth()->user()->company;
@@ -41,6 +41,9 @@ class DashboardController extends Controller
 
         $folders = $company ? $company->getFolderStructure() : [];
 
-        return view('dashboard.index')->withFolders($folders);
+        return view('dashboard.index', [
+            'company' => $company,
+            'folders' => $folders
+        ]);
     }
 }

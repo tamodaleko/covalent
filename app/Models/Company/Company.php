@@ -126,22 +126,13 @@ class Company extends Model
      */
     public function getFolderStructure()
     {
-        $folders = $this->folders()->whereNull('parent_folder_id')->get();
-
-        $data = [];
+        $folders = $this->folders()->with('files')->whereNull('parent_folder_id')->get();
 
         foreach ($folders as $folder) {
-            $data[$folder->id] = [
-                'id' => $folder->id,
-                'name' => $folder->name,
-                'tag' => $folder->tag,
-                'status' => $folder->status,
-                'status_tag' => $folder->getStatusTag(),
-                'subFolders' => $this->getSubFolderStructure($folder->id)
-            ];
+            $folder->subFolders = $this->getSubFolderStructure($folder->id);
         }
 
-        return $data;
+        return $folders;
     }
 
     /**
@@ -152,22 +143,12 @@ class Company extends Model
      */
     public function getSubFolderStructure($parent_folder_id)
     {
-        $folders = $this->folders()->where('parent_folder_id', $parent_folder_id)->get();
-
-        $data = [];
+        $folders = $this->folders()->with('files')->where('parent_folder_id', $parent_folder_id)->get();
 
         foreach ($folders as $folder) {
-            $data[$folder->id] = [
-                'id' => $folder->id,
-                'parent_folder_id' => $folder->parent_folder_id,
-                'name' => $folder->name,
-                'tag' => $folder->tag,
-                'status' => $folder->status,
-                'status_tag' => $folder->getStatusTag(),
-                'subFolders' => $this->getSubFolderStructure($folder->id)
-            ];
+            $folder->subFolders = $this->getSubFolderStructure($folder->id);
         }
 
-        return $data;
+        return $folders;
     }
 }

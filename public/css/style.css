@@ -6819,8 +6819,7 @@ span.no-sub {
 .create-sub-folder {
     position: absolute;
     right: 3px;
-    display: none;
-    top: 2px;
+    top: 2.5px;
 }
 
 span.item {
@@ -7287,10 +7286,6 @@ h2.not_active a:hover {
 
 .sub-btn {
     margin-top: 20px;
-}
-
-.file_browser span.metadata+a {
-    display: none;
 }
 
 .file_browser .breadcrumbs ul {

@@ -12,6 +12,13 @@ class Folder extends Model
     const STATUS_COMPLETE = 2;
 
     /**
+     * Sub folders.
+     *
+     * @var array
+     */
+    public $subFolders;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -55,6 +62,16 @@ class Folder extends Model
             case static::STATUS_COMPLETE:
                 return 'complete';
         }
+    }
+
+    /**
+     * Get path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        
     }
 
     /**

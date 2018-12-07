@@ -76,26 +76,28 @@
                                         <i class="fa fa-tasks" aria-hidden="true"></i>Dashboard
                                     </a>
                                 </li>
+                                @if (auth()->user()->is_admin)
+                                    <li>
+                                        <a href="{{ route('companies.index') }}">
+                                            <i class="fa fa-building-o" aria-hidden="true"></i>Companies
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('users.index') }}">
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>Users
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>Permissions
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
-                                    <a href="{{ route('companies.index') }}">
-                                        <i class="fa fa-building-o" aria-hidden="true"></i>Companies
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('users.index') }}">
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>Users
-                                    </a>
-                                </li>
-                                <!-- <li>
                                     <a href="#">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i>Permissions
+                                        <i class="fa fa-address-card-o" aria-hidden="true"></i>Profile
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-cog" aria-hidden="true"></i>Settings
-                                    </a>
-                                </li> -->
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out" aria-hidden="true"></i>Log Out
