@@ -11,8 +11,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>Will edit status for folder: <b>/Test</b></span>
-
                 <div class="row" style="margin-top: 5px;">
                     <form id="edit_status_form" method="POST">
                         
@@ -39,6 +37,9 @@
                         </div>
                     </form>
                 </div>
+                <p class="alert alert-info" style="font-size: 12px;">
+                    <b>Note:</b> This will update the folder status under the selected path above.
+                </p>
             </div>
             <div class="modal-footer"></div>
         </div>

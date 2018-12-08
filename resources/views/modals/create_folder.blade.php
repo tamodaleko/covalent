@@ -11,12 +11,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>Will create folder under: <b>/Test</b></span>
-
                 <div class="row" style="margin-top: 5px;">
                     <form method="POST" action="{{ route('folders.store') }}">
 
                         {!! csrf_field() !!}
+
+                        <input type="hidden" id="parent_folder_id" name="parent_folder_id">
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -33,7 +33,7 @@
                     </form>
                 </div>
                 <p class="alert alert-info" style="font-size: 12px;">
-                    <b>Note:</b> Choose available folder on the left panel to specify the target path where your new folder will be created.
+                    <b>Note:</b> This will create a new folder under the selected path above.
                 </p>
             </div>
             <div class="modal-footer"></div>

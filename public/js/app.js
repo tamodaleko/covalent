@@ -1,16 +1,23 @@
 $(function () {
+    $('#uploadFileModal').on('show.bs.modal', function () {
+        var folder_id = $('#upload_file_button').data('id');
+        $('#folder_id').val(folder_id);
+    });
+
     $('#createFolderModal').on('show.bs.modal', function () {
-        var url = '/folders/1';
-        $('#edit_status_form').attr('action', url);
+        var folder_id = $('#create_folder_button').data('id');
+        $('#parent_folder_id').val(folder_id);
     });
 
     $('#editStatusModal').on('show.bs.modal', function () {
-        var url = '/folders/1';
+        var folder_id = $('#edit_status_button').data('id');
+        var url = '/folders/' + folder_id + '/status';
         $('#edit_status_form').attr('action', url);
     });
 
     $('#editTagModal').on('show.bs.modal', function () {
-        var url = '/folders/1';
+        var folder_id = $('#edit_tag_button').data('id');
+        var url = '/folders/' + folder_id + '/tag';
         $('#edit_tag_form').attr('action', url);
     });
 
@@ -41,5 +48,15 @@ $(function () {
         $(this).addClass('active');
 
         var folder_id = $(this).data('id');
+
+        $('#upload_file_button').attr('data-id', folder_id);
+        $('#create_folder_button').attr('data-id', folder_id);
+        $('#edit_status_button').attr('data-id', folder_id);
+        $('#edit_tag_button').attr('data-id', folder_id);
     });
+});
+
+$(document).on('change', '#upload_file_input', function () {
+    $('#upload-file-info').html($(this).val());
+    $('#file_upload_proceed').show();
 });

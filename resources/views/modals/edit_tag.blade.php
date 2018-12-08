@@ -11,8 +11,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>Will edit tag for folder: <b>/Test/Bla</b></span>
-
                 <div class="row" style="margin-top: 5px;">
                     <form id="edit_tag_form" method="POST">
 
@@ -35,6 +33,9 @@
                         </div>
                     </form>
                 </div>
+                <p class="alert alert-info" style="font-size: 12px;">
+                    <b>Note:</b> This will update the folder tag under the selected path above.
+                </p>
             </div>
             <div class="modal-footer"></div>
         </div>

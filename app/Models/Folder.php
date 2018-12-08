@@ -26,6 +26,14 @@ class Folder extends Model
     protected $fillable = ['parent_folder_id', 'name', 'tag', 'status'];
 
     /**
+     * Get the sub folders for the folder.
+     */
+    public function subFolders()
+    {
+        return $this->hasMany('App\Models\Folder', 'parent_folder_id');
+    }
+
+    /**
      * Get the files for the folder.
      */
     public function files()
@@ -94,5 +102,21 @@ class Folder extends Model
             'company_id' => $company_id,
             'folder_id' => $folder->id
         ]);
+    }
+
+    /**
+     * Get sub folder structure.
+     *
+     * @return array
+     */
+    public function getSubFolderStructure()
+    {
+        $folders = $this->subFolders()->with('files')->where('parent_folder_id', $this->id)->get();
+
+        foreach ($folders as $folder) {
+            $folder->subFolders = $folder->getSubFolderStructure($folder->id);
+        }
+
+        return $folders;
     }
 }

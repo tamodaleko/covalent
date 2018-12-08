@@ -24,11 +24,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $this->route()->user->id,
+            'first_name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
+            'email' => 'required|email|max:191|unique:users,email,' . $this->route()->user->id,
             'company_id' => 'required|integer|exists:companies,id',
-            'password' => 'nullable|string|min:6|max:255|confirmed',
+            'password' => 'nullable|string|min:6|max:191|confirmed',
             'status' => 'required|integer',
             'is_admin' => 'required|boolean'
         ];

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Folder\StoreFolderRequest;
-use App\Http\Requests\Folder\UpdateFolderRequest;
+use App\Http\Requests\Folder\UpdateFolderStatusRequest;
+use App\Http\Requests\Folder\UpdateFolderTagRequest;
 use App\Models\Folder;
-use Illuminate\Http\Request;
 
 class FolderController extends Controller
 {
@@ -30,28 +30,46 @@ class FolderController extends Controller
         $folder = Folder::create($request->validated());
 
         if (!$folder) {
-            return redirect()->route('dashboard.index')->withError('Folder could not be created.');
+            return redirect()->back()->withError('Folder could not be created.');
         }
 
-        return redirect()->route('dashboard.index')->withSuccess('Folder has been created successfully.');
+        return redirect()->back()->withSuccess('Folder has been created successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update folder status.
      *
-     * @param \App\Http\Requests\Folder\UpdateFolderRequest $request
+     * @param \App\Http\Requests\Folder\UpdateFolderStatusRequest $request
      * @param \App\Models\Folder $folder
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFolderRequest $request, Folder $folder)
+    public function updateStatus(UpdateFolderStatusRequest $request, Folder $folder)
     {
         $folder->fill($request->validated());
 
         if (!$folder->save()) {
-            return redirect()->route('dashboard.index')->withError('Folder could not be updated.');
+            return redirect()->back()->withError('Folder status could not be updated.');
         }
 
-        return redirect()->route('dashboard.index')->withSuccess('Folder has been updated successfully.');
+        return redirect()->back()->withSuccess('Folder status has been updated successfully.');
+    }
+
+    /**
+     * Update folder tag.
+     *
+     * @param \App\Http\Requests\Folder\UpdateFolderTagRequest $request
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function updateTag(UpdateFolderTagRequest $request, Folder $folder)
+    {
+        $folder->fill($request->validated());
+
+        if (!$folder->save()) {
+            return redirect()->back()->withError('Folder tag could not be updated.');
+        }
+
+        return redirect()->back()->withSuccess('Folder tag has been updated successfully.');
     }
 
     /**
@@ -63,20 +81,9 @@ class FolderController extends Controller
     public function destroy(Folder $folder)
     {
         if (!$folder->delete()) {
-            return redirect()->route('dashboard.index')->withError('Folder could not be deleted.');
+            return redirect()->back()->withError('Folder could not be deleted.');
         }
 
-        return redirect()->route('dashboard.index')->withSuccess('Folder has been deleted successfully.');
-    }
-
-    /**
-     * Show the folder's files.
-     *
-     * @param \App\Models\Folder $folder
-     * @return \Illuminate\Http\Response
-     */
-    public function files(Folder $folder)
-    {
-        return response()->json($folder->files);
+        return redirect()->back()->withSuccess('Folder has been deleted successfully.');
     }
 }

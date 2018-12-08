@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Folder;
+namespace App\Http\Requests\File;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFolderRequest extends FormRequest
+class StoreFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateFolderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return !auth()->guest();
     }
 
     /**
@@ -24,10 +24,8 @@ class UpdateFolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_folder_id' => 'nullable|integer|exists:folders,id',
-            'name' => 'sometimes|string|max:255',
-            'tag' => 'nullable|string|max:255',
-            'status' => 'sometimes|integer'
+            'file' => 'required|file',
+            'folder_id' => 'required|integer|exists:folders,id'
         ];
     }
 }

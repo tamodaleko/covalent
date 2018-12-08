@@ -11,26 +11,33 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>Will create folder under: /</span>
-
                 <div class="row">
-                    <form>
+                    {!! Form::open(['route' => 'files.store', 'files' => true]) !!}
+
+                        <input type="hidden" id="folder_id" name="folder_id">
+
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" name="" class="form-control" placeholder="Folder Name">
+                                <div class="upload-button">
+                                    <a class='btn btn-primary' href='javascript:;'>
+                                        Choose File...
+                                        <input type="file" id="upload_file_input" name="file">
+                                    </a>
+                                    <span class='label label-info' id="upload-file-info"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12 left" style="display: none;" id="file_upload_proceed">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-check"></i> Save
+                                    <i class="fa fa-check"></i> Upload
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
                 <p class="alert alert-info" style="font-size: 12px;">
-                    <b>Note:</b> Choose available folder on the left panel to specify the target path where your new folder will be created.
+                    <b>Note:</b> This will upload a new file under the selected path above.
                 </p>
             </div>
             <div class="modal-footer"></div>

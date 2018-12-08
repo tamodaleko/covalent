@@ -129,24 +129,7 @@ class Company extends Model
         $folders = $this->folders()->with('files')->whereNull('parent_folder_id')->get();
 
         foreach ($folders as $folder) {
-            $folder->subFolders = $this->getSubFolderStructure($folder->id);
-        }
-
-        return $folders;
-    }
-
-    /**
-     * Get sub folder structure.
-     *
-     * @param integer $parent_folder_id
-     * @return array
-     */
-    public function getSubFolderStructure($parent_folder_id)
-    {
-        $folders = $this->folders()->with('files')->where('parent_folder_id', $parent_folder_id)->get();
-
-        foreach ($folders as $folder) {
-            $folder->subFolders = $this->getSubFolderStructure($folder->id);
+            $folder->subFolders = $folder->getSubFolderStructure();
         }
 
         return $folders;

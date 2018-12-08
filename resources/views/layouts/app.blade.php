@@ -19,33 +19,6 @@
     <link href="{{ asset('css/jquery.fileupload.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.fileupload-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <style>
-        #contentFolder3 li {
-            display: none;
-        }
-        .file_browser #contentFolder3 li:nth-child(1) {
-            display: none;
-        }
-        #Cybernext {
-            display: block !important;
-        }
-        #contentFolder3 li:nth-child(1) {
-            display: block;
-        }
-        #pCybernext {
-            display: block !important;
-        }
-        #pCybernext > span.sub > .tree-file li {
-            display: block;
-        }
-        #contentFolder3 li:nth-child(1) {
-            display: block;
-        }
-        .fa.fa-bars {
-            color: red;
-        }
-    </style>
 </head>
 <body class="nav-sm">
     <div class="container body">
@@ -94,7 +67,7 @@
                                     </li>
                                 @endif
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('users.profile') }}">
                                         <i class="fa fa-address-card-o" aria-hidden="true"></i>Profile
                                     </a>
                                 </li>
@@ -171,6 +144,5 @@
     <script src="{{ asset('js/select2.full.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-
 </body>
 </html>

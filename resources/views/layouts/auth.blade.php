@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-12 col-sm-5 site-branding">
-                    <a class="navbar-brand" href="">
+                    <a class="navbar-brand" href="{{ url('/') }}">
                         <img class="img-fluid" src="/img/logo.png" alt="logo" style="width: 100%;">
                     </a>        
                 </div>

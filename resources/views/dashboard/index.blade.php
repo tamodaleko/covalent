@@ -35,7 +35,30 @@
                                 <p class="alert alert-info">The company does not have a main folder set up.</p>
                             @else
                                 <div>
-                                    <div class="col-md-6 col-sm-12 col-xs-12 search-col-inner">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <div class="dashboard-widget-content">
+                                            <h4>
+                                                <i class="fa fa-folder-open-o"></i> 
+                                                <span style="font-size: 13px;"><i>/ {{ $folders[0]->name }}</i></span>
+                                            </h4>
+                                            
+                                            <div class="btn-sec">
+                                                <button type="button" id="upload_file_button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal" data-id="{{ $folders[0]->id }}" data-path="">
+                                                    <i class="fa fa-cloud-upload"></i> Upload File
+                                                </button>
+                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}">
+                                                    <i class="fa fa-folder-open-o"></i> Create Folder
+                                                </button>
+                                                <button type="button" id="edit_status_button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal" data-id="{{ $folders[0]->id }}">
+                                                    <i class="fa fa-file-o"></i> Edit Status
+                                                </button>
+                                                <button type="button" id="edit_tag_button" class="btn btn-primary" data-toggle="modal" data-target="#editTagModal" data-id="{{ $folders[0]->id }}">
+                                                    <i class="fa fa-tags"></i> Edit Tag
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 col-xs-12" style="padding-top: 42px;">
                                         <div class="dashboard-widget-content">
                                             <div>
                                                 <ul class="tree-file">
@@ -46,24 +69,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-6 col-sm-12 col-xs-12 search-col-inner">
-                                        <div class="dashboard-widget-content">
-                                            <div class="btn-sec">
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal" data-id="{{ $folders[0]->id }}" data-path="">
-                                                    <i class="fa fa-cloud-upload"></i> Upload File
-                                                </button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}">
-                                                    <i class="fa fa-folder-open-o"></i> Create Folder
-                                                </button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal" data-id="{{ $folders[0]->id }}">
-                                                    <i class="fa fa-file-o"></i> Edit Status
-                                                </button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTagModal" data-id="{{ $folders[0]->id }}">
-                                                    <i class="fa fa-tags"></i> Edit Tag
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             @endif
                         </div>

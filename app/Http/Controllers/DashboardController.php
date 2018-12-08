@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use AWS;
 use App\Models\Company\Company;
 use Illuminate\Http\Request;
 
@@ -16,14 +15,6 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        // $s3 = AWS::createClient('s3');
-
-        // try {
-        //     $result = $s3->listObjects(['Bucket' => 'cybernext']);
-        // } catch (Aws\S3\Exception\S3Exception $e) {
-        //     echo $e->getMessage();
-        // }
     }
 
     /**

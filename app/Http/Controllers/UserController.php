@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -15,7 +16,8 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('admin')->except(['profile', 'updateProfile']);
+        $this->middleware('auth')->only(['profile', 'updateProfile']);
     }
 
     /**
@@ -110,5 +112,40 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index')->withSuccess('User has been deleted successfully.');
+    }
+
+    /**
+     * Show the form for user profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    {
+        return view('users.profile')->withUser(auth()->user());
+    }
+
+    /**
+     * Update the user profile.
+     *
+     * @param \App\Http\Requests\User\UpdateUserProfileRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(UpdateUserProfileRequest $request)
+    {
+        $validated = $request->validated();
+
+        if ($validated['password']) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        auth()->user()->fill($validated);
+
+        if (!auth()->user()->save()) {
+            return redirect()->back()->withError('Profile could not be updated.');
+        }
+
+        return redirect()->back()->withSuccess('Profile has been updated successfully.');
     }
 }

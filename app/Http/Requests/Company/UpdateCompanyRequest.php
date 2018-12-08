@@ -25,8 +25,8 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'logo' => 'sometimes|image',
-            'name' => 'required|string|max:255',
-            'info' => 'required|string|max:255',
+            'name' => 'required|string|max:191',
+            'info' => 'required|string|max:191',
             'status' => 'required|integer'
         ];
     }

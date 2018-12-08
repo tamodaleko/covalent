@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\StoreUserRequest;
-use App\Http\Requests\User\UpdateUserRequest;
+use AWS;
+use App\Http\Requests\File\StoreFileRequest;
 use App\Models\File;
-use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
@@ -22,21 +21,40 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\User\StoreUserRequest $request
+     * @param \App\Http\Requests\File\StoreFileRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreFileRequest $request)
     {
-        $validated = $request->validated();
-        $validated['password'] = bcrypt($validated['password']);
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
 
-        $user = User::create($validated);
+        try {
+            $file->move('uploads/files', $filename);
+        } catch (Exception $e) {
+            return redirect()->back()->withError($e->getMessage());
+        }
+
+        $s3 = AWS::createClient('s3');
+
+        try {
+            $result = $s3->putObject([
+                'Bucket' => 'cybernext',
+                'Key' => '/test-dejan/' . $filename,
+                'Body' => fopen('uploads/files/' . $filename, 'r'),
+                'ACL' => 'public-read'
+            ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return redirect()->back()->withError('File could not be uploaded.');
+        }
+
+        dd($result);
 
         if (!$user) {
             return redirect()->route('users.index')->withError('User could not be created.');
         }
 
-        return redirect()->route('users.index')->withSuccess('User has been created successfully.');
+        return redirect()->back()->withSuccess('File has been uploaded successfully.');
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateUserProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->is_admin;
+        return !auth()->guest();
     }
 
     /**
@@ -26,11 +26,7 @@ class StoreUserRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
-            'email' => 'required|email|max:191|unique:users',
-            'company_id' => 'required|integer|exists:companies,id',
-            'password' => 'required|string|min:6|max:191|confirmed',
-            'status' => 'required|integer',
-            'is_admin' => 'required|boolean'
+            'password' => 'nullable|string|min:6|max:191|confirmed'
         ];
     }
 }

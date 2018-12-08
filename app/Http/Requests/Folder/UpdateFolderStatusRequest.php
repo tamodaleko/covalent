@@ -4,7 +4,7 @@ namespace App\Http\Requests\Folder;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFolderRequest extends FormRequest
+class UpdateFolderStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class StoreFolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_folder_id' => 'required|integer|exists:folders,id',
-            'name' => 'required|string|max:191'
+            'status' => 'sometimes|integer'
         ];
     }
 }
