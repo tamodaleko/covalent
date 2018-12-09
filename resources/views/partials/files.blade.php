@@ -4,7 +4,7 @@
             <li>
                 <span>
                     <span class="no-sub"></span>
-                    <i class="fa fa-picture-o"></i>
+                    <i class="fa {{ $file->getIcon() }}"></i>
                     <a href="javascript:;">
                         <span class="name-prefix">{{ $file->name . '.' . $file->extension }}</span>
                     </a>

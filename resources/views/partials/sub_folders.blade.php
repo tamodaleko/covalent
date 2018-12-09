@@ -10,7 +10,9 @@
         
         <i class="fa fa-folder-open-o"></i>
         <a href="javascript:;">
-            <span class="name-prefix name" data-id="{{ $folder->id }}">{{ $folder->name }}</span>
+            <span class="name-prefix name" data-id="{{ $folder->id }}" data-path="{{ $folder->getPath() }}">
+                {{ $folder->name }}
+            </span>
         </a>
 
         <span class="create-sub-folder">

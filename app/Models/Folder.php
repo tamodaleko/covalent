@@ -26,6 +26,14 @@ class Folder extends Model
     protected $fillable = ['parent_folder_id', 'name', 'tag', 'status'];
 
     /**
+     * Get the parent folder associated with the folder.
+     */
+    public function parentFolder()
+    {
+        return $this->belongsTo('App\Models\Folder', 'parent_folder_id');
+    }
+
+    /**
      * Get the sub folders for the folder.
      */
     public function subFolders()
@@ -79,7 +87,24 @@ class Folder extends Model
      */
     public function getPath()
     {
-        
+        $path = $this->name;
+        $parent = $this->parentFolder;
+
+        if (!$parent) {
+            return $path;
+        }
+
+        $path = $parent->name . '/' . $path;
+
+        do {
+            $parent = $parent->parentFolder;
+
+            if ($parent) {
+                $path = $parent->name . '/' . $path;
+            }
+        } while ($parent);
+
+        return $path;
     }
 
     /**

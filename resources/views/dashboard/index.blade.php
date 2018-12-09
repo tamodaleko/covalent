@@ -39,7 +39,7 @@
                                         <div class="dashboard-widget-content">
                                             <h4>
                                                 <i class="fa fa-folder-open-o"></i> 
-                                                <span style="font-size: 13px;"><i>/ {{ $folders[0]->name }}</i></span>
+                                                <span style="font-size: 13px;"><i id="folder_path"> /{{ $folders[0]->getPath() }}</i></span>
                                             </h4>
                                             
                                             <div class="btn-sec">

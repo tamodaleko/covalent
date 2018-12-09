@@ -48,11 +48,14 @@ $(function () {
         $(this).addClass('active');
 
         var folder_id = $(this).data('id');
+        var folder_path = $(this).data('path');
 
         $('#upload_file_button').attr('data-id', folder_id);
         $('#create_folder_button').attr('data-id', folder_id);
         $('#edit_status_button').attr('data-id', folder_id);
         $('#edit_tag_button').attr('data-id', folder_id);
+
+        $('#folder_path').html('/' + folder_path);
     });
 });
 

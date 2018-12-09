@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use AWS;
 use App\Http\Requests\File\StoreFileRequest;
 use App\Models\File;
+use App\Models\Folder;
+use App\Services\FileService;
 
 class FileController extends Controller
 {
@@ -29,30 +30,20 @@ class FileController extends Controller
         $file = $request->file('file');
         $filename = $file->getClientOriginalName();
 
-        try {
-            $file->move('uploads/files', $filename);
-        } catch (Exception $e) {
-            return redirect()->back()->withError($e->getMessage());
-        }
+        $fileService = new FileService($file);
 
-        $s3 = AWS::createClient('s3');
+        $folder = Folder::find($request->folder_id);
 
-        try {
-            $result = $s3->putObject([
-                'Bucket' => 'cybernext',
-                'Key' => '/test-dejan/' . $filename,
-                'Body' => fopen('uploads/files/' . $filename, 'r'),
-                'ACL' => 'public-read'
-            ]);
-        } catch (Aws\S3\Exception\S3Exception $e) {
+        if (!$fileService->uploadToS3($folder->getPath(), $filename)) {
             return redirect()->back()->withError('File could not be uploaded.');
         }
 
-        dd($result);
-
-        if (!$user) {
-            return redirect()->route('users.index')->withError('User could not be created.');
-        }
+        File::create([
+            'folder_id' => $request->folder_id,
+            'name' => pathinfo($filename, PATHINFO_FILENAME),
+            'extension' =>  pathinfo($filename, PATHINFO_EXTENSION),
+            'size' => $file->getClientSize()
+        ]);
 
         return redirect()->back()->withSuccess('File has been uploaded successfully.');
     }
