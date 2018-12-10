@@ -2629,6 +2629,12 @@ label {
 
 .checkbox {}
 
+input[type="checkbox"].folder_checkbox {
+    float: left;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
 .form-horizontal .form-group {
     margin-right: 0;
     margin-left: 0;

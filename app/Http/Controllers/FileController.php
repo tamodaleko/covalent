@@ -52,7 +52,7 @@ class FileController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\User\UpdateUserRequest $request
-     * @param \App\Models\User $user
+     * @param \App\Models\User\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, User $user)

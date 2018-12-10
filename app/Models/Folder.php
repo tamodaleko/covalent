@@ -119,14 +119,29 @@ class Folder extends Model
     {
         $folder = static::create([
             'parent_folder_id' => $parent_folder_id,
-            'name' => $name,
-            'status' => static::STATUS_NOT_STARTED
+            'name' => $name
         ]);
 
         CompanyFolder::create([
             'company_id' => $company_id,
             'folder_id' => $folder->id
         ]);
+    }
+
+    /**
+     * Get full structure.
+     *
+     * @return array
+     */
+    public static function getFullStructure()
+    {
+        $folders = static::whereNull('parent_folder_id')->orderBy('created_at')->get();
+
+        foreach ($folders as $folder) {
+            $folder->subFolders = $folder->getSubFolderStructure();
+        }
+
+        return $folders;
     }
 
     /**

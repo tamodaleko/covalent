@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
-use App\Models\User;
+use App\Models\User\User;
 
 class UserController extends Controller
 {
@@ -65,7 +65,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -77,7 +77,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\User\UpdateUserRequest $request
-     * @param \App\Models\User $user
+     * @param \App\Models\User\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, User $user)
@@ -102,7 +102,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
+     * @param \App\Models\User\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -140,9 +140,9 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        auth()->user()->fill($validated);
+        $user = auth()->user()->edit($validated, $request->file('avatar'));
 
-        if (!auth()->user()->save()) {
+        if (!$user) {
             return redirect()->back()->withError('Profile could not be updated.');
         }
 

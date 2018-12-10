@@ -32,7 +32,11 @@
                     <!-- Menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="/img/user.png" alt="{{ Auth::user()->name }}" class="img-circle profile_img">
+                            @if (auth()->user()->avatar)
+                                <img src="/uploads/images/users/{{ auth()->user()->avatar }}" alt="{{ Auth::user()->name }}" class="img-circle profile_img">
+                            @else
+                                <img src="/img/user.png" alt="{{ Auth::user()->name }}" class="img-circle profile_img">
+                            @endif
                         </div>
                         <div class="profile_info">
                             <span>{{ Auth::user()->name }}</span>
@@ -61,7 +65,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ route('companies.permissions.index') }}">
                                             <i class="fa fa-cogs" aria-hidden="true"></i>Permissions
                                         </a>
                                     </li>

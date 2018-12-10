@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="page-wrapper">
-    <div class="row new_user">
+    <div class="row new_company">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -13,8 +13,27 @@
                     <div class="row">
                         <div class="col-lg-12">
 
-                            {!! Form::model($user, ['route' => 'users.profile.update']) !!}
+                            {!! Form::model($user, ['route' => 'users.profile.update', 'files' => true]) !!}
 
+                                @if ($user->avatar)
+                                    <div>
+                                        <img src="/uploads/images/users/{{ $user->avatar }}" alt="{{ $user->name }}">
+                                    </div>
+                                    </br>
+                                @endif
+
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <div class="form-group">
+                                        {{ Form::label('avatar', 'Avatar') }}
+                                        {{ Form::file('avatar', ['class' => 'form-control']) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 right">
+                                    <div class="form-group">
+                                        {{ Form::label('email', 'Email') }}
+                                        {{ Form::text('email', $user->email, ['class' => 'form-control', 'placeholder' => 'Email']) }}
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('first_name', 'First Name') }}

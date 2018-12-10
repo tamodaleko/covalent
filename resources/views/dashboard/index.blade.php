@@ -12,7 +12,7 @@
                             <div class="x_title">
                                 <div class="form-group">
                                     <br>
-                                    <select id="company" name="company" class="form-control">
+                                    <select id="company" class="form-control">
                                         <option value="">Select Company</option>
 
                                         @foreach (\App\Models\Company\Company::all() as $singleCompany)

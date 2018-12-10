@@ -21,6 +21,8 @@ class CreateFoldersTable extends Migration
             $table->integer('status')->nullable();
             $table->timestamps();
 
+            $table->unique(['parent_folder_id', 'name']);
+
             $table->foreign('parent_folder_id')
                 ->references('id')
                 ->on('folders')

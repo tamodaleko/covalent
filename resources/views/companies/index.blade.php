@@ -8,7 +8,7 @@
                 <h2><i class="fa fa-list"></i> Companies</h2>
                 <span class="right">
                     <a class="btn btn-default" href="{{ route('companies.create') }}">
-                        <i class="fa fa-plus-square"></i> Add New Company
+                        <i class="fa fa-plus"></i> Add New Company
                     </a>
                 </span>         
                 <div class="clearfix"></div>
@@ -51,10 +51,14 @@
                                                 @endif
                                             </td>
                                             <td class="center">
-                                                <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-primary">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
 
                                                 {!! Form::open(['method' => 'DELETE','route' => ['companies.destroy', $company->id], 'style' => 'display:inline']) !!}
-                                                {!! Form::submit('Delete', ['class' => 'confirm btn btn-danger']) !!}
+                                                    <button class="btn btn-primary confirm">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
                                                 {!! Form::close() !!}
                                             </td>
                                         </tr>

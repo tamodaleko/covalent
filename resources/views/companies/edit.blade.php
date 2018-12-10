@@ -40,17 +40,6 @@
                                         {{ Form::text('info', $company->info, ['class' => 'form-control', 'placeholder' => 'Info']) }}
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label><span class="txt-lg"> Select Folder :</span></label><span id="show_error" style="display:none"></span><br>
-                                        <div id="contentFolder3" class="contentFolder" style="position: relative;"><span class="loading"></span></div>
-                                        <button id="btn-panel-create-new-folder" type="button" class="btn btn-info">
-                                            <i class="fa fa-folder-open-o"></i>
-                                            Create folder
-                                        </button>
-                                        <p class="help-block">Leave blank if you dont want to assign.</p>
-                                    </div>
-                                </div> -->
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}

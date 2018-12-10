@@ -67,13 +67,15 @@ class Company extends Model
      */
     public static function add($data, $image)
     {
-        $logo = static::uploadLogo($image);
+        if ($image) {
+            $logo = static::uploadLogo($image);
 
-        if (!$logo) {
-            return false;
+            if (!$logo) {
+                return false;
+            }
+
+            $data['logo'] = $logo;
         }
-
-        $data['logo'] = $logo;
 
         return static::create($data);
     }
@@ -104,7 +106,7 @@ class Company extends Model
      * Upload logo.
      *
      * @param \Illuminate\Http\UploadedFile $image
-     * @return bool
+     * @return bool|string
      */
     public static function uploadLogo($image)
     {
@@ -133,5 +135,26 @@ class Company extends Model
         }
 
         return $folders;
+    }
+
+    /**
+     * Update permissions.
+     *
+     * @param array $folders
+     * @return bool
+     */
+    public function updatePermissions($folders)
+    {
+        return $this->folders()->sync($folders);
+    }
+
+    /**
+     * Get allowed folders.
+     *
+     * @return array
+     */
+    public function getAllowedFolders()
+    {
+        return $this->folders()->pluck('folder_id')->toArray();
     }
 }

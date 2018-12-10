@@ -20,10 +20,21 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 // Companies
 Route::resource('companies', 'CompanyController')->except(['show']);
 
+// Companies.Permissions
+Route::get('companies/permissions', 'CompanyPermissionController@index')->name('companies.permissions.index');
+Route::get('companies/{company}/permissions', 'CompanyPermissionController@edit')->name('companies.permissions.edit');
+Route::patch('companies/{company}/permissions', 'CompanyPermissionController@update')->name('companies.permissions.update');
+
 // Users
 Route::resource('users', 'UserController')->except(['show']);
+
+// Users.Profile
 Route::get('users/profile', 'UserController@profile')->name('users.profile');
 Route::post('users/profile', 'UserController@updateProfile')->name('users.profile.update');
+
+// Users.Permissions
+Route::get('users/{user}/permissions', 'UserPermissionController@edit')->name('users.permissions.edit');
+Route::patch('users/{user}/permissions', 'UserPermissionController@update')->name('users.permissions.update');
 
 // Folders
 Route::post('folders', 'FolderController@store')->name('folders.store');

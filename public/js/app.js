@@ -29,6 +29,10 @@ $(function () {
         window.location.search = 'company_id=' + $(this).val();
     });
 
+    $('#company_permissions').on('change', function () {
+        window.location.href = '/companies/' + $(this).val() + '/permissions';
+    });
+
     $('.arrow').click(function () {
         var parent_id = $(this).data('id');
         

@@ -1,4 +1,4 @@
-<li>
+<li class="folder-container">
     <span class="item">
         @if (count($folder->subFolders) || count($folder->files))
             <a href="javascript:;" class="arrow" data-id="{{ $folder->id }}">
@@ -34,7 +34,7 @@
     <hr style="margin: 0; padding: 0;" />
 
     @if (count($folder->subFolders))
-        <span class="sub" id="sub-{{ $folder->id }}"> 
+        <span class="sub" id="sub-{{ $folder->id }}" @if (!$loop->first) style="display: none;" @endif> 
             <ul class="tree-file">
                 @foreach ($folder->subFolders as $subFolder)
                     @include('partials.sub_folders', ['folder' => $subFolder])

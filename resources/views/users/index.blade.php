@@ -8,7 +8,7 @@
                 <h2><i class="fa fa-list"></i> Users</h2>
                 <span class="right">
                     <a class="btn btn-default" href="{{ route('users.create') }}">
-                        <i class="fa fa-plus-square"></i> Add New User
+                        <i class="fa fa-plus"></i> Add New User
                     </a>
                 </span>         
                 <div class="clearfix"></div>
@@ -49,7 +49,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($user->status === \App\Models\User::STATUS_ACTIVE)
+                                                @if ($user->status === \App\Models\User\User::STATUS_ACTIVE)
                                                     <span style="color: green;"><b>Active</b></span>
                                                 @else
                                                     <span style="color: orange;"><b>In-Active</b></span>
@@ -57,10 +57,18 @@
                                             </td>
                                             <td>{{ $user->created_at->format('m/d/Y') }}</td>
                                             <td class="center">
-                                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+
+                                                <a href="{{ route('users.permissions.edit', $user->id) }}" class="btn btn-primary">
+                                                    <i class="fa fa-cogs"></i>
+                                                </a>
 
                                                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                                {!! Form::submit('Delete', ['class' => 'confirm btn btn-danger']) !!}
+                                                    <button class="btn btn-primary confirm">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
                                                 {!! Form::close() !!}
                                             </td>
                                         </tr>

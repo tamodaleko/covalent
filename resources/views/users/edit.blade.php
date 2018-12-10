@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="page-wrapper">
-    <div class="row new_user">
+    <div class="row new_company">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -54,7 +54,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
-                                        {{ Form::select('status', \App\Models\User::getStatusList(), $user->status, ['class' => 'form-control']) }}
+                                        {{ Form::select('status', \App\Models\User\User::getStatusList(), $user->status, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">

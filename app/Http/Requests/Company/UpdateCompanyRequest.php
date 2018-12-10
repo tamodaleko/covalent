@@ -24,8 +24,8 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'logo' => 'sometimes|image',
-            'name' => 'required|string|max:191',
+            'logo' => 'nullable|image',
+            'name' => 'required|string|max:191|unique:companies,name,' . $this->route()->company->id,
             'info' => 'required|string|max:191',
             'status' => 'required|integer'
         ];

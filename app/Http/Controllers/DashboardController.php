@@ -30,11 +30,9 @@ class DashboardController extends Controller
             $company = auth()->user()->company;
         }
 
-        $folders = $company ? $company->getFolderStructure() : [];
-
         return view('dashboard.index', [
             'company' => $company,
-            'folders' => $folders
+            'folders' => $company ? $company->getFolderStructure() : []
         ]);
     }
 }

@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Models\User;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'company_id', 'first_name', 'last_name', 'avatar', 'email', 'password', 'is_admin', 'status'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * Get the company associated with the user.
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Models\Company\Company');
+    }
+
+    /**
+     * The folders that belong to the user.
+     */
+    public function folders()
+    {
+        return $this->belongsToMany('App\Models\Folder', 'user_folder');
+    }
+
+    /**
+     * Get the user's name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Get status list.
+     *
+     * @var array
+     */
+    public static function getStatusList()
+    {
+        return [
+            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_INACTIVE => 'In-Active'
+        ];
+    }
+
+    /**
+     * Edit user.
+     *
+     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool
+     */
+    public function edit($data, $image)
+    {
+        if ($image) {
+            $avatar = static::uploadAvatar($image);
+
+            if (!$avatar) {
+                return false;
+            }
+
+            $data['avatar'] = $avatar;
+        }
+
+        return $this->update($data);
+    }
+
+    /**
+     * Upload avatar.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return bool|string
+     */
+    public static function uploadAvatar($image)
+    {
+        $name = md5(time() . '_' . auth()->user()->id) . '.' . $image->getClientOriginalExtension();
+
+        try {
+            $image->move('uploads/images/users', $name);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $name;
+    }
+
+    /**
+     * Update permissions.
+     *
+     * @param array $folders
+     * @return bool
+     */
+    public function updatePermissions($folders)
+    {
+        return $this->folders()->sync($folders);
+    }
+
+    /**
+     * Get allowed folders.
+     *
+     * @return array
+     */
+    public function getAllowedFolders()
+    {
+        return $this->folders()->pluck('folder_id')->toArray();
+    }
+}
