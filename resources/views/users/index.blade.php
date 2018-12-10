@@ -17,7 +17,7 @@
                 <div class="clearfix"></div>
 
                 @if (!$users->count())
-                    <p class="alert alert-warning">There are no users found.</p>
+                    <p class="alert alert-info">There are no users found.</p>
                 @else
                     <div class="dashboard-widget-content a">
                         <div class="contentfrefix" id="contentfrefix1">
@@ -61,9 +61,11 @@
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
 
-                                                <a href="{{ route('users.permissions.edit', $user->id) }}" class="btn btn-primary">
-                                                    <i class="fa fa-cogs"></i>
-                                                </a>
+                                                @if (!$user->is_admin)
+                                                    <a href="{{ route('users.permissions.edit', $user->id) }}" class="btn btn-primary">
+                                                        <i class="fa fa-cogs"></i>
+                                                    </a>
+                                                @endif
 
                                                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
                                                     <button class="btn btn-primary confirm">

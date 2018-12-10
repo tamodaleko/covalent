@@ -17,7 +17,7 @@
                 <div class="clearfix"></div>
 
                 @if (!$companies->count())
-                    <p class="alert alert-warning">There are no companies found.</p>
+                    <p class="alert alert-info">There are no companies found.</p>
                 @else
                     <div class="dashboard-widget-content a">
                         <div class="contentfrefix" id="contentfrefix1">
