@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Folder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -111,6 +112,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get allowed folder structure.
+     *
+     * @return array
+     */
+    public function getAllowedFolderStructure()
+    {
+        return Folder::getStructure($this->getAllowedFolders());
+    }
+
+    /**
      * Update permissions.
      *
      * @param array $folders
@@ -129,5 +140,19 @@ class User extends Authenticatable
     public function getAllowedFolders()
     {
         return $this->folders()->pluck('folder_id')->toArray();
+    }
+
+    /**
+     * Grant default permissions.
+     *
+     * @return bool
+     */
+    public function grantDefaultPermissions()
+    {
+        if (!$this->company) {
+            return false;
+        }
+
+        return $this->updatePermissions($this->company->getAllowedFolders());
     }
 }

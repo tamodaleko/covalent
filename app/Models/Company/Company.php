@@ -2,6 +2,8 @@
 
 namespace App\Models\Company;
 
+use App\Models\Folder;
+use App\Models\User\UserFolder;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -15,6 +17,14 @@ class Company extends Model
      * @var array
      */
     protected $fillable = ['name', 'logo', 'info', 'status'];
+
+    /**
+     * Get the users for the company.
+     */
+    public function users()
+    {
+        return $this->hasMany('App\Models\User\User');
+    }
 
     /**
      * The folders that belong to the company.
@@ -122,19 +132,13 @@ class Company extends Model
     }
 
     /**
-     * Get folder structure.
+     * Get allowed folder structure.
      *
      * @return array
      */
-    public function getFolderStructure()
+    public function getAllowedFolderStructure()
     {
-        $folders = $this->folders()->with('files')->whereNull('parent_folder_id')->get();
-
-        foreach ($folders as $folder) {
-            $folder->subFolders = $folder->getSubFolderStructure();
-        }
-
-        return $folders;
+        return Folder::getStructure($this->getAllowedFolders());
     }
 
     /**
@@ -145,7 +149,14 @@ class Company extends Model
      */
     public function updatePermissions($folders)
     {
-        return $this->folders()->sync($folders);
+        if ($this->folders()->sync($folders)) {
+            $users = $this->users()->pluck('id')->toArray();
+            UserFolder::whereIn('user_id', $users)->whereNotIn('folder_id', $folders)->delete();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

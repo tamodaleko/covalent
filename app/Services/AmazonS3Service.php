@@ -53,4 +53,41 @@ class AmazonS3Service
 
         return $result;
     }
+
+    /**
+     * Delete folder.
+     *
+     * @param string $path
+     * @return bool|array
+     */
+    public function deleteFolder($path)
+    {
+        try {
+            $result = $this->client->deleteMatchingObjects($this->bucket, $path);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Delete file.
+     *
+     * @param string $path
+     * @return bool|array
+     */
+    public function deleteFile($path)
+    {
+        try {
+            $result = $this->client->deleteObject([
+                'Bucket' => $this->bucket,
+                'Key' => $path
+            ]);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $result;
+    }
 }

@@ -26,13 +26,15 @@ class DashboardController extends Controller
     {
         if (auth()->user()->is_admin) {
             $company = Company::find($request->company_id);
+            $folders = $company ? $company->getAllowedFolderStructure() : [];
         } else {
             $company = auth()->user()->company;
+            $folders = $company ? auth()->user()->getAllowedFolderStructure() : [];
         }
 
         return view('dashboard.index', [
             'company' => $company,
-            'folders' => $company ? $company->getFolderStructure() : []
+            'folders' => $folders
         ]);
     }
 }

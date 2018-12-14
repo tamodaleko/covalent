@@ -24,6 +24,7 @@ class StoreFolderRequest extends FormRequest
     public function rules()
     {
         return [
+            'company_id' => 'required|integer|exists:companies,id',
             'parent_folder_id' => 'required|integer|exists:folders,id',
             'name' => 'required|string|max:191'
         ];

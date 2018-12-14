@@ -31,8 +31,8 @@
                                 <p class="alert alert-info">Please select a company to manage files and folders.</p>
                             @elseif (!$company)
                                 <p class="alert alert-info">You are not part of any company.</p>
-                            @elseif (!$folders)
-                                <p class="alert alert-info">The company does not have a main folder set up.</p>
+                            @elseif (!count($folders))
+                                <p class="alert alert-info">The company doesn't have permission to access any folder.</p>
                             @else
                                 <div>
                                     <div class="col-md-3 col-sm-12 col-xs-12">
@@ -43,10 +43,10 @@
                                             </h4>
                                             
                                             <div class="btn-sec">
-                                                <button type="button" id="upload_file_button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal" data-id="{{ $folders[0]->id }}" data-path="">
+                                                <button type="button" id="upload_file_button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal" data-id="{{ $folders[0]->id }}">
                                                     <i class="fa fa-cloud-upload"></i> Upload File
                                                 </button>
-                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}">
+                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}" data-company_id="{{ $company->id }}">
                                                     <i class="fa fa-folder-open-o"></i> Create Folder
                                                 </button>
                                                 <button type="button" id="edit_status_button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal" data-id="{{ $folders[0]->id }}">

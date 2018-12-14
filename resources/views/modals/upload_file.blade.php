@@ -16,20 +16,20 @@
 
                         <input type="hidden" id="folder_id" name="folder_id">
 
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <div class="upload-button">
-                                    <a class='btn btn-primary' href='javascript:;'>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group" style="text-align: center;">
+                                <div class="upload-button" style="width: 100%;">
+                                    <a class='btn btn-primary' href='javascript:;' style="width: 100%; margin-bottom: 10px;">
                                         Choose File...
-                                        <input type="file" id="upload_file_input" name="file">
+                                        <input type="file" id="upload_file_input" name="file" style="width: 100%;">
                                     </a>
                                     <span class='label label-info' id="upload-file-info"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 left" style="display: none;" id="file_upload_proceed">
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="display: none;" id="file_upload_proceed">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
                                     <i class="fa fa-check"></i> Upload
                                 </button>
                             </div>

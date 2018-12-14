@@ -38,7 +38,7 @@ class CompanyPermissionController extends Controller
     {
         return view('companies.permissions.edit', [
             'company' => $company,
-            'folders' => Folder::getFullStructure(),
+            'folders' => Folder::getStructure(),
             'selected' => $company->getAllowedFolders()
         ]);
     }

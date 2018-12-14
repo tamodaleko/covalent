@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdateUserPermissionsRequest;
 use App\Models\User\User;
-use App\Models\Folder;
 
 class UserPermissionController extends Controller
 {
@@ -28,7 +27,7 @@ class UserPermissionController extends Controller
     {
         return view('users.permissions.edit', [
             'user' => $user,
-            'folders' => $user->company ? $user->company->getFolderStructure() : [],
+            'folders' => $user->company ? $user->company->getAllowedFolderStructure() : [],
             'selected' => $user->getAllowedFolders()
         ]);
     }

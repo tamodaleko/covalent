@@ -6,6 +6,9 @@ $(function () {
 
     $('#createFolderModal').on('show.bs.modal', function () {
         var folder_id = $('#create_folder_button').data('id');
+        var company_id = $('#create_folder_button').data('company_id');
+
+        $('#company_id').val(company_id);
         $('#parent_folder_id').val(folder_id);
     });
 
@@ -54,6 +57,10 @@ $(function () {
         var folder_id = $(this).data('id');
         var folder_path = $(this).data('path');
 
+        $('#arrow-' + folder_id + ' i').removeClass('fa-caret-right').addClass('fa-caret-down');
+        $('#sub-' + folder_id).show();
+        $('#files-' + folder_id).show();
+
         $('#upload_file_button').attr('data-id', folder_id);
         $('#create_folder_button').attr('data-id', folder_id);
         $('#edit_status_button').attr('data-id', folder_id);
@@ -67,3 +74,11 @@ $(document).on('change', '#upload_file_input', function () {
     $('#upload-file-info').html($(this).val());
     $('#file_upload_proceed').show();
 });
+
+function confSubmit(form) {
+    if (!confirm('Are you sure?')) {
+        return false;
+    }
+
+    form.submit();
+}

@@ -6,6 +6,7 @@ use App\Http\Requests\Folder\StoreFolderRequest;
 use App\Http\Requests\Folder\UpdateFolderStatusRequest;
 use App\Http\Requests\Folder\UpdateFolderTagRequest;
 use App\Models\Folder;
+use App\Services\AmazonS3Service;
 
 class FolderController extends Controller
 {
@@ -27,10 +28,20 @@ class FolderController extends Controller
      */
     public function store(StoreFolderRequest $request)
     {
-        $folder = Folder::create($request->validated());
+        $validated = $request->validated();
+
+        $folder = Folder::addForCompany(
+            $validated['name'],
+            $validated['company_id'],
+            $validated['parent_folder_id']
+        );
 
         if (!$folder) {
             return redirect()->back()->withError('Folder could not be created.');
+        }
+
+        if (!auth()->user()->is_admin) {
+            $folder->attachToUser(auth()->user()->id);
         }
 
         return redirect()->back()->withSuccess('Folder has been created successfully.');
@@ -80,9 +91,13 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
+        $path = $folder->getPath() . '/';
+
         if (!$folder->delete()) {
             return redirect()->back()->withError('Folder could not be deleted.');
         }
+
+        (new AmazonS3Service())->deleteFolder($path);
 
         return redirect()->back()->withSuccess('Folder has been deleted successfully.');
     }

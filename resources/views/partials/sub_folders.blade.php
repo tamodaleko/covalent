@@ -1,7 +1,7 @@
 <li>
     <span>
         @if (count($folder->subFolders) || count($folder->files))
-            <a href="javascript:;" class="arrow" data-id="{{ $folder->id }}">
+            <a href="javascript:;" class="arrow" id="arrow-{{ $folder->id }}" data-id="{{ $folder->id }}">
                 <span><i class="fa fa-caret-right"></i></span>
             </a>
         @else
@@ -9,6 +9,7 @@
         @endif
         
         <i class="fa fa-folder-open-o"></i>
+
         <a href="javascript:;">
             <span class="name-prefix name" data-id="{{ $folder->id }}" data-path="{{ $folder->getPath() }}">
                 {{ $folder->name }}
@@ -21,7 +22,13 @@
             @endif
 
             <span class="metadata">{{ $folder->tag }}</span>
-            <a href="javascript:;" class="confirm"><i class="fa fa-remove"></i></a>
+            
+            <a href="javascript:;" onclick="confSubmit(document.getElementById('delete-form-{{ $folder->id }}'));">
+                <i class="fa fa-remove" style="color: red;"></i>
+            </a>
+
+            {!! Form::open(['method' => 'DELETE','route' => ['folders.destroy', $folder->id], 'style' => 'display:none', 'id' => 'delete-form-' . $folder->id]) !!}
+                {!! Form::close() !!}
         </span>
     </span>
 

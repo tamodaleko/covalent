@@ -14,6 +14,8 @@ class File extends Model
     const EXCEL_EXTENSIONS = ['xls', 'xlsx'];
     const WORD_EXTENSIONS = ['doc', 'docx'];
 
+    const S3_URL = 'httpS://s3-us-west-1.amazonaws.com/cybernext/';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +29,26 @@ class File extends Model
     public function folder()
     {
         return $this->belongsTo('App\Models\Folder');
+    }
+
+    /**
+     * Get the file full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->name . '.' . $this->extension;
+    }
+
+    /**
+     * Get link.
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return self::S3_URL . $this->folder->getPath() . '/' . $this->fullName;
     }
 
     /**

@@ -40,6 +40,8 @@ Route::patch('users/{user}/permissions', 'UserPermissionController@update')->nam
 Route::post('folders', 'FolderController@store')->name('folders.store');
 Route::patch('folders/{folder}/status', 'FolderController@updateStatus')->name('folders.update.status');
 Route::patch('folders/{folder}/tag', 'FolderController@updateTag')->name('folders.update.tag');
+Route::delete('folders/{folder}', 'FolderController@destroy')->name('folders.destroy');
 
 // Files
 Route::post('files', 'FileController@store')->name('files.store');
+Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');

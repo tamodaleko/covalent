@@ -4,17 +4,16 @@
 
         @if (count($folder->subFolders))
             <a href="javascript:;" class="arrow" data-id="{{ $folder->id }}">
-                <span><i class="fa fa-caret-right"></i></span>
+                <span>
+                    <i class="fa fa-caret-right"></i>
+                </span>
             </a>
         @else
             <span class="no-sub"></span>
         @endif
 
         <i class="fa fa-folder-open-o"></i>
-
-        <a href="javascript:;">
-            <span class="name">{{ $folder->name }}</span>
-        </a>
+        <span class="name">{{ $folder->name }}</span>
     </span>
 
     @if (count($folder->subFolders))

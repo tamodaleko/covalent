@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Company\CompanyFolder;
+use App\Models\User\UserFolder;
 use Illuminate\Database\Eloquent\Model;
 
 class Folder extends Model
@@ -12,8 +13,6 @@ class Folder extends Model
     const STATUS_COMPLETE = 2;
 
     /**
-     * Sub folders.
-     *
      * @var array
      */
     public $subFolders;
@@ -113,7 +112,7 @@ class Folder extends Model
      * @param string $name
      * @param integer $company_id
      * @param integer|null $parent_folder_id
-     * @return void
+     * @return true
      */
     public static function addForCompany($name, $company_id, $parent_folder_id = null)
     {
@@ -122,26 +121,54 @@ class Folder extends Model
             'name' => $name
         ]);
 
-        CompanyFolder::create([
-            'company_id' => $company_id,
-            'folder_id' => $folder->id
+        if ($folder) {
+            CompanyFolder::create([
+                'company_id' => $company_id,
+                'folder_id' => $folder->id
+            ]);
+        }
+
+        return $folder;
+    }
+
+    /**
+     * Attach folder to user.
+     *
+     * @param int $user_id
+     * @return bool
+     */
+    public function attachToUser($user_id)
+    {
+        return UserFolder::create([
+            'user_id' => $user_id,
+            'folder_id' => $this->id
         ]);
     }
 
     /**
-     * Get full structure.
+     * Get structure.
      *
      * @return array
      */
-    public static function getFullStructure()
+    public static function getStructure($allowed = null)
     {
-        $folders = static::whereNull('parent_folder_id')->orderBy('created_at')->get();
+        $data = [];
+        $folders = static::with('files')->whereNull('parent_folder_id')->orderBy('created_at')->get();
 
         foreach ($folders as $folder) {
-            $folder->subFolders = $folder->getSubFolderStructure();
+            $subFolders = $folder->getSubFolderStructure($allowed);
+
+            if ($allowed && !in_array($folder->id, $allowed)) {
+                foreach ($subFolders as $subFolder) {
+                    $data[] = $subFolder;
+                }
+            } else {
+                $folder->subFolders = $subFolders;
+                $data[] = $folder;
+            }
         }
 
-        return $folders;
+        return $data;
     }
 
     /**
@@ -149,14 +176,24 @@ class Folder extends Model
      *
      * @return array
      */
-    public function getSubFolderStructure()
+    public function getSubFolderStructure($allowed)
     {
-        $folders = $this->subFolders()->with('files')->where('parent_folder_id', $this->id)->get();
+        $data = [];
+        $folders = $this->subFolders()->with('files')->get();
 
         foreach ($folders as $folder) {
-            $folder->subFolders = $folder->getSubFolderStructure($folder->id);
+            $subFolders = $folder->getSubFolderStructure($allowed);
+
+            if ($allowed && !in_array($folder->id, $allowed)) {
+                foreach ($subFolders as $subFolder) {
+                    $data[] = $subFolder;
+                }
+            } else {
+                $folder->subFolders = $subFolders;
+                $data[] = $folder;
+            }
         }
 
-        return $folders;
+        return $data;
     }
 }

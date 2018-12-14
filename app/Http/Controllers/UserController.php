@@ -59,6 +59,8 @@ class UserController extends Controller
             return redirect()->route('users.index')->withError('User could not be created.');
         }
 
+        $user->grantDefaultPermissions();
+
         return redirect()->route('users.index')->withSuccess('User has been created successfully.');
     }
 

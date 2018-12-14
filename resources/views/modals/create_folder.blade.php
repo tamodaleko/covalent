@@ -16,6 +16,7 @@
 
                         {!! csrf_field() !!}
 
+                        <input type="hidden" id="company_id" name="company_id">
                         <input type="hidden" id="parent_folder_id" name="parent_folder_id">
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
