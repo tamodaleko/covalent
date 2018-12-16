@@ -6,6 +6,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Models\User\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -23,12 +24,19 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->company_id) {
+            $users = User::where('company_id', $request->company_id)->get();
+        } else {
+            $users = User::all();
+        }
+
         return view('users.index', [
-            'users' => User::all()
+            'users' => $users
         ]);
     }
 

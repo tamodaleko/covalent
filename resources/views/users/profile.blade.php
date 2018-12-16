@@ -49,12 +49,14 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('password', 'Password') }}
+                                        <span style="font-size: 10px;"><i>(Only if changing)</i></span>
                                         {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('password_confirmation', 'Password Confirmation') }}
+                                        <span style="font-size: 10px;"><i>(Only if changing)</i></span>
                                         {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Password Confirmation']) }}
                                     </div>
                                 </div>

@@ -138,6 +138,10 @@ class Company extends Model
      */
     public function getAllowedFolderStructure()
     {
+        if (!$this->getAllowedFolders()) {
+            return [];
+        }
+
         return Folder::getStructure($this->getAllowedFolders());
     }
 
@@ -149,6 +153,8 @@ class Company extends Model
      */
     public function updatePermissions($folders)
     {
+        $folders = $folders ?: [];
+
         if ($this->folders()->sync($folders)) {
             $users = $this->users()->pluck('id')->toArray();
             UserFolder::whereIn('user_id', $users)->whereNotIn('folder_id', $folders)->delete();

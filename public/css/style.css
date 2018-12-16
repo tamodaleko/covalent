@@ -2635,6 +2635,13 @@ input[type="checkbox"].folder_checkbox {
     margin-top: 2px;
 }
 
+input[type="checkbox"].file_checkbox {
+    float: left;
+    margin-right: 3px;
+    margin-left: 7.5px;
+    margin-top: 4px;
+}
+
 .form-horizontal .form-group {
     margin-right: 0;
     margin-left: 0;
@@ -6819,7 +6826,7 @@ ul.tree-file li ul {
 }
 
 span.no-sub {
-    padding: 0px 2px;
+    padding: 0px 4px;
 }
 
 .create-sub-folder {
@@ -7310,11 +7317,19 @@ h2.not_active a:hover {
     overflow: hidden;
 }
 
+.dashboard-widget-content .btn-sec {
+    text-align: center;
+}
+
 .dashboard-widget-content .btn-sec .btn {
     display: inline-block;
-    margin: 5px auto;
+    margin: 3px auto;
     width: 49%;
     padding: 6px 8px !important;
+}
+
+.dashboard-widget-content .btn-sec .btn.full {
+    width: 100%;
 }
 
 #bucket_form .btn-group.open .dropdown-toggle,

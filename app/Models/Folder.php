@@ -179,7 +179,7 @@ class Folder extends Model
     public function getSubFolderStructure($allowed)
     {
         $data = [];
-        $folders = $this->subFolders()->with('files')->get();
+        $folders = $this->subFolders()->with('files')->orderBy('created_at')->get();
 
         foreach ($folders as $folder) {
             $subFolders = $folder->getSubFolderStructure($allowed);

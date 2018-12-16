@@ -24,6 +24,11 @@ $(function () {
         $('#edit_tag_form').attr('action', url);
     });
 
+    $('#imagePreviewModal').on('show.bs.modal', function (e) {
+        var url = $(e.relatedTarget).data('url');
+        $('#image-preview').attr('src', url);
+    });
+
     $('.confirm').click(function (e) {
         return window.confirm('Are you sure?');
     });

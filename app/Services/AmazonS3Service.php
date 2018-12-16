@@ -47,7 +47,7 @@ class AmazonS3Service
                 'Body' => fopen($this->filePath . '/' . $filename, 'r'),
                 'ACL' => 'public-read'
             ]);
-        } catch (Exception $e) {
+        } catch (Aws\S3\Exception\S3Exception $e) {
             return false;
         }
 
@@ -64,7 +64,7 @@ class AmazonS3Service
     {
         try {
             $result = $this->client->deleteMatchingObjects($this->bucket, $path);
-        } catch (Exception $e) {
+        } catch (Aws\S3\Exception\S3Exception $e) {
             return false;
         }
 
@@ -84,9 +84,57 @@ class AmazonS3Service
                 'Bucket' => $this->bucket,
                 'Key' => $path
             ]);
-        } catch (Exception $e) {
+        } catch (Aws\S3\Exception\S3Exception $e) {
             return false;
         }
+
+        return $result;
+    }
+
+    /**
+     * Copy file.
+     *
+     * @param string $sourcePath
+     * @param string $targetPath
+     * @return bool|array
+     */
+    public function copyFile($sourcePath, $targetPath)
+    {
+        try {
+            $result = $this->client->copyObject([
+                'Bucket' => $this->bucket,
+                'Key' => $targetPath,
+                'CopySource' => $this->bucket . '/' . $sourcePath,
+                'ACL' => 'public-read'
+            ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Rename file.
+     *
+     * @param string $sourcePath
+     * @param string $targetPath
+     * @return bool|array
+     */
+    public function renameFile($sourcePath, $targetPath)
+    {
+        try {
+            $result = $this->client->copyObject([
+                'Bucket' => $this->bucket,
+                'Key' => $targetPath,
+                'CopySource' => $this->bucket . '/' . $sourcePath,
+                'ACL' => 'public-read'
+            ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
+
+        $this->deleteFile($sourcePath);
 
         return $result;
     }

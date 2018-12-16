@@ -52,6 +52,24 @@ class File extends Model
     }
 
     /**
+     * Get copy name.
+     *
+     * @return string
+     */
+    public function getCopyName()
+    {
+        $append = 1;
+
+        do {
+            $name = $this->name . '_' . $append;
+            $file = self::where('name', $name)->where('folder_id', $this->folder_id)->first();
+            $append++;
+        } while (!empty($file));
+
+        return $name;
+    }
+
+    /**
      * Get icon.
      *
      * @return string
@@ -87,5 +105,15 @@ class File extends Model
         }
 
         return 'fa-file-o';
+    }
+
+    /**
+     * Check if the file is viewable.
+     *
+     * @return bool
+     */
+    public function isViewable()
+    {
+        return in_array($this->extension, self::IMAGE_EXTENSIONS);
     }
 }

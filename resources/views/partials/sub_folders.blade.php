@@ -32,6 +32,8 @@
         </span>
     </span>
 
+    <hr style="margin: 0; padding: 0;" />
+
     @if (count($folder->subFolders))
         <span class="sub" id="sub-{{ $folder->id }}" style="display: none;">
             <ul class="tree-file">

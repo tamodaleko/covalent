@@ -44,4 +44,6 @@ Route::delete('folders/{folder}', 'FolderController@destroy')->name('folders.des
 
 // Files
 Route::post('files', 'FileController@store')->name('files.store');
+Route::post('files/download/selected', 'FileController@download')->name('files.download');
 Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');
+Route::post('files/{file}/copy', 'FileController@copy')->name('files.copy');

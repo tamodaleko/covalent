@@ -118,6 +118,10 @@ class User extends Authenticatable
      */
     public function getAllowedFolderStructure()
     {
+        if (!$this->getAllowedFolders()) {
+            return [];
+        }
+
         return Folder::getStructure($this->getAllowedFolders());
     }
 
@@ -129,6 +133,8 @@ class User extends Authenticatable
      */
     public function updatePermissions($folders)
     {
+        $folders = $folders ?: [];
+
         return $this->folders()->sync($folders);
     }
 

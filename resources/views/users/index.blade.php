@@ -16,6 +16,24 @@
             <div class="x_content">
                 <div class="clearfix"></div>
 
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <br>
+                            <select id="company" class="form-control">
+                                <option value="">Select Company</option>
+
+                                @foreach (\App\Models\Company\Company::all() as $singleCompany)
+                                    <option value="{{ $singleCompany->id }}" @if(app('request')->input('company_id') == $singleCompany->id) selected @endif>
+                                        {{ $singleCompany->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
                 @if (!$users->count())
                     <p class="alert alert-info">There are no users found.</p>
                 @else
