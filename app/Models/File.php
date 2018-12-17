@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class File extends Model
 {
@@ -144,7 +145,8 @@ class File extends Model
         return static::whereIn('folder_id', $allowedFolders)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('extension', 'like', '%' . $search . '%');
+                    ->orWhere('extension', 'like', '%' . $search . '%')
+                    ->orWhere(DB::raw("CONCAT(name, '.', extension)"), 'like', '%' . $search . '%');
             })
             ->orderBy('folder_id')
             ->get();

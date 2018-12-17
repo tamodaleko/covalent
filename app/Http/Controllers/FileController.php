@@ -58,14 +58,15 @@ class FileController extends Controller
      */
     public function download(DownloadFilesRequest $request)
     {
-        $files = File::whereIn('id', $request->files)->get();
+        $files = File::whereIn('id', $request->post('files'))->get();
         $dir = public_path() . DIRECTORY_SEPARATOR . 'uploads/zips/files_' . time() . '.zip';
 
         $zip = new \ZipArchive();
         $zip->open($dir, \ZipArchive::CREATE);
 
         foreach ($files as $file) {
-            $zip->addFromString($file->fullName, file_get_contents($file->getLink()));
+            $link = str_replace(' ', '%20', $file->getLink());
+            $zip->addFromString($file->fullName, file_get_contents($link));
         }
 
         $zip->close();
@@ -74,7 +75,7 @@ class FileController extends Controller
             'Content-Type' => 'application/zip'
         ];
 
-        if (file_exists($filetopath)) {
+        if (file_exists($dir)) {
             return response()->download($dir, 'files.zip', $headers);
         }
 

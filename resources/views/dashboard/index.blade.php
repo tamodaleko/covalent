@@ -85,11 +85,9 @@
                                             <div>
                                                 <ul class="tree-file">
                                                     {!! Form::open(['route' => 'files.download', 'id' => 'download-files-form']) !!}
-                                                        
                                                         @foreach ($folders as $folder)
                                                             @include('partials.folders')
                                                         @endforeach
-                                                    
                                                     {!! Form::close() !!}
                                                 </ul>
                                             </div>
