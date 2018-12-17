@@ -29,6 +29,12 @@ $(function () {
         $('#image-preview').attr('src', url);
     });
 
+    $('#moveFileModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/files/' + id + '/move';
+        $('#move_file_form').attr('action', url);
+    });
+
     $('.confirm').click(function (e) {
         return window.confirm('Are you sure?');
     });

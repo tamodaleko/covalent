@@ -46,5 +46,6 @@ Route::get('folders/{folder}/destroy', 'FolderController@destroy')->name('folder
 // Files
 Route::post('files', 'FileController@store')->name('files.store');
 Route::post('files/download/selected', 'FileController@download')->name('files.download');
+Route::post('files/{file}/move', 'FileController@move')->name('files.move');
 Route::get('files/{file}/copy', 'FileController@copy')->name('files.copy');
 Route::get('files/{file}/destroy', 'FileController@destroy')->name('files.destroy');

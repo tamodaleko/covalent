@@ -116,6 +116,31 @@ class AmazonS3Service
     }
 
     /**
+     * Move file.
+     *
+     * @param string $sourcePath
+     * @param string $targetPath
+     * @return bool|array
+     */
+    public function moveFile($sourcePath, $targetPath)
+    {
+        try {
+            $result = $this->client->copyObject([
+                'Bucket' => $this->bucket,
+                'Key' => $targetPath,
+                'CopySource' => $this->bucket . '/' . $sourcePath,
+                'ACL' => 'public-read'
+            ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
+
+        $this->deleteFile($sourcePath);
+
+        return $result;
+    }
+
+    /**
      * Copy multiple files.
      *
      * @param $files

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\File\DownloadFilesRequest;
+use App\Http\Requests\File\MoveFileRequest;
 use App\Http\Requests\File\StoreFileRequest;
 use App\Models\File;
 use App\Models\Folder;
@@ -80,6 +81,32 @@ class FileController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    /**
+     * Move file.
+     *
+     * @param \App\Http\Requests\File\MoveFileRequest $request
+     * @param \App\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function move(MoveFileRequest $request, File $file)
+    {
+        $oldPath = $file->folder->getPath();
+        $file->folder_id = $request->validated()['folder_id'];
+
+        if (!$file->save()) {
+            return redirect()->back()->withError('File could not be moved.');
+        }
+
+        $file->load('folder');
+
+        $sourcePath = $oldPath . '/' . $file->fullName;
+        $targetPath = $file->folder->getPath() . '/' . $file->fullName;
+
+        (new AmazonS3Service())->moveFile($sourcePath, $targetPath);
+
+        return redirect()->back()->withSuccess('File has been moved successfully.');
     }
 
     /**

@@ -25,6 +25,10 @@
                 <i class="fa fa-download"></i>
             </a>
 
+            <a href="javascript:;" data-toggle="modal" data-target="#moveFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
+                <i class="fa fa-folder-o"></i>
+            </a>
+
             <a href="{{ route('files.copy', ['id' => $file->id]) }}" class="confirm" style="margin-right: 5px;">
                 <i class="fa fa-copy"></i>
             </a>

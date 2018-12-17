@@ -96,4 +96,5 @@
 
 @section('modals')
     @include('modals.image_preview')
+    @include('modals.move_file')
 @endsection
