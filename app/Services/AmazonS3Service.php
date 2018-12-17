@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use AWS;
+use Aws\CommandPool;
 
 class AmazonS3Service
 {
@@ -107,6 +108,34 @@ class AmazonS3Service
                 'CopySource' => $this->bucket . '/' . $sourcePath,
                 'ACL' => 'public-read'
             ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Copy multiple files.
+     *
+     * @param $files
+     * @return bool|array
+     */
+    public function copyFiles($files)
+    {
+        $batch = [];
+
+        foreach ($files as $file) {
+            $batch[] = $this->client->getCommand('CopyObject', [
+                'Bucket' => $this->bucket,
+                'Key' => $file['targetPath'],
+                'CopySource' => $this->bucket . '/' . $file['sourcePath'],
+                'ACL' => 'public-read'
+            ]);
+        }
+
+        try {
+            $result = CommandPool::batch($this->client, $batch);
         } catch (Aws\S3\Exception\S3Exception $e) {
             return false;
         }

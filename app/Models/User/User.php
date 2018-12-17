@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\File;
 use App\Models\Folder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -160,5 +161,20 @@ class User extends Authenticatable
         }
 
         return $this->updatePermissions($this->company->getAllowedFolders());
+    }
+
+    /**
+     * Get allowed file search.
+     *
+     * @param string $search
+     * @return array
+     */
+    public function getAllowedFileSearch($search)
+    {
+        if (!$this->getAllowedFolders()) {
+            return [];
+        }
+
+        return File::search($search, $this->getAllowedFolders());
     }
 }

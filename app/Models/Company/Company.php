@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Models\File;
 use App\Models\Folder;
 use App\Models\User\UserFolder;
 use Illuminate\Database\Eloquent\Model;
@@ -173,5 +174,20 @@ class Company extends Model
     public function getAllowedFolders()
     {
         return $this->folders()->pluck('folder_id')->toArray();
+    }
+
+    /**
+     * Get allowed file search.
+     *
+     * @param string $search
+     * @return array
+     */
+    public function getAllowedFileSearch($search)
+    {
+        if (!$this->getAllowedFolders()) {
+            return [];
+        }
+
+        return File::search($search, $this->getAllowedFolders());
     }
 }

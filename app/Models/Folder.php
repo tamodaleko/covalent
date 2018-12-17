@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Company\Company;
 use App\Models\Company\CompanyFolder;
 use App\Models\User\UserFolder;
 use Illuminate\Database\Eloquent\Model;
@@ -107,6 +108,93 @@ class Folder extends Model
     }
 
     /**
+     * Get copy name.
+     *
+     * @return string
+     */
+    public function getCopyName()
+    {
+        $append = 1;
+
+        do {
+            $name = $this->name . '_' . $append;
+            $folder = self::where('name', $name)->where('parent_folder_id', $this->parent_folder_id)->first();
+            $append++;
+        } while (!empty($folder));
+
+        return $name;
+    }
+
+    /**
+     * Get copy.
+     *
+     * @return static
+     */
+    public function createCopy()
+    {
+        $folder = static::create([
+            'parent_folder_id' => $this->parent_folder_id,
+            'name' => $this->getCopyName(),
+            'tag' => $this->tag,
+            'status' => $this->status
+        ]);
+
+        if ($folder) {
+            $folder->grantPermissions();
+        }
+
+        return $folder;
+    }
+
+    /**
+     * Replicate sub folders.
+     *
+     * @param int $folder_copy_id
+     * @return array
+     */
+    public function replicateSubFolders($folder_copy_id)
+    {
+        $files = $this->replicateFiles($folder_copy_id);
+
+        foreach ($this->subFolders()->get() as $folder) {
+            $newFolder = $folder->replicate();
+            $newFolder->parent_folder_id = $folder_copy_id;
+
+            if ($newFolder->save()) {
+                $newFolder->grantPermissions();
+                $files = $files + $folder->replicateSubFolders($newFolder->id);
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * Replicate files.
+     *
+     * @param int $folder_copy_id
+     * @return array
+     */
+    public function replicateFiles($folder_copy_id)
+    {
+        $files = [];
+
+        foreach ($this->files as $file) {
+            $newFile = $file->replicate();
+            $newFile->folder_id = $folder_copy_id;
+            
+            if ($newFile->save()) {
+                $files[$file->id] = [
+                    'sourcePath' => $file->folder->getPath() . '/' . $file->fullName,
+                    'targetPath' => $newFile->folder->getPath() . '/' . $newFile->fullName
+                ];
+            }
+        }
+
+        return $files;
+    }
+
+    /**
      * Add folder and attach to company.
      *
      * @param string $name
@@ -122,13 +210,46 @@ class Folder extends Model
         ]);
 
         if ($folder) {
-            CompanyFolder::create([
-                'company_id' => $company_id,
-                'folder_id' => $folder->id
-            ]);
+            $this->attachToCompany($company_id);
         }
 
         return $folder;
+    }
+
+    /**
+     * Grant permissions.
+     *
+     * @return void
+     */
+    public function grantPermissions()
+    {
+        $user = auth()->user();
+        
+        if ($user->is_admin) {
+            $company = Company::find(request()->session()->get('company_id'));
+        } else {
+            $company = $user->company;
+        }
+
+        $this->attachToCompany($company->id);
+
+        if (!$user->is_admin) {
+            $this->attachToUser($user->id);
+        }
+    }
+
+    /**
+     * Attach folder to user.
+     *
+     * @param int $company_id
+     * @return bool
+     */
+    public function attachToCompany($company_id)
+    {
+        return CompanyFolder::create([
+            'company_id' => $company_id,
+            'folder_id' => $this->id
+        ]);
     }
 
     /**

@@ -70,6 +70,21 @@ class File extends Model
     }
 
     /**
+     * Get copy.
+     *
+     * @return static
+     */
+    public function createCopy()
+    {
+        return static::create([
+            'folder_id' => $this->folder_id,
+            'name' => $this->getCopyName(),
+            'extension' => $this->extension,
+            'size' => $this->size
+        ]);
+    }
+
+    /**
      * Get icon.
      *
      * @return string
@@ -115,5 +130,23 @@ class File extends Model
     public function isViewable()
     {
         return in_array($this->extension, self::IMAGE_EXTENSIONS);
+    }
+
+    /**
+     * File search.
+     *
+     * @param string $search
+     * @param array $allowedFolders
+     * @return array
+     */
+    public static function search($search, $allowedFolders)
+    {
+        return static::whereIn('folder_id', $allowedFolders)
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('extension', 'like', '%' . $search . '%');
+            })
+            ->orderBy('folder_id')
+            ->get();
     }
 }

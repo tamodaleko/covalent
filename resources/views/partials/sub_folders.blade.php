@@ -22,13 +22,14 @@
             @endif
 
             <span class="metadata">{{ $folder->tag }}</span>
+
+            <a href="{{ route('folders.copy', ['id' => $folder->id]) }}" class="confirm" style="margin-right: 5px;">
+                <i class="fa fa-copy"></i>
+            </a>
             
-            <a href="javascript:;" onclick="confSubmit(document.getElementById('delete-form-{{ $folder->id }}'));">
+            <a href="{{ route('folders.destroy', ['id' => $folder->id]) }}" class="confirm">
                 <i class="fa fa-remove" style="color: red;"></i>
             </a>
-
-            {!! Form::open(['method' => 'DELETE','route' => ['folders.destroy', $folder->id], 'style' => 'display:none', 'id' => 'delete-form-' . $folder->id]) !!}
-                {!! Form::close() !!}
         </span>
     </span>
 

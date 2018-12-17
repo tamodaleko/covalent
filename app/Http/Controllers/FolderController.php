@@ -84,6 +84,29 @@ class FolderController extends Controller
     }
 
     /**
+     * Copy folder.
+     *
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(Folder $folder)
+    {
+        $copy = $folder->createCopy();
+
+        if (!$copy) {
+            return redirect()->back()->withError('Folder could not be copied.');
+        }
+
+        $files = $folder->replicateSubFolders($copy->id);
+
+        if ($files) {
+            (new AmazonS3Service())->copyFiles($files);
+        }
+
+        return redirect()->back()->withSuccess('Folder has been copied successfully.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Folder $folder

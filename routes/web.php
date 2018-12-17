@@ -40,10 +40,11 @@ Route::patch('users/{user}/permissions', 'UserPermissionController@update')->nam
 Route::post('folders', 'FolderController@store')->name('folders.store');
 Route::patch('folders/{folder}/status', 'FolderController@updateStatus')->name('folders.update.status');
 Route::patch('folders/{folder}/tag', 'FolderController@updateTag')->name('folders.update.tag');
-Route::delete('folders/{folder}', 'FolderController@destroy')->name('folders.destroy');
+Route::get('folders/{folder}/copy', 'FolderController@copy')->name('folders.copy');
+Route::get('folders/{folder}/destroy', 'FolderController@destroy')->name('folders.destroy');
 
 // Files
 Route::post('files', 'FileController@store')->name('files.store');
 Route::post('files/download/selected', 'FileController@download')->name('files.download');
-Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');
-Route::post('files/{file}/copy', 'FileController@copy')->name('files.copy');
+Route::get('files/{file}/copy', 'FileController@copy')->name('files.copy');
+Route::get('files/{file}/destroy', 'FileController@destroy')->name('files.destroy');

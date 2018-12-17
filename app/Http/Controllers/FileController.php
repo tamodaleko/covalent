@@ -82,6 +82,28 @@ class FileController extends Controller
     }
 
     /**
+     * Copy file.
+     *
+     * @param \App\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(File $file)
+    {
+        $copy = $file->createCopy();
+
+        if (!$copy) {
+            return redirect()->back()->withError('File could not be copied.');
+        }
+
+        $sourcePath = $file->folder->getPath() . '/' . $file->fullName;
+        $targetPath = $copy->folder->getPath() . '/' . $copy->fullName;
+
+        (new AmazonS3Service())->copyFile($sourcePath, $targetPath);
+
+        return redirect()->back()->withSuccess('File has been copied successfully.');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Models\File $file
@@ -98,34 +120,5 @@ class FileController extends Controller
         (new AmazonS3Service())->deleteFile($path);
 
         return redirect()->back()->withSuccess('File has been deleted successfully.');
-    }
-
-    /**
-     * Copy file.
-     *
-     * @param \App\Models\File $file
-     * @return \Illuminate\Http\Response
-     */
-    public function copy(File $file)
-    {
-        $copyName = $file->getCopyName();
-
-        $copy = File::create([
-            'folder_id' => $file->folder_id,
-            'name' => $copyName,
-            'extension' => $file->extension,
-            'size' => $file->size
-        ]);
-
-        if (!$copy) {
-            return redirect()->back()->withError('File could not be copied.');
-        }
-
-        $sourcePath = $file->folder->getPath() . '/' . $file->fullName;
-        $targetPath = $copy->folder->getPath() . '/' . $copy->fullName;
-
-        (new AmazonS3Service())->copyFile($sourcePath, $targetPath);
-
-        return redirect()->back()->withSuccess('File has been copied successfully.');
     }
 }
