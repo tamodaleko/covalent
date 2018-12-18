@@ -108,17 +108,44 @@ class Folder extends Model
     }
 
     /**
-     * Get copy name.
+     * Get valid folder name.
      *
+     * @param int $parent_folder_id
+     * @param string $name
      * @return string
      */
-    public function getCopyName()
+    public static function getValidName($parent_folder_id, $name)
     {
-        $append = 1;
+        $folder = static::where([
+            'parent_folder_id' => $parent_folder_id,
+            'name' => $name
+        ])->first();
+
+        if ($folder) {
+            return $folder->getCopyName($parent_folder_id);
+        }
+
+        return $name;
+    }
+
+    /**
+     * Get copy name.
+     *
+     * @param int $parent_folder_id
+     * @return string
+     */
+    public function getCopyName($parent_folder_id)
+    {
+        $append = 0;
 
         do {
-            $name = $this->name . '_' . $append;
-            $folder = self::where('name', $name)->where('parent_folder_id', $this->parent_folder_id)->first();
+            $name = !$append ? $this->name : $this->name . '_' . $append;
+            
+            $folder = self::where([
+                'parent_folder_id' => $parent_folder_id,
+                'name' => $name
+            ])->first();
+            
             $append++;
         } while (!empty($folder));
 
@@ -126,15 +153,16 @@ class Folder extends Model
     }
 
     /**
-     * Get copy.
+     * Create copy.
      *
-     * @return static
+     * @param int $parent_folder_id
+     * @return self
      */
-    public function createCopy()
+    public function createCopy($parent_folder_id)
     {
-        $folder = static::create([
-            'parent_folder_id' => $this->parent_folder_id,
-            'name' => $this->getCopyName(),
+        $folder = self::create([
+            'parent_folder_id' => $parent_folder_id,
+            'name' => $this->getCopyName($parent_folder_id),
             'tag' => $this->tag,
             'status' => $this->status
         ]);
@@ -210,7 +238,7 @@ class Folder extends Model
         ]);
 
         if ($folder) {
-            $this->attachToCompany($company_id);
+            static::attachToCompany($folder->id, $company_id);
         }
 
         return $folder;
@@ -231,38 +259,40 @@ class Folder extends Model
             $company = $user->company;
         }
 
-        $this->attachToCompany($company->id);
+        static::attachToCompany($this->id, $company->id);
 
         if (!$user->is_admin) {
-            $this->attachToUser($user->id);
+            static::attachToUser($this->id, $user->id);
         }
     }
 
     /**
-     * Attach folder to user.
+     * Attach folder to company.
      *
+     * @param int $folder_id
      * @param int $company_id
      * @return bool
      */
-    public function attachToCompany($company_id)
+    public static function attachToCompany($folder_id, $company_id)
     {
         return CompanyFolder::create([
             'company_id' => $company_id,
-            'folder_id' => $this->id
+            'folder_id' => $folder_id
         ]);
     }
 
     /**
      * Attach folder to user.
      *
+     * @param int $folder_id
      * @param int $user_id
      * @return bool
      */
-    public function attachToUser($user_id)
+    public static function attachToUser($folder_id, $user_id)
     {
         return UserFolder::create([
             'user_id' => $user_id,
-            'folder_id' => $this->id
+            'folder_id' => $folder_id
         ]);
     }
 
@@ -316,5 +346,65 @@ class Folder extends Model
         }
 
         return $data;
+    }
+
+    /**
+     * Get allowed folders by company.
+     *
+     * @param \App\Models\Company\Company
+     * @return static[]
+     */
+    public static function getAllowedByCompany($company)
+    {
+        if (!$company) {
+            return [];
+        }
+
+        $allowed = $company->getAllowedFolders();
+
+        $query = static::whereIn('id', $allowed)
+            ->orderBy('parent_folder_id')
+            ->orderBy('created_at');
+
+        $user = auth()->user();
+
+        if (!$user->is_admin) {
+            $allowed = array_intersect($allowed, $user->getAllowedFolders());
+            $query->whereIn('id', $allowed);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Get source files.
+     *
+     * @return array
+     */
+    public function getFilesPath()
+    {
+        $files = $this->getFolderFilesPath();
+
+        foreach ($this->subFolders()->get() as $folder) {
+            $files = $files + $folder->getFilesPath();
+        }
+
+        return $files;
+    }
+
+    /**
+     * Get folder source files.
+     *
+     * @return array
+     */
+    public function getFolderFilesPath()
+    {
+        $files = [];
+
+        foreach ($this->files as $file) {
+            $files[$file->id]['path'] = $file->folder->getPath() . '/' . $file->fullName;
+        }
+
+        return $files;
     }
 }

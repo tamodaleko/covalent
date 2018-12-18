@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Folder\CopyFolderRequest;
+use App\Http\Requests\Folder\MoveFolderRequest;
 use App\Http\Requests\Folder\StoreFolderRequest;
 use App\Http\Requests\Folder\UpdateFolderStatusRequest;
 use App\Http\Requests\Folder\UpdateFolderTagRequest;
@@ -41,7 +43,7 @@ class FolderController extends Controller
         }
 
         if (!auth()->user()->is_admin) {
-            $folder->attachToUser(auth()->user()->id);
+            Folder::attachToUser($folder->id, auth()->user()->id);
         }
 
         return redirect()->back()->withSuccess('Folder has been created successfully.');
@@ -86,12 +88,13 @@ class FolderController extends Controller
     /**
      * Copy folder.
      *
+     * @param \App\Http\Requests\Folder\CopyFolderRequest $request
      * @param \App\Models\Folder $folder
      * @return \Illuminate\Http\Response
      */
-    public function copy(Folder $folder)
+    public function copy(CopyFolderRequest $request, Folder $folder)
     {
-        $copy = $folder->createCopy();
+        $copy = $folder->createCopy($request->parent_folder_id);
 
         if (!$copy) {
             return redirect()->back()->withError('Folder could not be copied.');
@@ -104,6 +107,48 @@ class FolderController extends Controller
         }
 
         return redirect()->back()->withSuccess('Folder has been copied successfully.');
+    }
+
+    /**
+     * Move folder.
+     *
+     * @param \App\Http\Requests\Folder\MoveFolderRequest $request
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function move(MoveFolderRequest $request, Folder $folder)
+    {
+        if ($folder->parent_folder_id == $request->parent_folder_id) {
+            return redirect()->back()->withError('Folder could not be moved.');
+        }
+
+        $sourceFiles = $folder->getFilesPath();
+
+        $folder->parent_folder_id = $request->parent_folder_id;
+        $folder->name = Folder::getValidName($folder->parent_folder_id, $folder->name);
+
+        if (!$folder->save()) {
+            return redirect()->back()->withError('Folder could not be moved.');
+        }
+
+        $folder->load('subFolders');
+        $folder->load('files');
+        
+        $targetFiles = $folder->getFilesPath();
+        $files = [];
+
+        foreach ($targetFiles as $k => $value) {
+            $files[$k] = [
+                'sourcePath' => $sourceFiles[$k]['path'],
+                'targetPath' => $value['path']
+            ];
+        }
+
+        if ($files) {
+            (new AmazonS3Service())->moveFiles($files);
+        }
+
+        return redirect()->back()->withSuccess('Folder has been moved successfully.');
     }
 
     /**

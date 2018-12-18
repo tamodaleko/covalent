@@ -169,6 +169,38 @@ class AmazonS3Service
     }
 
     /**
+     * Move multiple files.
+     *
+     * @param $files
+     * @return bool|array
+     */
+    public function moveFiles($files)
+    {
+        $batch = [];
+
+        foreach ($files as $file) {
+            $batch[] = $this->client->getCommand('CopyObject', [
+                'Bucket' => $this->bucket,
+                'Key' => $file['targetPath'],
+                'CopySource' => $this->bucket . '/' . $file['sourcePath'],
+                'ACL' => 'public-read'
+            ]);
+        }
+
+        try {
+            $result = CommandPool::batch($this->client, $batch);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
+
+        foreach ($files as $file) {
+            $this->deleteFile($file['sourcePath']);
+        }
+
+        return $result;
+    }
+
+    /**
      * Rename file.
      *
      * @param string $sourcePath

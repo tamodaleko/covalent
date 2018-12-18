@@ -110,5 +110,8 @@
     @include('modals.edit_status')
     @include('modals.edit_tag')
     @include('modals.image_preview')
+    @include('modals.copy_folder')
+    @include('modals.move_folder')
+    @include('modals.copy_file')
     @include('modals.move_file')
 @endsection

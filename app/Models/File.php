@@ -53,17 +53,47 @@ class File extends Model
     }
 
     /**
-     * Get copy name.
+     * Get valid file name.
      *
+     * @param int $folder_id
+     * @param string $name
+     * @param string $extension
      * @return string
      */
-    public function getCopyName()
+    public static function getValidName($folder_id, $name, $extension)
     {
-        $append = 1;
+        $file = static::where([
+            'folder_id' => $folder_id,
+            'name' => $name,
+            'extension' => $extension
+        ])->first();
+
+        if ($file) {
+            return $file->getCopyName($folder_id);
+        }
+
+        return $name;
+    }
+
+    /**
+     * Get copy name.
+     *
+     * @param int $folder_id
+     * @return string
+     */
+    public function getCopyName($folder_id)
+    {
+        $append = 0;
 
         do {
-            $name = $this->name . '_' . $append;
-            $file = self::where('name', $name)->where('folder_id', $this->folder_id)->first();
+            $name = !$append ? $this->name : $this->name . '_' . $append;
+            
+            $file = self::where([
+                'folder_id' => $folder_id,
+                'name' => $name,
+                'extension' => $this->extension
+            ])->first();
+            
             $append++;
         } while (!empty($file));
 
@@ -71,15 +101,16 @@ class File extends Model
     }
 
     /**
-     * Get copy.
+     * Create copy.
      *
-     * @return static
+     * @param int $folder_id
+     * @return self
      */
-    public function createCopy()
+    public function createCopy($folder_id)
     {
-        return static::create([
-            'folder_id' => $this->folder_id,
-            'name' => $this->getCopyName(),
+        return self::create([
+            'folder_id' => $folder_id,
+            'name' => $this->getCopyName($folder_id),
             'extension' => $this->extension,
             'size' => $this->size
         ]);

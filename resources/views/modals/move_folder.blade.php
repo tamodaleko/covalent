@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div class="modal fade" id="moveFileModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="moveFolderModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" style="display: inline-block;">
-                    <i class="fa fa-folder-o" aria-hidden="true"></i> Move File
+                    <i class="fa fa-folder-o" aria-hidden="true"></i> Move Folder
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -12,13 +12,13 @@
             </div>
             <div class="modal-body">
                 <div class="row" style="margin-top: 5px;">
-                    <form id="move_file_form" method="POST">
+                    <form id="move_folder_form" method="POST">
 
                         {!! csrf_field() !!}
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <select name="folder_id" class="form-control">
+                                <select name="parent_folder_id" class="form-control">
                                     <option value="">Select Folder</option>
                                     
                                     @foreach (\App\Models\Folder::getAllowedByCompany($company) as $folder)
@@ -39,7 +39,7 @@
                     </form>
                 </div>
                 <p class="alert alert-info" style="font-size: 12px;">
-                    <b>Note:</b> This will move the file to selected folder.
+                    <b>Note:</b> This will move the folder to selected folder.
                 </p>
             </div>
             <div class="modal-footer"></div>

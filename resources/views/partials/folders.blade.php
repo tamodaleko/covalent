@@ -30,8 +30,11 @@
             <span class="metadata">{{ $folder->tag }}</span>
 
             @if (!is_null($folder->parent_folder_id))
+                <a href="javascript:;" data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                    <i class="fa fa-folder-o"></i>
+                </a>
 
-                <a href="{{ route('folders.copy', ['id' => $folder->id]) }}" class="confirm" style="margin-right: 5px;">
+                <a href="javascript:;" data-toggle="modal" data-target="#copyFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
                     <i class="fa fa-copy"></i>
                 </a>
 

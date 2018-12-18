@@ -29,6 +29,24 @@ $(function () {
         $('#image-preview').attr('src', url);
     });
 
+    $('#copyFolderModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/folders/' + id + '/copy';
+        $('#copy_folder_form').attr('action', url);
+    });
+
+    $('#moveFolderModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/folders/' + id + '/move';
+        $('#move_folder_form').attr('action', url);
+    });
+
+    $('#copyFileModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/files/' + id + '/copy';
+        $('#copy_file_form').attr('action', url);
+    });
+
     $('#moveFileModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
         var url = '/files/' + id + '/move';

@@ -24,14 +24,15 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        $company_id = $request->session()->get('company_id');
-        $search = $request->get('search');
-
-        if ($search) {
+        if ($request->get('search')) {
             return $this->search($request);
         }
 
-        if (auth()->user()->is_admin) {
+        $user = auth()->user();
+
+        if ($user->is_admin) {
+            $company_id = $request->session()->get('company_id');
+
             if ($company_id && !$request->company_id) {
                 $company = Company::find($company_id);
             } else {
@@ -44,8 +45,8 @@ class DashboardController extends Controller
 
             $folders = $company ? $company->getAllowedFolderStructure() : [];
         } else {
-            $company = auth()->user()->company;
-            $folders = $company ? auth()->user()->getAllowedFolderStructure() : [];
+            $company = $user->company;
+            $folders = $company ? $user->getAllowedFolderStructure() : [];
         }
 
         return view('dashboard.index', [
@@ -62,13 +63,14 @@ class DashboardController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
+        $user = auth()->user();
 
-        if (auth()->user()->is_admin) {
+        if ($user->is_admin) {
             $company = Company::find($request->session()->get('company_id'));
             $files = $company ? $company->getAllowedFileSearch($search) : [];
         } else {
-            $company = auth()->user()->company;
-            $files = $company ? auth()->user()->getAllowedFileSearch($search) : [];
+            $company = $user->company;
+            $files = $company ? $user->getAllowedFileSearch($search) : [];
         }
 
         return view('dashboard.search', [

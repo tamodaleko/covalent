@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\File\CopyFileRequest;
 use App\Http\Requests\File\DownloadFilesRequest;
 use App\Http\Requests\File\MoveFileRequest;
 use App\Http\Requests\File\StoreFileRequest;
@@ -31,24 +32,84 @@ class FileController extends Controller
     public function store(StoreFileRequest $request)
     {
         $file = $request->file('file');
-        $filename = $file->getClientOriginalName();
+        $clientName = $file->getClientOriginalName();
+
+        $name = pathinfo($clientName, PATHINFO_FILENAME);
+        $extension = pathinfo($clientName, PATHINFO_EXTENSION);
 
         $fileService = new FileService($file);
 
         $folder = Folder::find($request->folder_id);
+        $filename = File::getValidName($folder->id, $name, $extension);
 
-        if (!$fileService->uploadToS3($folder->getPath(), $filename)) {
+        if (!$fileService->uploadToS3($folder->getPath(), $filename . '.' . $extension)) {
             return redirect()->back()->withError('File could not be uploaded.');
         }
 
         File::create([
             'folder_id' => $request->folder_id,
-            'name' => pathinfo($filename, PATHINFO_FILENAME),
-            'extension' =>  pathinfo($filename, PATHINFO_EXTENSION),
+            'name' => $filename,
+            'extension' => $extension,
             'size' => $file->getClientSize()
         ]);
 
         return redirect()->back()->withSuccess('File has been uploaded successfully.');
+    }
+
+    /**
+     * Copy file.
+     *
+     * @param \App\Http\Requests\File\CopyFileRequest $request
+     * @param \App\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(CopyFileRequest $request, File $file)
+    {
+        $copy = $file->createCopy($request->folder_id);
+
+        if (!$copy) {
+            return redirect()->back()->withError('File could not be copied.');
+        }
+
+        $sourcePath = $file->folder->getPath() . '/' . $file->fullName;
+        $targetPath = $copy->folder->getPath() . '/' . $copy->fullName;
+
+        (new AmazonS3Service())->copyFile($sourcePath, $targetPath);
+
+        return redirect()->back()->withSuccess('File has been copied successfully.');
+    }
+
+    /**
+     * Move file.
+     *
+     * @param \App\Http\Requests\File\MoveFileRequest $request
+     * @param \App\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function move(MoveFileRequest $request, File $file)
+    {
+        if ($file->folder_id == $request->folder_id) {
+            return redirect()->back()->withError('File could not be moved.');
+        }
+
+        $oldPath = $file->folder->getPath();
+        $oldName = $file->fullName;
+
+        $file->folder_id = $request->folder_id;
+        $file->name = File::getValidName($file->folder_id, $file->name, $file->extension);
+
+        if (!$file->save()) {
+            return redirect()->back()->withError('File could not be moved.');
+        }
+
+        $file->load('folder');
+
+        $sourcePath = $oldPath . '/' . $oldName;
+        $targetPath = $file->folder->getPath() . '/' . $file->fullName;
+
+        (new AmazonS3Service())->moveFile($sourcePath, $targetPath);
+
+        return redirect()->back()->withSuccess('File has been moved successfully.');
     }
 
     /**
@@ -60,7 +121,7 @@ class FileController extends Controller
     public function download(DownloadFilesRequest $request)
     {
         $files = File::whereIn('id', $request->post('files'))->get();
-        $dir = public_path() . DIRECTORY_SEPARATOR . 'uploads/zips/files_' . time() . '.zip';
+        $dir = 'uploads/zips/files_' . time() . '.zip';
 
         $zip = new \ZipArchive();
         $zip->open($dir, \ZipArchive::CREATE);
@@ -81,54 +142,6 @@ class FileController extends Controller
         }
 
         return redirect()->back();
-    }
-
-    /**
-     * Move file.
-     *
-     * @param \App\Http\Requests\File\MoveFileRequest $request
-     * @param \App\Models\File $file
-     * @return \Illuminate\Http\Response
-     */
-    public function move(MoveFileRequest $request, File $file)
-    {
-        $oldPath = $file->folder->getPath();
-        $file->folder_id = $request->validated()['folder_id'];
-
-        if (!$file->save()) {
-            return redirect()->back()->withError('File could not be moved.');
-        }
-
-        $file->load('folder');
-
-        $sourcePath = $oldPath . '/' . $file->fullName;
-        $targetPath = $file->folder->getPath() . '/' . $file->fullName;
-
-        (new AmazonS3Service())->moveFile($sourcePath, $targetPath);
-
-        return redirect()->back()->withSuccess('File has been moved successfully.');
-    }
-
-    /**
-     * Copy file.
-     *
-     * @param \App\Models\File $file
-     * @return \Illuminate\Http\Response
-     */
-    public function copy(File $file)
-    {
-        $copy = $file->createCopy();
-
-        if (!$copy) {
-            return redirect()->back()->withError('File could not be copied.');
-        }
-
-        $sourcePath = $file->folder->getPath() . '/' . $file->fullName;
-        $targetPath = $copy->folder->getPath() . '/' . $copy->fullName;
-
-        (new AmazonS3Service())->copyFile($sourcePath, $targetPath);
-
-        return redirect()->back()->withSuccess('File has been copied successfully.');
     }
 
     /**
