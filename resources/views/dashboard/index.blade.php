@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Dashboard')
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -84,7 +86,7 @@
                                         <div class="dashboard-widget-content">
                                             <div>
                                                 <ul class="tree-file">
-                                                    {!! Form::open(['route' => 'files.download', 'id' => 'download-files-form']) !!}
+                                                    {!! Form::open(['route' => 'files.download.multiple', 'id' => 'download-files-form']) !!}
                                                         @foreach ($folders as $folder)
                                                             @include('partials.folders')
                                                         @endforeach

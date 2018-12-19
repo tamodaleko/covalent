@@ -27,7 +27,8 @@ class UpdateCompanyRequest extends FormRequest
             'logo' => 'nullable|image',
             'name' => 'required|string|max:191|unique:companies,name,' . $this->route()->company->id,
             'info' => 'required|string|max:191',
-            'status' => 'required|integer'
+            'status' => 'required|integer',
+            'folders' => 'nullable|array'
         ];
     }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Update User')
+
 @section('content')
 <div id="page-wrapper">
     <div class="row new_company">
@@ -65,7 +67,11 @@
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
-                                    
+
+                                    <a href="{{ route('users.index') }}" class="btn btn-default">
+                                        <i class="fa fa-backward"></i> Exit Without Saving
+                                    </a>
+
                                     {{ Form::button('<i class="fa fa-repeat"></i> Reset', ['type' => 'reset', 'class' => 'btn btn-default']) }}
                                 </div>
                             

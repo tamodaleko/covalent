@@ -68,7 +68,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return view('companies.edit')->withCompany($company);
+        return view('companies.edit', [
+            'company' => $company,
+            'folders' => Folder::getStructure(),
+            'selected' => $company->getAllowedFolders()
+        ]);
     }
 
     /**
@@ -80,6 +84,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
+        $company->updatePermissions($request->input('folders'));
         $company = $company->edit($request->validated(), $request->file('logo'));
 
         if (!$company) {

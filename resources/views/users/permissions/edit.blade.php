@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'User Permissions')
+
 @section('content')
 <div id="page-wrapper">
     <div class="row new_company">

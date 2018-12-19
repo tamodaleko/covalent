@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Update Company')
+
 @section('content')
 <div id="page-wrapper">
     <div class="row new_company">
@@ -46,8 +48,24 @@
                                         {{ Form::select('status', \App\Models\Company\Company::getStatusList(), $company->status, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <br />
+                                    <div class="form-group">
+                                        {{ Form::label('folders', 'Folders') }}
+                                        
+                                        <ul class="tree-file">
+                                            @foreach ($folders as $folder)
+                                                @include('partials.permissions.folders')
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
+
+                                    <a href="{{ route('companies.index') }}" class="btn btn-default">
+                                        <i class="fa fa-backward"></i> Exit Without Saving
+                                    </a>
                                     
                                     {{ Form::button('<i class="fa fa-repeat"></i> Reset', ['type' => 'reset', 'class' => 'btn btn-default']) }}
                                 </div>

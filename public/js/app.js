@@ -111,3 +111,7 @@ function confSubmit(form) {
 
     form.submit();
 }
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});

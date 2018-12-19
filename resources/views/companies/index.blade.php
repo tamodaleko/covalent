@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Companies')
+
 @section('content')
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -27,6 +29,7 @@
                                         <th>ID</th>
                                         <th>Logo</th>
                                         <th>Name</th>
+                                        <th>Users</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -39,10 +42,19 @@
                                                 @if ($company->logo)
                                                     <img src="/uploads/images/companies/{{ $company->logo }}" alt="{{ $company->name }}">
                                                 @else
-                                                    <span>N/A</span>
+                                                    <span>-</span>
                                                 @endif
                                             </td>
                                             <td>{{ $company->name }}</td>
+                                            <td>
+                                                @if (!count($company->users))
+                                                    <span>-</span>
+                                                @endif
+                                                
+                                                @foreach ($company->users as $user)
+                                                    {{ $user->name }}<br />
+                                                @endforeach
+                                            </td>
                                             <td>
                                                 @if ($company->status === \App\Models\Company\Company::STATUS_ACTIVE)
                                                     <span style="color: green;"><b>Active</b></span>

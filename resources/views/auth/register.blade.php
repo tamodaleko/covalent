@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', 'Register')
+
 @section('content')
 <div class="row">
     <div class="col-xs-12 register-title">

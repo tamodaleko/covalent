@@ -1,5 +1,7 @@
 @extends('layouts.auth')
 
+@section('title', 'Login')
+
 @section('content')
 <div class="row log-in-page">
     <div class="col-xs-12">

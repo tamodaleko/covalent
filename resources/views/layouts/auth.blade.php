@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>{{ config('app.name', 'Covalent Metrology') }}</title>
+    <title>{{ config('app.name', 'Covalent Metrology') }} | @yield('title')</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">

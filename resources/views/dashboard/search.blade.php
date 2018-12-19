@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Dashboard')
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -69,7 +71,7 @@
                                                     <p class="alert alert-info">There are no files found.</p>
                                                 @else
                                                     <ul class="tree-file">
-                                                        {!! Form::open(['route' => 'files.download', 'id' => 'download-files-form']) !!}
+                                                        {!! Form::open(['route' => 'files.download.multiple', 'id' => 'download-files-form']) !!}
                                                             <span>
                                                                 <ul class="tree-file">
                                                                     @foreach ($files as $file)

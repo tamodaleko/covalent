@@ -32,6 +32,10 @@ Route::resource('users', 'UserController')->except(['show']);
 Route::get('users/profile', 'UserController@profile')->name('users.profile');
 Route::post('users/profile', 'UserController@updateProfile')->name('users.profile.update');
 
+// Users.Password
+Route::get('users/password', 'UserController@password')->name('users.password');
+Route::post('users/password', 'UserController@updatePassword')->name('users.password.update');
+
 // Users.Permissions
 Route::get('users/{user}/permissions', 'UserPermissionController@edit')->name('users.permissions.edit');
 Route::patch('users/{user}/permissions', 'UserPermissionController@update')->name('users.permissions.update');
@@ -48,5 +52,6 @@ Route::get('folders/{folder}/destroy', 'FolderController@destroy')->name('folder
 Route::post('files', 'FileController@store')->name('files.store');
 Route::post('files/{file}/copy', 'FileController@copy')->name('files.copy');
 Route::post('files/{file}/move', 'FileController@move')->name('files.move');
-Route::post('files/download', 'FileController@download')->name('files.download');
+Route::get('files/{file}/download', 'FileController@download')->name('files.download');
+Route::post('files/download', 'FileController@downloadMultiple')->name('files.download.multiple');
 Route::get('files/{file}/destroy', 'FileController@destroy')->name('files.destroy');

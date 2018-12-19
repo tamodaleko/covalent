@@ -23,17 +23,23 @@
 
             <span class="metadata">{{ $folder->tag }}</span>
 
-            <a href="javascript:;" data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
-                <i class="fa fa-folder-o"></i>
-            </a>
+            <span data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                <a href="javascript:;" data-toggle="tooltip" title="Move Folder">
+                    <i class="fa fa-folder-o"></i>
+                </a>
+            </span>
 
-            <a href="javascript:;" data-toggle="modal" data-target="#copyFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
-                <i class="fa fa-copy"></i>
-            </a>
+            <span data-toggle="modal" data-target="#copyFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                <a href="javascript:;" data-toggle="tooltip" title="Copy Folder">
+                    <i class="fa fa-copy"></i>
+                </a>
+            </span>
             
-            <a href="{{ route('folders.destroy', ['id' => $folder->id]) }}" class="confirm">
-                <i class="fa fa-remove" style="color: red;"></i>
-            </a>
+            <span data-toggle="tooltip" title="Delete Folder">
+                <a href="{{ route('folders.destroy', ['id' => $folder->id]) }}" class="confirm">
+                    <i class="fa fa-remove"></i>
+                </a>
+            </span>
         </span>
     </span>
 

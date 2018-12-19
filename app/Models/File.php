@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -50,6 +51,36 @@ class File extends Model
     public function getLink()
     {
         return self::S3_URL . $this->folder->getPath() . '/' . $this->fullName;
+    }
+
+    /**
+     * Format date.
+     *
+     * @param string $timezone
+     * @return string
+     */
+    public function formatDate($timezone)
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at, 'UTC');
+        $date->setTimezone($timezone);
+
+        return $date->format('m/d/Y h:i:A');
+    }
+
+    /**
+     * Format size.
+     *
+     * @return string
+     */
+    public function formatSize()
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        for ($i = 0; $this->size > 1024; $i++) {
+            $this->size /= 1024;
+        }
+
+        return round($this->size, 2) . ' ' . $units[$i];
     }
 
     /**

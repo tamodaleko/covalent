@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin')->except(['profile', 'updateProfile']);
-        $this->middleware('auth')->only(['profile', 'updateProfile']);
+        $this->middleware('admin')->except(['profile', 'updateProfile', 'password', 'updatePassword']);
+        $this->middleware('auth');
     }
 
     /**
@@ -110,21 +111,6 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\User\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        if (!$user->delete()) {
-            return redirect()->route('users.index')->withError('User could not be deleted.');
-        }
-
-        return redirect()->route('users.index')->withSuccess('User has been deleted successfully.');
-    }
-
-    /**
      * Show the form for user profile.
      *
      * @return \Illuminate\Http\Response
@@ -142,20 +128,61 @@ class UserController extends Controller
      */
     public function updateProfile(UpdateUserProfileRequest $request)
     {
-        $validated = $request->validated();
-
-        if ($validated['password']) {
-            $validated['password'] = bcrypt($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
-
-        $user = auth()->user()->edit($validated, $request->file('avatar'));
+        $user = auth()->user()->edit($request->validated(), $request->file('avatar'));
 
         if (!$user) {
-            return redirect()->back()->withError('Profile could not be updated.');
+            return redirect()->route('users.profile')->withError('Profile could not be updated.');
         }
 
-        return redirect()->back()->withSuccess('Profile has been updated successfully.');
+        return redirect()->route('users.profile')->withSuccess('Profile has been updated successfully.');
+    }
+
+    /**
+     * Show the form for changing user password.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function password()
+    {
+        return view('users.password');
+    }
+
+    /**
+     * Update the user password.
+     *
+     * @param \App\Http\Requests\User\UpdateUserPasswordRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(UpdateUserPasswordRequest $request)
+    {
+        $validated = $request->validated();
+        $user = auth()->user();
+
+        if (!password_verify($validated['current_password'], $user->password)) {
+            return redirect()->route('users.password')->withError('Current password is invalid.');
+        }
+
+        $user->password = bcrypt($validated['new_password']);
+
+        if (!$user->save()) {
+            return redirect()->route('users.password')->withError('Password could not be updated.');
+        }
+
+        return redirect()->route('users.password')->withSuccess('Password has been updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\User\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        if (!$user->delete()) {
+            return redirect()->route('users.index')->withError('User could not be deleted.');
+        }
+
+        return redirect()->route('users.index')->withSuccess('User has been deleted successfully.');
     }
 }

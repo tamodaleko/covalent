@@ -113,12 +113,26 @@ class FileController extends Controller
     }
 
     /**
-     * Download selected files.
+     * Download file.
+     *
+     * @param \App\Http\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function download(File $file)
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), $file->fullName);
+        copy($file->getLink(), $tempFile);
+
+        return response()->download($tempFile, $file->fullName);
+    }
+
+    /**
+     * Download multiple files.
      *
      * @param \App\Http\Requests\File\DownloadFilesRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function download(DownloadFilesRequest $request)
+    public function downloadMultiple(DownloadFilesRequest $request)
     {
         $files = File::whereIn('id', $request->post('files'))->get();
         $dir = 'uploads/zips/files_' . time() . '.zip';

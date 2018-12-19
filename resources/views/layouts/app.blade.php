@@ -10,7 +10,7 @@
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>{{ config('app.name', 'Covalent Metrology') }}</title>
+    <title>{{ config('app.name', 'Covalent Metrology') }} | @yield('title')</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -60,6 +60,11 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('users.create') }}">
+                                            <i class="fa fa-user-plus" aria-hidden="true"></i>New User
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('users.index') }}">
                                             <i class="fa fa-user-o" aria-hidden="true"></i>Users
                                         </a>
@@ -75,6 +80,18 @@
                                         <i class="fa fa-address-card-o" aria-hidden="true"></i>Profile
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('users.password.update') }}">
+                                        <i class="fa fa-key" aria-hidden="true"></i>Change Password
+                                    </a>
+                                </li>
+                                @if (!auth()->user()->is_admin)
+                                    <li>
+                                        <a href="https://covalentmetrology.com/" target="_blank">
+                                            <i class="fa fa-external-link" aria-hidden="true"></i>Covalent Website
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out" aria-hidden="true"></i>Log Out
