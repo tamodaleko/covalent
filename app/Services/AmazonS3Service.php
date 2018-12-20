@@ -56,43 +56,6 @@ class AmazonS3Service
     }
 
     /**
-     * Delete folder.
-     *
-     * @param string $path
-     * @return bool|array
-     */
-    public function deleteFolder($path)
-    {
-        try {
-            $result = $this->client->deleteMatchingObjects($this->bucket, $path);
-        } catch (Aws\S3\Exception\S3Exception $e) {
-            return false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Delete file.
-     *
-     * @param string $path
-     * @return bool|array
-     */
-    public function deleteFile($path)
-    {
-        try {
-            $result = $this->client->deleteObject([
-                'Bucket' => $this->bucket,
-                'Key' => $path
-            ]);
-        } catch (Aws\S3\Exception\S3Exception $e) {
-            return false;
-        }
-
-        return $result;
-    }
-
-    /**
      * Copy file.
      *
      * @param string $sourcePath
@@ -136,6 +99,26 @@ class AmazonS3Service
         }
 
         $this->deleteFile($sourcePath);
+
+        return $result;
+    }
+
+    /**
+     * Delete file.
+     *
+     * @param string $path
+     * @return bool|array
+     */
+    public function deleteFile($path)
+    {
+        try {
+            $result = $this->client->deleteObject([
+                'Bucket' => $this->bucket,
+                'Key' => $path
+            ]);
+        } catch (Aws\S3\Exception\S3Exception $e) {
+            return false;
+        }
 
         return $result;
     }
@@ -201,26 +184,18 @@ class AmazonS3Service
     }
 
     /**
-     * Rename file.
+     * Delete folder.
      *
-     * @param string $sourcePath
-     * @param string $targetPath
+     * @param string $path
      * @return bool|array
      */
-    public function renameFile($sourcePath, $targetPath)
+    public function deleteFolder($path)
     {
         try {
-            $result = $this->client->copyObject([
-                'Bucket' => $this->bucket,
-                'Key' => $targetPath,
-                'CopySource' => $this->bucket . '/' . $sourcePath,
-                'ACL' => 'public-read'
-            ]);
+            $result = $this->client->deleteMatchingObjects($this->bucket, $path);
         } catch (Aws\S3\Exception\S3Exception $e) {
             return false;
         }
-
-        $this->deleteFile($sourcePath);
 
         return $result;
     }

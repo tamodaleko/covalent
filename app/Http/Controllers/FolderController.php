@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Folder\CopyFolderRequest;
 use App\Http\Requests\Folder\MoveFolderRequest;
+use App\Http\Requests\Folder\RenameFolderRequest;
 use App\Http\Requests\Folder\StoreFolderRequest;
 use App\Http\Requests\Folder\UpdateFolderStatusRequest;
 use App\Http\Requests\Folder\UpdateFolderTagRequest;
@@ -83,6 +84,51 @@ class FolderController extends Controller
         }
 
         return redirect()->back()->withSuccess('Folder tag has been updated successfully.');
+    }
+
+    /**
+     * Rename folder.
+     *
+     * @param \App\Http\Requests\Folder\RenameFolderRequest $request
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function rename(RenameFolderRequest $request, Folder $folder)
+    {
+        $check = Folder::where([
+            'parent_folder_id' => $folder->parent_folder_id,
+            'name' => $request->name
+        ])->first();
+
+        if ($check) {
+            return redirect()->back()->withError('Folder with selected name already exists within path.');
+        }
+
+        $sourceFiles = $folder->getFilesPath();
+        $folder->name = $request->name;
+
+        if (!$folder->save()) {
+            return redirect()->back()->withError('Folder could not be renamed.');
+        }
+
+        $folder->load('subFolders');
+        $folder->load('files');
+
+        $targetFiles = $folder->getFilesPath();
+        $files = [];
+
+        foreach ($targetFiles as $k => $value) {
+            $files[$k] = [
+                'sourcePath' => $sourceFiles[$k]['path'],
+                'targetPath' => $value['path']
+            ];
+        }
+
+        if ($files) {
+            (new AmazonS3Service())->moveFiles($files);
+        }
+
+        return redirect()->back()->withSuccess('Folder has been renamed successfully.');
     }
 
     /**

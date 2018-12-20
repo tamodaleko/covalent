@@ -29,6 +29,12 @@ $(function () {
         $('#image-preview').attr('src', url);
     });
 
+    $('#renameFolderModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/folders/' + id + '/rename';
+        $('#rename_folder_form').attr('action', url);
+    });
+
     $('#copyFolderModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/copy';
@@ -39,6 +45,12 @@ $(function () {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/move';
         $('#move_folder_form').attr('action', url);
+    });
+
+    $('#renameFileModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var url = '/files/' + id + '/rename';
+        $('#rename_file_form').attr('action', url);
     });
 
     $('#copyFileModal').on('show.bs.modal', function (e) {

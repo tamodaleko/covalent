@@ -98,6 +98,7 @@
 
 @section('modals')
     @include('modals.image_preview')
+    @include('modals.rename_file')
     @include('modals.copy_file')
     @include('modals.move_file')
 @endsection

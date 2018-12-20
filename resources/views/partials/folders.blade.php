@@ -30,6 +30,12 @@
             <span class="metadata">{{ $folder->tag }}</span>
 
             @if (!is_null($folder->parent_folder_id))
+                <span data-toggle="modal" data-target="#renameFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                    <a href="javascript:;" data-toggle="tooltip" title="Rename Folder">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                </span>
+                
                 <span data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
                     <a href="javascript:;" data-toggle="tooltip" title="Move Folder">
                         <i class="fa fa-folder-o"></i>

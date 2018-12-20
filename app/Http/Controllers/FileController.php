@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\File\CopyFileRequest;
 use App\Http\Requests\File\DownloadFilesRequest;
 use App\Http\Requests\File\MoveFileRequest;
+use App\Http\Requests\File\RenameFileRequest;
 use App\Http\Requests\File\StoreFileRequest;
 use App\Models\File;
 use App\Models\Folder;
@@ -54,6 +55,40 @@ class FileController extends Controller
         ]);
 
         return redirect()->back()->withSuccess('File has been uploaded successfully.');
+    }
+
+    /**
+     * Rename file.
+     *
+     * @param \App\Http\Requests\File\RenameFileRequest $request
+     * @param \App\Models\File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function rename(RenameFileRequest $request, File $file)
+    {
+        $check = File::where([
+            'folder_id' => $file->folder_id,
+            'name' => $request->name,
+            'extension' => $file->extension
+        ])->first();
+
+        if ($check) {
+            return redirect()->back()->withError('File with selected name already exists in folder.');
+        }
+
+        $sourceName = $file->fullName;
+        $file->name = $request->name;
+
+        if (!$file->save()) {
+            return redirect()->back()->withError('File could not be renamed.');
+        }
+
+        $sourcePath = $file->folder->getPath() . '/' . $sourceName;
+        $targetPath = $file->folder->getPath() . '/' . $file->fullName;
+
+        (new AmazonS3Service())->moveFile($sourcePath, $targetPath);
+
+        return redirect()->back()->withSuccess('File has been renamed successfully.');
     }
 
     /**
@@ -121,7 +156,8 @@ class FileController extends Controller
     public function download(File $file)
     {
         $tempFile = tempnam(sys_get_temp_dir(), $file->fullName);
-        copy($file->getLink(), $tempFile);
+        $link = str_replace(' ', '%20', $file->getLink());
+        copy($link, $tempFile);
 
         return response()->download($tempFile, $file->fullName);
     }

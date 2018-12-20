@@ -31,6 +31,12 @@
                 </a>
             </span>
 
+            <span data-toggle="modal" data-target="#renameFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
+                <a href="javascript:;" data-toggle="tooltip" title="Rename File">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+            </span>
+
             <span data-toggle="modal" data-target="#moveFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
                 <a href="javascript:;" data-toggle="tooltip" title="Move File">
                     <i class="fa fa-folder-o"></i>
