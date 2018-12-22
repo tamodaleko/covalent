@@ -20,7 +20,7 @@
                             @if (!$user->company)
                                 <p class="alert alert-danger">User is not part of any company.</p>
                             @elseif (!$folders)
-                                <p class="alert alert-danger">User's company has access to no folders.</p>
+                                <p class="alert alert-danger">User's company doesn't have access to any folder.</p>
                             @endif
 
                             {!! Form::model($user, ['method' => 'PATCH', 'route' => ['users.permissions.update', $user->id]]) !!}
@@ -36,9 +36,11 @@
                                 </div>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fa fa-check"></i> Save
-                                    </button>
+                                    @if ($user->company && $folders)
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fa fa-check"></i> Save
+                                        </button>
+                                    @endif
 
                                     <a href="{{ route('users.index') }}" class="btn btn-default">
                                         <i class="fa fa-arrow-left"></i> Back

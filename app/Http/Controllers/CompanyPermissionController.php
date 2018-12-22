@@ -19,16 +19,6 @@ class CompanyPermissionController extends Controller
     }
 
     /**
-     * Display a index page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('companies.permissions.index');
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\Company\Company $company
@@ -52,7 +42,7 @@ class CompanyPermissionController extends Controller
      */
     public function update(UpdateCompanyPermissionsRequest $request, Company $company)
     {
-        if (!$company->updatePermissions($request->input('folders'))) {
+        if (!$company->updatePermissions($request->folders)) {
             return redirect()->back()->withError('Company permissions could not be updated.');
         }
 

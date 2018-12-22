@@ -30,10 +30,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $users = [];
+
         if ($request->company_id) {
-            $users = User::where('company_id', $request->company_id)->get();
-        } else {
-            $users = User::all();
+            if ($request->company_id === 'no-company') {
+                $users = User::where('company_id', null)->get();
+            } else {
+                $users = User::where('company_id', $request->company_id)->get();
+            }
         }
 
         return view('users.index', [

@@ -41,7 +41,7 @@ class UserPermissionController extends Controller
      */
     public function update(UpdateUserPermissionsRequest $request, User $user)
     {
-        if (!$user->updatePermissions($request->input('folders'))) {
+        if (!$user->updatePermissions($request->folders)) {
             return redirect()->back()->withError('User permissions could not be updated.');
         }
 

@@ -19,6 +19,7 @@
     <link href="{{ asset('css/jquery.fileupload.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.fileupload-ui.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 </head>
 <body class="nav-sm">
     <div class="container body">
@@ -70,7 +71,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('companies.permissions.index') }}">
+                                        <a href="{{ route('permissions.index') }}">
                                             <i class="fa fa-cogs" aria-hidden="true"></i>Permissions
                                         </a>
                                     </li>
@@ -162,7 +163,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/select2.full.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

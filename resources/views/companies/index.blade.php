@@ -30,6 +30,7 @@
                                         <th>Logo</th>
                                         <th>Name</th>
                                         <th>Users</th>
+                                        <th>Folders</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -56,6 +57,15 @@
                                                 @endforeach
                                             </td>
                                             <td>
+                                                @if ($folders = \App\Models\Folder::getAllowedByCompany($company))
+                                                    @foreach ($folders as $folder)
+                                                        /{{ $folder->getPath() }}<br />
+                                                    @endforeach
+                                                @else
+                                                    <span>-</span>
+                                                @endif
+                                            </td>
+                                            <td>
                                                 @if ($company->status === \App\Models\Company\Company::STATUS_ACTIVE)
                                                     <span style="color: green;"><b>Active</b></span>
                                                 @else
@@ -65,6 +75,10 @@
                                             <td class="center">
                                                 <a href="{{ route('companies.edit', $company->id) }}" class="btn btn-primary">
                                                     <i class="fa fa-pencil"></i>
+                                                </a>
+
+                                                <a href="{{ route('companies.permissions.edit', $company->id) }}" class="btn btn-primary">
+                                                    <i class="fa fa-cogs"></i>
                                                 </a>
 
                                                 {!! Form::open(['method' => 'DELETE','route' => ['companies.destroy', $company->id], 'style' => 'display:inline']) !!}

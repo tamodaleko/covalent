@@ -73,8 +73,8 @@ $(function () {
         window.location.search = 'company_id=' + $(this).val();
     });
 
-    $('#company_permissions').on('change', function () {
-        window.location.href = '/companies/' + $(this).val() + '/permissions';
+    $('#permissions').on('change', function () {
+        window.location.href = '/permissions/' + $(this).val();
     });
 
     $('.arrow').click(function () {
@@ -109,6 +109,14 @@ $(function () {
 
         $('#folder_path').html('/' + folder_path);
     });
+
+    $('.folder_checkbox').click(function () {
+        if ($(this).is(':checked')) {
+            var id = $(this).val();
+
+            $('#sub-' + id + ' input[type=checkbox]').prop('checked', true);
+        }
+    });
 });
 
 $(document).on('change', '#upload_file_input', function () {
@@ -125,5 +133,58 @@ function confSubmit(form) {
 }
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+jQuery(function($) {
+    $.fn.select2.amd.require([
+        'select2/selection/single',
+        'select2/selection/placeholder',
+        'select2/selection/allowClear',
+        'select2/dropdown',
+        'select2/dropdown/search',
+        'select2/dropdown/attachBody',
+        'select2/utils'
+    ], function (SingleSelection, Placeholder, AllowClear, Dropdown, DropdownSearch, AttachBody, Utils) {
+        var SelectionAdapter = Utils.Decorate(
+            SingleSelection,
+            Placeholder
+        );
+
+        SelectionAdapter = Utils.Decorate(
+            SelectionAdapter,
+            AllowClear
+        );
+
+        var DropdownAdapter = Utils.Decorate(
+            Utils.Decorate(
+                Dropdown,
+                DropdownSearch
+            ),
+            AttachBody
+        );
+
+        var base_element = $('.select2-multiple2')
+
+        $(base_element).select2({
+            placeholder: 'Select users',
+            selectionAdapter: SelectionAdapter,
+            dropdownAdapter: DropdownAdapter,
+            allowClear: true,
+            templateResult: function (data) {
+                if (!data.id) { return data.text; }
+                var $res = $('<div></div>');
+                $res.text(data.text);
+                $res.addClass('wrap');
+
+                return $res;
+            },
+            templateSelection: function (data) {
+                if (!data.id) { return data.text; }
+                var selected = ($(base_element).val() || []).length;
+                var total = $('option', $(base_element)).length;
+                return "Selected " + selected + " of " + total;
+            }
+        });
+    });
 });

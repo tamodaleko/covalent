@@ -34,11 +34,11 @@
                                         <i class="fa fa-check"></i> Save
                                     </button>
 
-                                    <a href="{{ route('companies.permissions.index') }}" class="btn btn-default">
+                                    <a href="{{ route('companies.index') }}" class="btn btn-default">
                                         <i class="fa fa-arrow-left"></i> Back
                                     </a>
                                 </div>
-                            
+
                             {!! Form::close() !!}
                         
                         </div>

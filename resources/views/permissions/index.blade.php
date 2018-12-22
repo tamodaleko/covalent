@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Company Permissions')
+@section('title', 'Permissions')
 
 @section('content')
 <div class="container">
@@ -10,13 +10,16 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 file_browser">
                     <div class="x_panel">
                         <div class="x_title">
+                            <h2><i class="fa fa-cogs"></i> Permissions</h2>
+                            <div class="clearfix"></div>
+
                             <div class="form-group">
                                 <br>
-                                <select id="company_permissions" class="form-control">
+                                <select id="permissions" class="form-control">
                                     <option value="">Select Company</option>
 
                                     @foreach (\App\Models\Company\Company::all() as $singleCompany)
-                                        <option value="{{ $singleCompany->id }}" @if(app('request')->input('company_id') == $singleCompany->id) selected @endif>
+                                        <option value="{{ $singleCompany->id }}">
                                             {{ $singleCompany->name }}
                                         </option>
                                     @endforeach

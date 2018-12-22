@@ -24,9 +24,10 @@
                             <br>
                             <select id="company" class="form-control">
                                 <option value="">Select Company</option>
+                                <option value="no-company" @if(app('request')->company_id == 'no-company') selected @endif>No Company Selected</option>
 
                                 @foreach (\App\Models\Company\Company::all() as $singleCompany)
-                                    <option value="{{ $singleCompany->id }}" @if(app('request')->input('company_id') == $singleCompany->id) selected @endif>
+                                    <option value="{{ $singleCompany->id }}" @if(app('request')->company_id == $singleCompany->id) selected @endif>
                                         {{ $singleCompany->name }}
                                     </option>
                                 @endforeach
@@ -36,7 +37,7 @@
                     </div>
                 </div>
 
-                @if (!$users->count())
+                @if (!$users || !$users->count())
                     <p class="alert alert-info">There are no users found.</p>
                 @else
                     <div class="dashboard-widget-content a">

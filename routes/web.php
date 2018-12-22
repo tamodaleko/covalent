@@ -15,13 +15,17 @@ Route::get('/', function () {
 Auth::routes();
 
 // Dashboard
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+
+// Permissions
+Route::get('permissions', 'PermissionController@index')->name('permissions.index');
+Route::get('permissions/{company}', 'PermissionController@edit')->name('permissions.edit');
+Route::post('permissions/{company}', 'PermissionController@update')->name('permissions.update');
 
 // Companies
 Route::resource('companies', 'CompanyController')->except(['show']);
 
 // Companies.Permissions
-Route::get('companies/permissions', 'CompanyPermissionController@index')->name('companies.permissions.index');
 Route::get('companies/{company}/permissions', 'CompanyPermissionController@edit')->name('companies.permissions.edit');
 Route::patch('companies/{company}/permissions', 'CompanyPermissionController@update')->name('companies.permissions.update');
 

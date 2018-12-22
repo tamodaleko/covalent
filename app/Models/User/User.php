@@ -177,4 +177,15 @@ class User extends Authenticatable
 
         return File::search($search, $this->getAllowedFolders());
     }
+
+    /**
+     * Add permissions.
+     *
+     * @param array $folders
+     * @return bool
+     */
+    public function addPermissions($folders)
+    {
+        return $this->folders()->sync($folders, false);
+    }
 }
