@@ -66,7 +66,9 @@
                                     </div>
                                 </div>
                                 <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">
-                                    @include('partials.permissions.folders_ajax')
+                                    @if ($folders)
+                                        @include('partials.permissions.folders_ajax')
+                                    @endif
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}

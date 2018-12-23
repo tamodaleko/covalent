@@ -124,6 +124,20 @@ $(document).on('change', '#upload_file_input', function () {
     $('#file_upload_proceed').show();
 });
 
+function subFoldersOpen(arrow) {
+    var parent_id = $(arrow).data('id');
+
+    if ($(arrow).find('i').hasClass('fa-caret-down')) {
+        $(arrow).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+        $('#sub-' + parent_id).hide();
+        $('#files-' + parent_id).hide();
+    } else {
+        $(arrow).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+        $('#sub-' + parent_id).show();
+        $('#files-' + parent_id).show();
+    }
+}
+
 function confSubmit(form) {
     if (!confirm('Are you sure?')) {
         return false;
