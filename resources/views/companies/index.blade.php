@@ -57,13 +57,9 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @if ($folders = \App\Models\Folder::getAllowedByCompany($company))
-                                                    @foreach ($folders as $folder)
-                                                        /{{ $folder->getPath() }}<br />
-                                                    @endforeach
-                                                @else
-                                                    <span>-</span>
-                                                @endif
+                                                @foreach (\App\Models\Folder::getAllowedByCompany($company) as $folder)
+                                                    /{{ $folder->getPath() }}<br />
+                                                @endforeach
                                             </td>
                                             <td>
                                                 @if ($company->status === \App\Models\Company\Company::STATUS_ACTIVE)

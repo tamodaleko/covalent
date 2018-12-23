@@ -24,6 +24,7 @@ Route::post('permissions/{company}', 'PermissionController@update')->name('permi
 
 // Companies
 Route::resource('companies', 'CompanyController')->except(['show']);
+Route::get('companies/{company}/folders', 'CompanyController@folders')->name('companies.folders');
 
 // Companies.Permissions
 Route::get('companies/{company}/permissions', 'CompanyPermissionController@edit')->name('companies.permissions.edit');

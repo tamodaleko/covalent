@@ -30,7 +30,8 @@ class StoreUserRequest extends FormRequest
             'company_id' => 'required|integer|exists:companies,id',
             'password' => 'required|string|min:6|max:191|confirmed',
             'status' => 'required|integer',
-            'is_admin' => 'required|boolean'
+            'is_admin' => 'required|boolean',
+            'folders' => 'nullable|array'
         ];
     }
 }

@@ -72,7 +72,7 @@ class UserController extends Controller
             return redirect()->route('users.index')->withError('User could not be created.');
         }
 
-        $user->grantDefaultPermissions();
+        $user->updatePermissions($request->folders);
 
         return redirect()->route('users.index')->withSuccess('User has been created successfully.');
     }
@@ -85,7 +85,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit')->withUser($user);
+        return view('users.edit', [
+            'user' => $user,
+            'folders' => $user->company ? $user->company->getAllowedFolderStructure() : [],
+            'selected' => $user->getAllowedFolders()
+        ]);
     }
 
     /**
@@ -110,6 +114,8 @@ class UserController extends Controller
         if (!$user->save()) {
             return redirect()->route('users.index')->withError('User could not be updated.');
         }
+
+        $user->updatePermissions($request->folders);
 
         return redirect()->route('users.index')->withSuccess('User has been updated successfully.');
     }

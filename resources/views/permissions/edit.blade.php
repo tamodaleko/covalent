@@ -30,7 +30,7 @@
 
                         <div class="x_content">
 
-                            @if (!$users)
+                            @if (!$users->count())
                                 <p class="alert alert-info">Selected company has no users assigned.</p>
                             @elseif (!$folders)
                                 <p class="alert alert-info">Selected company has no folders assigned.</p>
@@ -70,7 +70,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
-                                            @if ($users && $folders)
+                                            @if ($users->count() && $folders)
                                                 <button type="submit" class="btn btn-default">
                                                     <i class="fa fa-check"></i> Save
                                                 </button>

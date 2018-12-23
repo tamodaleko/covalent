@@ -27,7 +27,8 @@ class StoreCompanyRequest extends FormRequest
             'logo' => 'nullable|image',
             'name' => 'required|string|max:191|unique:companies',
             'info' => 'required|string|max:191',
-            'status' => 'required|integer'
+            'status' => 'required|integer',
+            'folders' => 'nullable|array'
         ];
     }
 }

@@ -41,6 +41,18 @@
                                         {{ Form::select('status', \App\Models\Company\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <br />
+                                    <div class="form-group">
+                                        {{ Form::label('folders', 'Folders') }}
+                                        
+                                        <ul class="tree-file">
+                                            @foreach ($folders as $folder)
+                                                @include('partials.permissions.folders', ['selected' => []])
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
                                     

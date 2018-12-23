@@ -65,6 +65,9 @@
                                         {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], $user->is_admin, ['class' => 'form-control']) }}
                                     </div>
                                 </div>
+                                <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">
+                                    @include('partials.permissions.folders_ajax')
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
 

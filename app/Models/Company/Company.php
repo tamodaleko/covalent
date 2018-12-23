@@ -150,13 +150,14 @@ class Company extends Model
      * Update permissions.
      *
      * @param array $folders
+     * @param bool $override
      * @return bool
      */
-    public function updatePermissions($folders)
+    public function updatePermissions($folders, $override = true)
     {
         $folders = $folders ?: [];
 
-        if ($this->folders()->sync($folders)) {
+        if ($this->folders()->sync($folders, $override)) {
             $users = $this->users()->pluck('id')->toArray();
             UserFolder::whereIn('user_id', $users)->whereNotIn('folder_id', $folders)->delete();
 

@@ -136,6 +136,20 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+function getFolders(company_id) {
+    $.ajax({
+        url: '/companies/' + company_id + '/folders',
+        cache: false,
+        success: function(result) {
+            if (result) {
+                $('#folders_ajax_container').html(result);
+            } else {
+                $('#folders_ajax_container').html('');
+            }
+        }
+    });
+}
+
 jQuery(function($) {
     $.fn.select2.amd.require([
         'select2/selection/single',

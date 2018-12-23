@@ -38,7 +38,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('companies.create');
+        return view('companies.create', [
+            'folders' => Folder::getStructure()
+        ]);
     }
 
     /**
@@ -56,6 +58,7 @@ class CompanyController extends Controller
         }
 
         Folder::addForCompany($company->name, $company->id);
+        $company->updatePermissions($request->folders, false);
 
         return redirect()->route('companies.index')->withSuccess('Company has been created successfully.');
     }
@@ -84,7 +87,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $company->updatePermissions($request->input('folders'));
+        $company->updatePermissions($request->folders);
         $company = $company->edit($request->validated(), $request->file('logo'));
 
         if (!$company) {
@@ -107,5 +110,25 @@ class CompanyController extends Controller
         }
 
         return redirect()->route('companies.index')->withSuccess('Company has been deleted successfully.');
+    }
+
+    /**
+     * Get folders ajax.
+     *
+     * @param \App\Models\Company\Company $company
+     * @return \Illuminate\Http\Response
+     */
+    public function folders(Company $company)
+    {
+        $folders = $company->getAllowedFolderStructure();
+
+        if (!$folders) {
+            return null;
+        }
+
+        return view('partials.permissions.folders_ajax', [
+            'folders' => $folders,
+            'selected' => []
+        ]);
     }
 }
