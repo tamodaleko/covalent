@@ -203,11 +203,13 @@ jQuery(function($) {
     });
 });
 
-$('.folder_checkbox').click(function () {
-    if ($(this).is(':checked')) {
-        var id = $(this).val();
+$('.main_container').on('click', '.folder_checkbox', function () {
+    var id = $(this).val();
 
+    if ($(this).is(':checked')) {
         $('#sub-' + id + ' input[type=checkbox]').prop('checked', true);
+    } else {
+        $('#sub-' + id + ' input[type=checkbox]').prop('checked', false);
     }
 });
 
