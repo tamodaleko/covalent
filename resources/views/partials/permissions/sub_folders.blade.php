@@ -4,7 +4,7 @@
         <input type="checkbox" name="folders[]" class="folder_checkbox" value="{{ $folder->id }}" @if (in_array($folder->id, $selected)) checked @endif>
 
         @if (count($folder->subFolders))
-            <span id="folder_caret_{{ $folder->id }}">
+            <span id="folder_caret_{{ $folder->id }}" class="sub_folders_toggle" data-id="{{ $folder->id }}">
                 <i class="fa fa-caret-right"></i>
             </span>
         @else
