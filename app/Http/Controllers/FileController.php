@@ -156,8 +156,7 @@ class FileController extends Controller
     public function download(File $file)
     {
         $tempFile = tempnam(sys_get_temp_dir(), $file->fullName);
-        $link = str_replace(' ', '%20', $file->getLink());
-        copy($link, $tempFile);
+        copy($file->getLink(true), $tempFile);
 
         return response()->download($tempFile, $file->fullName);
     }
@@ -177,8 +176,7 @@ class FileController extends Controller
         $zip->open($dir, \ZipArchive::CREATE);
 
         foreach ($files as $file) {
-            $link = str_replace(' ', '%20', $file->getLink());
-            $zip->addFromString($file->fullName, file_get_contents($link));
+            $zip->addFromString($file->fullName, file_get_contents($file->getLink(true)));
         }
 
         $zip->close();

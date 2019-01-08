@@ -74,7 +74,8 @@ class CompanyController extends Controller
         return view('companies.edit', [
             'company' => $company,
             'folders' => Folder::getStructure(),
-            'selected' => $company->getAllowedFolders()
+            'selected' => $company->getAllowedFolders(),
+            'users' => $company->users()->pluck('id')->toArray()
         ]);
     }
 
@@ -87,6 +88,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
+        $company->updateUsers($request->users);
         $company->updatePermissions($request->folders);
         $company = $company->edit($request->validated(), $request->file('logo'));
 

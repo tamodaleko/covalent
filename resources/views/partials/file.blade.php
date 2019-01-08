@@ -5,7 +5,7 @@
         
         <i class="fa {{ $file->getIcon() }}"></i>
         
-        <a href="{{ $file->getLink() }}" target="_blank">
+        <a href="{{ $file->getLink(true) }}" target="_blank">
             @if ($search)
                 <span class="name-prefix">{{ $file->fullName }} - <i style="font-size: 11px;">( /{{ $file->folder->getPath() }} )</i></span>
             @else
@@ -18,7 +18,7 @@
             <span style="margin-right: 10px;">{{ $file->formatDate('America/Los_Angeles') }} ( {{ $file->formatSize() }} )</span>
             
             @if ($file->isViewable())
-                <span data-toggle="modal" data-target="#imagePreviewModal" data-url="{{ $file->getLink() }}" style="margin-right: 5px;">
+                <span data-toggle="modal" data-target="#imagePreviewModal" data-url="{{ $file->getLink(true) }}" style="margin-right: 5px;">
                     <a href="javascript:;" data-toggle="tooltip" title="Image Preview">
                         <i class="fa fa-image"></i>
                     </a>

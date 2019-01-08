@@ -51,6 +51,20 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <br />
                                     <div class="form-group">
+                                        {{ Form::label('users', 'Users') }}
+
+                                        <select name="users[]" class="select2-multiple2" multiple style="width: 100%;">
+                                            @foreach (\App\Models\User\User::all() as $user)
+                                                <option value="{{ $user->id }}" @if (in_array($user->id, $users)) selected @endif>
+                                                    {{ $user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 left">
+                                    <br />
+                                    <div class="form-group">
                                         {{ Form::label('folders', 'Folders') }}
                                         
                                         <ul class="tree-file">

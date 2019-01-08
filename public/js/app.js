@@ -80,19 +80,19 @@ $(function () {
         window.location.href = '/permissions/' + $(this).val();
     });
 
-    // $('.arrow').click(function () {
-    //     var parent_id = $(this).data('id');
+    $('.arrow').click(function () {
+        var parent_id = $(this).data('id');
         
-    //     if ($(this).find('i').hasClass('fa-caret-down')) {
-    //         $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-    //         $('#sub-' + parent_id).hide();
-    //         $('#files-' + parent_id).hide();
-    //     } else {
-    //         $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
-    //         $('#sub-' + parent_id).show();
-    //         $('#files-' + parent_id).show();
-    //     }
-    // });
+        if ($(this).find('i').hasClass('fa-caret-down')) {
+            $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+            $('#sub-' + parent_id).hide();
+            $('#files-' + parent_id).hide();
+        } else {
+            $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+            $('#sub-' + parent_id).show();
+            $('#files-' + parent_id).show();
+        }
+    });
 
     $('.name').click(function () {
         $('.name').removeClass('active');
@@ -119,33 +119,6 @@ $(document).on('change', '#upload_file_input', function () {
     $('#file_upload_proceed').show();
 });
 
-function openSubFolders(e) {
-    console.log(e.target);
-
-    var folder_id = $(e.target).data('id');
-    var opened = $(e.target).data('opened');
-
-    // if ($(target).find('i').length) {
-    //     if ($(target).find('i').hasClass('fa-caret-down')) {
-    //         $(target).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-    //     } else {
-    //         $(target).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
-    //     }
-    // } else {
-    //     $(target).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
-    // }
-
-    console.log(opened);
-
-    if (opened == '0') {
-        $('#sub-' + folder_id).show();
-        $(e.target).attr('data-opened', '1');
-    } else {
-        $('#sub-' + folder_id).hide();
-        $(e.target).attr('data-opened', '0');
-    }
-}
-
 function confSubmit(form) {
     if (!confirm('Are you sure?')) {
         return false;
@@ -159,6 +132,10 @@ $(function () {
 });
 
 function getFolders(company_id) {
+    if (!company_id) {
+        $('#folders_ajax_container').html('');
+    }
+
     $.ajax({
         url: '/companies/' + company_id + '/folders',
         cache: false,
@@ -206,6 +183,7 @@ jQuery(function($) {
             placeholder: 'Select users',
             selectionAdapter: SelectionAdapter,
             dropdownAdapter: DropdownAdapter,
+            theme: "classic",
             allowClear: true,
             templateResult: function (data) {
                 if (!data.id) { return data.text; }
@@ -233,7 +211,7 @@ $('.folder_checkbox').click(function () {
     }
 });
 
-$('.sub_folders_toggle').click(function () {
+$('.main_container').on('click', '.sub_folders_toggle', function () {
     var folder_id = $(this).data('id');
     var caret = $('#folder_caret_' + folder_id);
     var opened = $(':hidden#sub_folders_opened_' + folder_id);

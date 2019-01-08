@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\User\User;
 use App\Models\User\UserFolder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -144,6 +145,31 @@ class Company extends Model
         }
 
         return Folder::getStructure($this->getAllowedFolders());
+    }
+
+    /**
+     * Update users.
+     *
+     * @param array $users
+     * @return void
+     */
+    public function updateUsers($users)
+    {
+        $users = $users ?: [];
+
+        foreach ($this->users as $user) {
+            if (!in_array($user->id, $users)) {
+                $user->company_id = null;
+                $user->save();
+            }
+        }
+
+        $users = User::find($users);
+
+        foreach ($users as $user) {
+            $user->company_id = $this->id;
+            $user->save();
+        }
     }
 
     /**

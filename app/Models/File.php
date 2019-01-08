@@ -46,11 +46,18 @@ class File extends Model
     /**
      * Get link.
      *
+     * @param bool $encoded
      * @return string
      */
-    public function getLink()
+    public function getLink($encoded = false)
     {
-        return self::S3_URL . $this->folder->getPath() . '/' . $this->fullName;
+        if ($encoded) {
+            $path = rawurlencode($this->folder->getPath() . '/' . $this->fullName);
+        } else {
+            $path = $this->folder->getPath() . '/' . $this->fullName;
+        }
+
+        return self::S3_URL . $path;
     }
 
     /**
@@ -154,31 +161,31 @@ class File extends Model
      */
     public function getIcon()
     {
-        if (in_array($this->extension, static::IMAGE_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::IMAGE_EXTENSIONS)) {
             return 'fa-file-image-o';
         }
 
-        if (in_array($this->extension, static::VIDEO_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::VIDEO_EXTENSIONS)) {
             return 'fa-file-video-o';
         }
 
-        if (in_array($this->extension, static::AUDIO_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::AUDIO_EXTENSIONS)) {
             return 'fa-file-audio-o';
         }
 
-        if (in_array($this->extension, static::TEXT_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::TEXT_EXTENSIONS)) {
             return 'fa-file-text-o';
         }
 
-        if (in_array($this->extension, static::PDF_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::PDF_EXTENSIONS)) {
             return 'fa-file-pdf-o';
         }
 
-        if (in_array($this->extension, static::EXCEL_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::EXCEL_EXTENSIONS)) {
             return 'fa-file-excel-o';
         }
 
-        if (in_array($this->extension, static::WORD_EXTENSIONS)) {
+        if (in_array(strtolower($this->extension), static::WORD_EXTENSIONS)) {
             return 'fa-file-word-o';
         }
 
@@ -192,7 +199,7 @@ class File extends Model
      */
     public function isViewable()
     {
-        return in_array($this->extension, self::IMAGE_EXTENSIONS);
+        return in_array(strtolower($this->extension), self::IMAGE_EXTENSIONS);
     }
 
     /**

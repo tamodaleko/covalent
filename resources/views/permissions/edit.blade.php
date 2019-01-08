@@ -39,9 +39,9 @@
                                 {!! Form::open(['route' => ['permissions.update', 'id' => $company->id]]) !!}
 
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="col-md-5 col-sm-6 col-xs-12">
                                             <br />
-                                            <div class="form-group">
+                                            <div class="form-group" style="max-width: 418px;">
                                                 {{ Form::label('folders', 'Users:') }}
                                                 
                                                 <select name="users[]" class="select2-multiple2" multiple style="width: 100%;">
