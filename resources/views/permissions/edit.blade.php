@@ -10,9 +10,6 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 file_browser">
                     <div class="x_panel">
                         <div class="x_title" style="margin-bottom: 0;">
-                            <h2><i class="fa fa-cogs"></i> Permissions</h2>
-                            <div class="clearfix"></div>
-
                             <div class="form-group">
                                 <br>
                                 <select id="permissions" class="form-control">
@@ -25,6 +22,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <h2 class="not_active">
+                                <a href="{{ route('dashboard.index') }}">File Browser</a>
+                            </h2>
+                            <h2 class="active_state">Permission Management</h2>
                             <div class="clearfix"></div>
                         </div>
 

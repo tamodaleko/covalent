@@ -24,6 +24,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <h2 class="active_state">File Browser</h2>
+                                <h2 class="not_active">
+                                    <a href="{{ route('permissions.index') }}">Permission Management</a>
+                                </h2>
                                 <div class="clearfix"></div>
                             </div>
                         @endif
