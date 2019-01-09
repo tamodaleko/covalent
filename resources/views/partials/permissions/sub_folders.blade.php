@@ -14,13 +14,11 @@
         <i class="fa fa-folder-open-o"></i>
         
         <span>
-            <a href="javascript:;" class="sub_folders_toggle" data-id="{{ $folder->id }}">
-                {{ $folder->name }}
+            <a href="javascript:;" class="sub_folders_toggle folder_name" data-id="{{ $folder->id }}">
+                <span class="name-prefix-perm">{{ $folder->name }}</span>
             </a>
         </span>
     </span>
-
-    <hr style="margin: 0; padding: 0;" />
 
     @if (count($folder->subFolders))
         <span class="sub" id="sub-{{ $folder->id }}" style="display: none;">

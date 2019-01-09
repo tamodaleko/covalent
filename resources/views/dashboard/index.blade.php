@@ -56,7 +56,7 @@
                                                 <button type="button" id="upload_file_button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal" data-id="{{ $folders[0]->id }}">
                                                     <i class="fa fa-cloud-upload"></i> Upload File
                                                 </button>
-                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}" data-company_id="{{ $company->id }}">
+                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#storeFolderModal" data-id="{{ $folders[0]->id }}" data-company_id="{{ $company->id }}">
                                                     <i class="fa fa-folder-open-o"></i> Create Folder
                                                 </button>
                                                 <button type="button" id="edit_status_button" class="btn btn-primary" data-toggle="modal" data-target="#editStatusModal" data-id="{{ $folders[0]->id }}">
@@ -108,7 +108,7 @@
 
 @section('modals')
     @include('modals.upload_file')
-    @include('modals.create_folder')
+    @include('modals.store_folder')
     @include('modals.edit_status')
     @include('modals.edit_tag')
     @include('modals.image_preview')

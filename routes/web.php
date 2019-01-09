@@ -47,6 +47,7 @@ Route::patch('users/{user}/permissions', 'UserPermissionController@update')->nam
 
 // Folders
 Route::post('folders', 'FolderController@store')->name('folders.store');
+Route::post('folders/create', 'FolderController@create')->name('folders.create');
 Route::patch('folders/{folder}/status', 'FolderController@updateStatus')->name('folders.update.status');
 Route::patch('folders/{folder}/tag', 'FolderController@updateTag')->name('folders.update.tag');
 Route::post('folders/{folder}/rename', 'FolderController@rename')->name('folders.rename');

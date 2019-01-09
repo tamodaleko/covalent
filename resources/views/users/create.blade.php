@@ -65,7 +65,12 @@
                                         {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], old('is_admin'), ['class' => 'form-control']) }}
                                     </div>
                                 </div>
-                                <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left"></div>
+                                <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <span></span>
+                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="" style="display: none;">
+                                        <i class="fa fa-folder-open-o"></i> Create Folder
+                                    </button>
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
                                     
@@ -81,4 +86,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('modals')
+    @include('modals.create_folder')
 @endsection

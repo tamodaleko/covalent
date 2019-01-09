@@ -6,12 +6,20 @@ $(function () {
         $('#folder_id').val(folder_id);
     });
 
-    $('#createFolderModal').on('show.bs.modal', function () {
+    $('#storeFolderModal').on('show.bs.modal', function () {
         var folder_id = $('#create_folder_button').data('id');
         var company_id = $('#create_folder_button').data('company_id');
 
         $('#company_id').val(company_id);
         $('#parent_folder_id').val(folder_id);
+    });
+
+    $('#createFolderModal').on('shown.bs.modal', function (e) {
+        var folder_id = $('#create_folder_button').attr('data-id');
+        var company_id = $('#create_folder_button').attr('data-company_id');
+
+        $('#input_company_id').val(company_id);
+        $('#input_parent_folder_id').val(folder_id);
     });
 
     $('#editStatusModal').on('show.bs.modal', function () {
@@ -133,7 +141,8 @@ $(function () {
 
 function getFolders(company_id) {
     if (!company_id) {
-        $('#folders_ajax_container').html('');
+        $('#folders_ajax_container span').html('');
+        $('#folders_ajax_container button').hide();
     }
 
     $.ajax({
@@ -141,9 +150,13 @@ function getFolders(company_id) {
         cache: false,
         success: function(result) {
             if (result) {
-                $('#folders_ajax_container').html(result);
+                $('#folders_ajax_container span').html(result);
+                $('#folders_ajax_container button').attr('data-id', '');
+                $('#folders_ajax_container button').attr('data-company_id', company_id);
+                $('#folders_ajax_container button').show();
             } else {
-                $('#folders_ajax_container').html('');
+                $('#folders_ajax_container span').html('');
+                $('#folders_ajax_container button').hide();
             }
         }
     });
@@ -233,4 +246,13 @@ $('.main_container').on('click', '.sub_folders_toggle', function () {
             caret.find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
         }
     }
+});
+
+$('.main_container').on('click', '.folder_name', function () {
+    var folder_id = $(this).data('id');
+
+    $('.folder_name').removeClass('active');
+    $(this).addClass('active');
+
+    $('#create_folder_button').attr('data-id', folder_id);
 });

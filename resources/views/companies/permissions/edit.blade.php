@@ -27,6 +27,9 @@
                                             @endforeach
                                         </ul>
                                     </div>
+                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="">
+                                        <i class="fa fa-folder-open-o"></i> Create Folder
+                                    </button>
                                 </div>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
@@ -48,4 +51,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('modals')
+    @include('modals.create_folder')
 @endsection

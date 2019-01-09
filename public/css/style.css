@@ -2632,7 +2632,7 @@ label {
 input[type="checkbox"].folder_checkbox {
     float: left;
     margin-right: 5px;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 input[type="checkbox"].file_checkbox {
@@ -6853,10 +6853,20 @@ span.name-prefix {
     font-weight: 400;
 }
 
+span.name-prefix-perm {
+    font-weight: 400;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 span.name-prefix.active {
     font-weight: 600;
     /*padding: 0px 5px;
     border-radius: 2px;*/
+}
+
+.folder_name.active span.name-prefix-perm {
+    font-weight: 600;
 }
 
 .action-file .dropdown-menu {

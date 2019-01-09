@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Folder\CopyFolderRequest;
+use App\Http\Requests\Folder\CreateFolderRequest;
 use App\Http\Requests\Folder\MoveFolderRequest;
 use App\Http\Requests\Folder\RenameFolderRequest;
 use App\Http\Requests\Folder\StoreFolderRequest;
@@ -45,6 +46,32 @@ class FolderController extends Controller
 
         if (!auth()->user()->is_admin) {
             Folder::attachToUser($folder->id, auth()->user()->id);
+        }
+
+        return redirect()->back()->withSuccess('Folder has been created successfully.');
+    }
+
+    /**
+     * Create new folder.
+     *
+     * @param \App\Http\Requests\Folder\CreateFolderRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(CreateFolderRequest $request)
+    {
+        $validated = $request->validated();
+
+        $folder = Folder::create([
+            'parent_folder_id' => $validated['parent_folder_id'],
+            'name' => $validated['name']
+        ]);
+
+        if (!$folder) {
+            return redirect()->back()->withError('Folder could not be created.');
+        }
+
+        if ($validated['company_id']) {
+            Folder::attachToCompany($folder->id, $validated['company_id']);
         }
 
         return redirect()->back()->withSuccess('Folder has been created successfully.');

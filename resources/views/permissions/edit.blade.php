@@ -65,6 +65,9 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
+                                            <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="{{ $company->id }}">
+                                                <i class="fa fa-folder-open-o"></i> Create Folder
+                                            </button>
                                         </div>
                                     </div>
 
@@ -93,4 +96,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('modals')
+    @include('modals.create_folder')
 @endsection

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="createFolderPermissionModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="storeFolderModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,6 +33,9 @@
                         </div>
                     </form>
                 </div>
+                <p class="alert alert-info" style="font-size: 12px;">
+                    <b>Note:</b> This will create a new folder under the selected path above.
+                </p>
             </div>
             <div class="modal-footer"></div>
         </div>

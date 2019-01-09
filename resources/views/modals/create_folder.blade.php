@@ -12,12 +12,12 @@
             </div>
             <div class="modal-body">
                 <div class="row" style="margin-top: 5px;">
-                    <form method="POST" action="{{ route('folders.store') }}">
+                    <form method="POST" action="{{ route('folders.create') }}">
 
                         {!! csrf_field() !!}
 
-                        <input type="hidden" id="company_id" name="company_id">
-                        <input type="hidden" id="parent_folder_id" name="parent_folder_id">
+                        <input type="hidden" id="input_company_id" name="company_id">
+                        <input type="hidden" id="input_parent_folder_id" name="parent_folder_id">
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
