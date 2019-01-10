@@ -6,11 +6,11 @@ use App\Http\Requests\File\CopyFileRequest;
 use App\Http\Requests\File\DownloadFilesRequest;
 use App\Http\Requests\File\MoveFileRequest;
 use App\Http\Requests\File\RenameFileRequest;
-use App\Http\Requests\File\StoreFileRequest;
 use App\Models\File;
 use App\Models\Folder;
 use App\Services\AmazonS3Service;
 use App\Services\FileService;
+use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
@@ -27,10 +27,10 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\File\StoreFileRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFileRequest $request)
+    public function store(Request $request)
     {
         $file = $request->file('file');
         $clientName = $file->getClientOriginalName();
@@ -43,18 +43,28 @@ class FileController extends Controller
         $folder = Folder::find($request->folder_id);
         $filename = File::getValidName($folder->id, $name, $extension);
 
+        $responseJson = new \stdClass();
+
+        $response = [
+            'name' => $clientName,
+            'size' => $file->getClientSize()
+        ];
+
         if (!$fileService->uploadToS3($folder->getPath(), $filename . '.' . $extension)) {
-            return redirect()->back()->withError('File could not be uploaded.');
+            $response['error'] = 'The file could not be uploaded.';
+            $responseJson->files[] = $response;
+            return response()->json($responseJson);
         }
 
-        File::create([
+        $fileRecord = File::create([
             'folder_id' => $request->folder_id,
             'name' => $filename,
             'extension' => $extension,
             'size' => $file->getClientSize()
         ]);
 
-        return redirect()->back()->withSuccess('File has been uploaded successfully.');
+        $responseJson->files[] = $response;
+        return response()->json($responseJson);
     }
 
     /**

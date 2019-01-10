@@ -12,27 +12,25 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'files.store', 'files' => true]) !!}
+                    {!! Form::open(['route' => 'files.store', 'id' => 'fileupload', 'files' => true]) !!}
 
                         <input type="hidden" id="folder_id" name="folder_id">
 
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group" style="text-align: center;">
-                                <div class="upload-button" style="width: 100%;">
-                                    <a class='btn btn-primary' href='javascript:;' style="width: 100%; margin-bottom: 10px;">
-                                        Choose File...
-                                        <input type="file" id="upload_file_input" name="file" style="width: 100%;">
-                                    </a>
-                                    <span class='label label-info' id="upload-file-info"></span>
+                            <div class="fileupload-buttonbar">
+                                <div class="fileupload-buttons">
+                                    <!-- The fileinput-button span is used to style the file input field as button -->
+                                    <span class="btn btn-success fileinput-button">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span>Select files...</span>
+                                        <input type="file" name="file">
+                                    </span>
+                                    <!-- The global file processing state -->
+                                    <span class="fileupload-process"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12" style="display: none;" id="file_upload_proceed">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                    <i class="fa fa-check"></i> Upload
-                                </button>
-                            </div>
+                            <!-- The table listing the files available for upload/download -->
+                            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
                         </div>
                     {!! Form::close() !!}
                 </div>

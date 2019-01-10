@@ -6,6 +6,10 @@ $(function () {
         $('#folder_id').val(folder_id);
     });
 
+    $('#uploadFileModal').on('hidden.bs.modal', function () {
+        location.reload();
+    });
+
     $('#storeFolderModal').on('show.bs.modal', function () {
         var folder_id = $('#create_folder_button').data('id');
         var company_id = $('#create_folder_button').data('company_id');

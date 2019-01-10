@@ -6,7 +6,7 @@
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
+ * https://opensource.org/licenses/MIT
  */
 
 /* global $, window */
@@ -16,39 +16,18 @@ $(function () {
 
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
-        // Uncomment the following to send cross-domain cookies:
-        //xhrFields: {withCredentials: true},
         forceIframeTransport: true,
-        url: $(this).attr('action'),
-        done: function (event, data) {
-            var destination_path = $(".file-upload-selected-folder").text();
-            if (destination_path == '/') {
-                destination_path = '';
-            } else {
-                destination_path = destination_path.substr(1, destination_path.length);
-            }
-            $('.processing-' + PrettyS3FilesManager.Application.htmlspecialchars(data.files[0].name)).html( "<input class='form-control' type='text' readonly='' value='" + $(this).attr('action') + destination_path + data.files[0].name + "' />");
-            var element = $('.action-' + PrettyS3FilesManager.Application.htmlspecialchars(data.files[0].name));
-            element.removeClass("td-action");
-            var URL = $('base').attr('href') + '/index.php?route=home/basecode';
-            $.ajax({
-                type: "post",
-                url: URL,
-                data: {'key': data.files[0].name, 'id' : PrettyS3FilesManager.Application.htmlspecialchars(data.files[0].name)},
-                dataType: "json",
-                success: function (data) {
-                    var element = $('.action-' + data['id']);
-                    var link = "'"+ data['key'] + "','"+ data['id'] +"'";
-                    element.html('<button onclick="PrettyS3FilesManager.File.delete(' + link +')" class="btn btn-danger delete" ><i class="glyphicon glyphicon-trash"></i> <span>Delete</span> </button> ');
-                }
-            });
-
-        },
+        url: $(this).attr('action')
     });
 
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
-        'option'
+        'option',
+        'redirect',
+        window.location.href.replace(
+            /\/[^\/]*$/,
+            '/cors/result.html?%s'
+        )
     );
 
     if (window.location.hostname === 'blueimp.github.io') {
@@ -91,4 +70,5 @@ $(function () {
                 .call(this, $.Event('done'), {result: result});
         });
     }
+
 });
