@@ -151,7 +151,7 @@ function getFolders(company_id) {
         success: function(result) {
             if (result) {
                 $('#folders_ajax_container span').html(result);
-                $('#folders_ajax_container button').attr('data-id', '');
+                $('#folders_ajax_container button').attr('data-id', $('.folder_name').first().data('id'));
                 $('#folders_ajax_container button').attr('data-company_id', company_id);
                 $('#folders_ajax_container button').show();
             } else {
