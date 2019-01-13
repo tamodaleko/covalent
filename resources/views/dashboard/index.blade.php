@@ -69,8 +69,11 @@
                                                 <button type="button" id="edit_tag_button" class="btn btn-primary" data-toggle="modal" data-target="#editTagModal" data-id="{{ $folders[0]->id }}">
                                                     <i class="fa fa-tags"></i> Edit Tag
                                                 </button>
-                                                <button type="button" class="btn btn-primary full" onclick="$('#download-files-form').submit();">
+                                                <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('download');">
                                                     <i class="fa fa-download"></i> Download Selected
+                                                </button>
+                                                <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('delete', 1);">
+                                                    <i class="fa fa-trash-o"></i> Delete Selected
                                                 </button>
                                             </div>
                                         </div>
@@ -90,12 +93,11 @@
                                         <div class="dashboard-widget-content">
                                             <div>
                                                 <ul class="tree-file">
-                                                    {!! Form::open(['route' => 'files.download.multiple', 'id' => 'download-files-form']) !!}
+                                                    <form id="files-form" method="post" action="">
                                                         @foreach ($folders as $folder)
                                                             @include('partials.folders')
                                                         @endforeach
-                                                    {!! Form::close() !!}
-                                                </ul>
+                                                    </form>
                                             </div>
                                         </div>
                                     </div>

@@ -62,4 +62,5 @@ Route::post('files/{file}/copy', 'FileController@copy')->name('files.copy');
 Route::post('files/{file}/move', 'FileController@move')->name('files.move');
 Route::get('files/{file}/download', 'FileController@download')->name('files.download');
 Route::post('files/download', 'FileController@downloadMultiple')->name('files.download.multiple');
+Route::post('files/delete', 'FileController@deleteMultiple')->name('files.delete.multiple');
 Route::get('files/{file}/destroy', 'FileController@destroy')->name('files.destroy');

@@ -1,6 +1,5 @@
+/*************************************************************************/
 $(function () {
-    // Modals
-    /*************************************************************************/
     $('#uploadFileModal').on('show.bs.modal', function () {
         var folder_id = $('#upload_file_button').data('id');
         $('#folder_id').val(folder_id);
@@ -78,11 +77,6 @@ $(function () {
         var url = '/files/' + id + '/move';
         $('#move_file_form').attr('action', url);
     });
-    /*************************************************************************/
-
-    $('.confirm').click(function (e) {
-        return window.confirm('Are you sure?');
-    });
 
     $('#company').on('change', function () {
         window.location.search = 'company_id=' + $(this).val();
@@ -92,44 +86,105 @@ $(function () {
         window.location.href = '/permissions/' + $(this).val();
     });
 
-    $('.arrow').click(function () {
-        var parent_id = $(this).data('id');
-        
-        if ($(this).find('i').hasClass('fa-caret-down')) {
-            $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-            $('#sub-' + parent_id).hide();
-            $('#files-' + parent_id).hide();
-        } else {
-            $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
-            $('#sub-' + parent_id).show();
-            $('#files-' + parent_id).show();
-        }
-    });
+    $('[data-toggle="tooltip"]').tooltip();
+});
+/*************************************************************************/
 
-    $('.name').click(function () {
-        $('.name').removeClass('active');
-        $(this).addClass('active');
 
-        var folder_id = $(this).data('id');
-        var folder_path = $(this).data('path');
 
-        $('#arrow-' + folder_id + ' i').removeClass('fa-caret-right').addClass('fa-caret-down');
+/*************************************************************************/
+$('.main_container').on('click', '.confirm', function () {
+    return window.confirm('Are you sure?');
+});
+
+$('.main_container').on('click', '.arrow', function () {
+    var parent_id = $(this).data('id');
+    
+    if ($(this).find('i').hasClass('fa-caret-down')) {
+        $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+        $('#sub-' + parent_id).hide();
+        $('#files-' + parent_id).hide();
+    } else {
+        $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+        $('#sub-' + parent_id).show();
+        $('#files-' + parent_id).show();
+    }
+});
+
+$('.main_container').on('click', '.folder_checkbox', function () {
+    var id = $(this).val();
+
+    if ($(this).is(':checked')) {
+        $('#sub-' + id + ' input[type=checkbox]').prop('checked', true);
+    } else {
+        $('#sub-' + id + ' input[type=checkbox]').prop('checked', false);
+    }
+});
+
+$('.main_container').on('click', '.sub_folders_toggle', function () {
+    var folder_id = $(this).data('id');
+    var caret = $('#folder_caret_' + folder_id);
+    var opened = $(':hidden#sub_folders_opened_' + folder_id);
+
+    if (opened.val() === '0') {
         $('#sub-' + folder_id).show();
-        $('#files-' + folder_id).show();
+        opened.val('1');
+    } else {
+        $('#sub-' + folder_id).hide();
+        opened.val('0');
+    }
 
-        $('#upload_file_button').attr('data-id', folder_id);
-        $('#create_folder_button').attr('data-id', folder_id);
-        $('#edit_status_button').attr('data-id', folder_id);
-        $('#edit_tag_button').attr('data-id', folder_id);
-
-        $('#folder_path').html('/' + folder_path);
-    });
+    if (caret.length != 0) {
+        if (caret.find('i').hasClass('fa-caret-down')) {
+            caret.find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+        } else {
+            caret.find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+        }
+    }
 });
 
-$(document).on('change', '#upload_file_input', function () {
-    $('#upload-file-info').html($(this).val());
-    $('#file_upload_proceed').show();
+$('.main_container').on('click', '.name', function () {
+    $('.name').removeClass('active');
+    $(this).addClass('active');
+
+    var folder_id = $(this).data('id');
+    var folder_path = $(this).data('path');
+
+    $('#arrow-' + folder_id + ' i').removeClass('fa-caret-right').addClass('fa-caret-down');
+    $('#sub-' + folder_id).show();
+    $('#files-' + folder_id).show();
+
+    $('#upload_file_button').attr('data-id', folder_id);
+    $('#create_folder_button').attr('data-id', folder_id);
+    $('#edit_status_button').attr('data-id', folder_id);
+    $('#edit_tag_button').attr('data-id', folder_id);
+
+    $('#folder_path').html('/' + folder_path);
 });
+
+$('.main_container').on('click', '.folder_name', function () {
+    var folder_id = $(this).data('id');
+
+    $('.folder_name').removeClass('active');
+    $(this).addClass('active');
+
+    $('#create_folder_button').attr('data-id', folder_id);
+});
+/*************************************************************************/
+
+
+
+/*************************************************************************/
+function fileFormSubmit(type, conf = 0) {
+    if (conf && !confirm('Are you sure?')) {
+        return false;
+    }
+
+    var form = $('#files-form');
+
+    form.attr('action', '/files/' + type);
+    form.submit();
+}
 
 function confSubmit(form) {
     if (!confirm('Are you sure?')) {
@@ -138,10 +193,6 @@ function confSubmit(form) {
 
     form.submit();
 }
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-});
 
 function getFolders(company_id) {
     if (!company_id) {
@@ -165,7 +216,11 @@ function getFolders(company_id) {
         }
     });
 }
+/*************************************************************************/
 
+
+
+/*************************************************************************/
 jQuery(function($) {
     $.fn.select2.amd.require([
         'select2/selection/single',
@@ -219,44 +274,4 @@ jQuery(function($) {
         });
     });
 });
-
-$('.main_container').on('click', '.folder_checkbox', function () {
-    var id = $(this).val();
-
-    if ($(this).is(':checked')) {
-        $('#sub-' + id + ' input[type=checkbox]').prop('checked', true);
-    } else {
-        $('#sub-' + id + ' input[type=checkbox]').prop('checked', false);
-    }
-});
-
-$('.main_container').on('click', '.sub_folders_toggle', function () {
-    var folder_id = $(this).data('id');
-    var caret = $('#folder_caret_' + folder_id);
-    var opened = $(':hidden#sub_folders_opened_' + folder_id);
-
-    if (opened.val() === '0') {
-        $('#sub-' + folder_id).show();
-        opened.val('1');
-    } else {
-        $('#sub-' + folder_id).hide();
-        opened.val('0');
-    }
-
-    if (caret.length != 0) {
-        if (caret.find('i').hasClass('fa-caret-down')) {
-            caret.find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-        } else {
-            caret.find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
-        }
-    }
-});
-
-$('.main_container').on('click', '.folder_name', function () {
-    var folder_id = $(this).data('id');
-
-    $('.folder_name').removeClass('active');
-    $(this).addClass('active');
-
-    $('#create_folder_button').attr('data-id', folder_id);
-});
+/*************************************************************************/

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\File\CopyFileRequest;
+use App\Http\Requests\File\DeleteFilesRequest;
 use App\Http\Requests\File\DownloadFilesRequest;
 use App\Http\Requests\File\MoveFileRequest;
 use App\Http\Requests\File\RenameFileRequest;
@@ -200,6 +201,23 @@ class FileController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    /**
+     * Delete multiple files.
+     *
+     * @param \App\Http\Requests\File\DeleteFilesRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteMultiple(DeleteFilesRequest $request)
+    {
+        $delete = File::whereIn('id', $request->post('files'))->delete();
+
+        if (!$delete) {
+            return redirect()->back()->withError('Files could not be deleted.');
+        }
+
+        return redirect()->back()->withSuccess('Files have been deleted successfully.');
     }
 
     /**
