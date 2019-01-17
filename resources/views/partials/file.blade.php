@@ -5,13 +5,13 @@
         
         <i class="fa {{ $file->getIcon() }}"></i>
         
-        <a href="{{ $file->getLink(true) }}" target="_blank">
+        <!-- <a href="{{ $file->getLink(true) }}" target="_blank"> -->
             @if ($search)
                 <span class="name-prefix">{{ $file->fullName }} - <i style="font-size: 11px;">( /{{ $file->folder->getPath() }} )</i></span>
             @else
                 <span class="name-prefix">{{ $file->fullName }}</span>
             @endif
-        </a>
+        <!-- </a> -->
 
         <span class="create-sub-folder">
 

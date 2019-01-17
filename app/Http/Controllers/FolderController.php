@@ -34,6 +34,15 @@ class FolderController extends Controller
     {
         $validated = $request->validated();
 
+        $notUnique = Folder::where([
+            'parent_folder_id' => $validated['parent_folder_id'],
+            'name' => $validated['name']
+        ])->first();
+
+        if ($notUnique) {
+            return redirect()->back()->withError('Folder name is already taken within selected folder.');
+        }
+
         $folder = Folder::addForCompany(
             $validated['name'],
             $validated['company_id'],
@@ -60,6 +69,15 @@ class FolderController extends Controller
     public function create(CreateFolderRequest $request)
     {
         $validated = $request->validated();
+
+        $notUnique = Folder::where([
+            'parent_folder_id' => $validated['parent_folder_id'],
+            'name' => $validated['name']
+        ])->first();
+
+        if ($notUnique) {
+            return redirect()->back()->withError('Folder name is already taken within selected folder.');
+        }
 
         $folder = Folder::create([
             'parent_folder_id' => $validated['parent_folder_id'],
