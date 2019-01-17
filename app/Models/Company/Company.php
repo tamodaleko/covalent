@@ -25,7 +25,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'logo', 'info', 'status'];
+    protected $fillable = ['name', 'logo', 'status'];
 
     /**
      * Get the users for the company.

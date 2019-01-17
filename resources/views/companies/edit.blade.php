@@ -36,12 +36,6 @@
                                         {{ Form::text('name', $company->name, ['class' => 'form-control', 'placeholder' => 'Name']) }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 left">
-                                    <div class="form-group">
-                                        {{ Form::label('info', 'Info') }}
-                                        {{ Form::text('info', $company->info, ['class' => 'form-control', 'placeholder' => 'Info']) }}
-                                    </div>
-                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}

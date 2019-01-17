@@ -26,7 +26,6 @@ class StoreCompanyRequest extends FormRequest
         return [
             'logo' => 'nullable|image',
             'name' => 'required|string|max:191|unique:companies',
-            'info' => 'required|string|max:191',
             'status' => 'required|integer',
             'folders' => 'nullable|array'
         ];

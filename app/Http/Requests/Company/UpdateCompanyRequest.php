@@ -26,7 +26,6 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'logo' => 'nullable|image',
             'name' => 'required|string|max:191|unique:companies,name,' . $this->route()->company->id,
-            'info' => 'required|string|max:191',
             'status' => 'required|integer',
             'users' => 'nullable|array',
             'folders' => 'nullable|array'
