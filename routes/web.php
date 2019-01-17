@@ -14,6 +14,10 @@ Route::get('/', function () {
 // Auth
 Auth::routes();
 
+// Auth.Verification
+Route::get('thanks', 'Auth\VerificationController@thanks')->name('auth.thanks');
+Route::get('verify/{token}', 'Auth\VerificationController@verify')->name('auth.verify');
+
 // Dashboard
 Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 

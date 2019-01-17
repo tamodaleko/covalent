@@ -19,6 +19,13 @@ class File extends Model
     const S3_URL = 'httpS://s3-us-west-1.amazonaws.com/cybernext/';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

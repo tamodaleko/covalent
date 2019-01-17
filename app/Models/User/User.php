@@ -15,6 +15,13 @@ class User extends Authenticatable
     const STATUS_INACTIVE = 0;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -38,6 +45,16 @@ class User extends Authenticatable
     public function company()
     {
         return $this->belongsTo('App\Models\Company\Company');
+    }
+
+    /**
+     * Get the verification record associated with the user.
+     */
+    public function verification()
+    {
+        return $this->hasOne('App\Models\User\UserVerification')
+            ->where('used', 0)
+            ->orderBy('created_at', 'desc');
     }
 
     /**

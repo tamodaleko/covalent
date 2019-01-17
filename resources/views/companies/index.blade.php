@@ -57,7 +57,7 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @foreach (\App\Models\Folder::getAllowedByCompany($company) as $folder)
+                                                @foreach ($company->getAssignedFolders() as $folder)
                                                     /{{ $folder->getPath() }}<br />
                                                 @endforeach
                                             </td>

@@ -19,6 +19,13 @@ class Folder extends Model
     public $subFolders;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -90,19 +97,10 @@ class Folder extends Model
         $path = $this->name;
         $parent = $this->parentFolder;
 
-        if (!$parent) {
-            return $path;
-        }
-
-        $path = $parent->name . '/' . $path;
-
-        do {
+        while($parent) {
+            $path = $parent->name . '/' . $path;
             $parent = $parent->parentFolder;
-
-            if ($parent) {
-                $path = $parent->name . '/' . $path;
-            }
-        } while ($parent);
+        }
 
         return $path;
     }

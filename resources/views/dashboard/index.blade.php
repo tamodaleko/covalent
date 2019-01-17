@@ -94,6 +94,8 @@
                                             <div>
                                                 <ul class="tree-file">
                                                     <form id="files-form" method="post" action="">
+                                                        {{ csrf_field() }}
+
                                                         @foreach ($folders as $folder)
                                                             @include('partials.folders')
                                                         @endforeach

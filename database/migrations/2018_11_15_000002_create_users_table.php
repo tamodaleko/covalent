@@ -19,11 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('avatar')->nullable();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
             $table->rememberToken();
             $table->boolean('is_admin')->default(false);
-            $table->integer('status')->default(1);
+            $table->boolean('verified')->default(false);
+            $table->integer('status')->default(0);
             $table->timestamps();
 
             $table->foreign('company_id')

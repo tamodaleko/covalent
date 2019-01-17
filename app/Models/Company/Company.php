@@ -14,6 +14,13 @@ class Company extends Model
     const STATUS_INACTIVE = 0;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -201,6 +208,19 @@ class Company extends Model
     public function getAllowedFolders()
     {
         return $this->folders()->pluck('folder_id')->toArray();
+    }
+
+    /**
+     * Get allowed folders.
+     *
+     * @return array
+     */
+    public function getAssignedFolders()
+    {
+        return $this->folders()
+            ->orderBy('parent_folder_id')
+            ->orderBy('created_at')
+            ->get();
     }
 
     /**

@@ -18,6 +18,10 @@
                         </ul>
                     </div>
                 @endif
+
+                @if(Session::has('error'))
+                    <p class="alert alert-danger" style="margin-top: 70px;"><strong>{{ Session::get('error') }}</strong></p>
+                @endif
                 
                 {!! Form::open(['route' => 'login', 'id' => 'login', 'class' => 'form-horizontal form-label-left']) !!}
                     
