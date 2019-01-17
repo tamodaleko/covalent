@@ -41,6 +41,12 @@
                     <p class="alert alert-info">There are no users found.</p>
                 @else
                     <div class="dashboard-widget-content a">
+                        @if ($companyName)
+                            <div class="col-md-12 col-sm-12 col-xs-12 label-top">
+                                <label>{{ $companyName }} Users</label>
+                            </div>
+                        @endif
+                        
                         <div class="contentfrefix" id="contentfrefix1">
                             <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                 <thead>
@@ -48,7 +54,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Company</th>
+                                        <th>Folders</th>
                                         <th>Admin</th>
                                         <th>Status</th>
                                         <th>Joined</th>
@@ -61,7 +67,11 @@
                                             <td>#{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->company ? $user->company->name : '-' }}</td>
+                                            <td>
+                                                @foreach ($user->getAssignedFolders() as $folder)
+                                                    /{{ $folder->getPath() }}<br />
+                                                @endforeach
+                                            </td>
                                             <td>
                                                 @if ($user->is_admin)
                                                     <span style="color: green;"><b>Yes</b></span>

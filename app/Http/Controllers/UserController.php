@@ -6,6 +6,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UpdateUserPasswordRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
+use App\Models\Company\Company;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 
@@ -31,17 +32,22 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = [];
+        $companyName = null;
 
         if ($request->company_id) {
             if ($request->company_id === 'no-company') {
+                $companyName = 'No Company Selected';
                 $users = User::where('company_id', null)->get();
             } else {
+                $company = Company::find($request->company_id);
+                $companyName = $company ? $company->name : null;
                 $users = User::where('company_id', $request->company_id)->get();
             }
         }
 
         return view('users.index', [
-            'users' => $users
+            'users' => $users,
+            'companyName' => $companyName
         ]);
     }
 

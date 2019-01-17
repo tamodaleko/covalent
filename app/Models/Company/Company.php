@@ -211,7 +211,7 @@ class Company extends Model
     }
 
     /**
-     * Get allowed folders.
+     * Get assigned folders.
      *
      * @return array
      */

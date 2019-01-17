@@ -205,4 +205,17 @@ class User extends Authenticatable
     {
         return $this->folders()->sync($folders, false);
     }
+
+    /**
+     * Get assigned folders.
+     *
+     * @return array
+     */
+    public function getAssignedFolders()
+    {
+        return $this->folders()
+            ->orderBy('parent_folder_id')
+            ->orderBy('created_at')
+            ->get();
+    }
 }
