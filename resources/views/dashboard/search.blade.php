@@ -47,8 +47,11 @@
                                             </h4>
                                             
                                             <div class="btn-sec">
-                                                <button type="button" class="btn btn-primary full" onclick="$('#download-files-form').submit();">
+                                                <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('download');">
                                                     <i class="fa fa-download"></i> Download Selected
+                                                </button>
+                                                <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('delete', 1);">
+                                                    <i class="fa fa-trash-o"></i> Delete Selected
                                                 </button>
                                             </div>
                                         </div>
@@ -71,7 +74,9 @@
                                                     <p class="alert alert-info">There are no files found.</p>
                                                 @else
                                                     <ul class="tree-file">
-                                                        {!! Form::open(['route' => 'files.download.multiple', 'id' => 'download-files-form']) !!}
+                                                        <form id="files-form" method="post" action="">
+                                                            {{ csrf_field() }}
+                                                            
                                                             <span>
                                                                 <ul class="tree-file">
                                                                     @foreach ($files as $file)
@@ -79,7 +84,7 @@
                                                                     @endforeach
                                                                 </ul>
                                                             </span>
-                                                        {!! Form::close() !!}
+                                                        </form>
                                                     </ul>
                                                 @endif
                                             </div>

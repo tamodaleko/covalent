@@ -63,9 +63,9 @@
                                             </td>
                                             <td>
                                                 @if ($company->status === \App\Models\Company\Company::STATUS_ACTIVE)
-                                                    <span style="color: green;"><b>Active</b></span>
+                                                    <span class="green" style="margin-left: 15px;"></span>
                                                 @else
-                                                    <span style="color: orange;"><b>In-Active</b></span>
+                                                    <span class="red" style="margin-left: 15px;"></span>
                                                 @endif
                                             </td>
                                             <td class="center">
