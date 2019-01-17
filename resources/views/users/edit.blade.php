@@ -37,8 +37,8 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group">
-                                        {{ Form::label('company_id', 'Company') }}
-                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), $user->company_id, ['class' => 'form-control', 'onchange' => 'getFolders(this.value)']) }}
+                                        {{ Form::label('is_admin', 'Admin') }}
+                                        {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], $user->is_admin, ['id' => 'admin', 'class' => 'form-control']) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 left">
@@ -60,9 +60,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
-                                    <div class="form-group">
-                                        {{ Form::label('is_admin', 'Admin') }}
-                                        {{ Form::select('is_admin', [0 => 'No', 1 => 'Yes'], $user->is_admin, ['class' => 'form-control']) }}
+                                    <div class="form-group" id="company_form_group" @if($user->is_admin) style="display: none;" @endif>
+                                        {{ Form::label('company_id', 'Company') }}
+                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), $user->company_id, ['class' => 'form-control', 'onchange' => 'getFolders(this.value)']) }}
                                     </div>
                                 </div>
                                 <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">

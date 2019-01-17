@@ -23,18 +23,21 @@
                                         {{ Form::file('logo', ['class' => 'form-control']) }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 right">
+                                <div class="clearfix"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('name', 'Name') }}
                                         {{ Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => 'Name']) }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 right">
+                                <div class="clearfix"></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 left">
                                     <div class="form-group">
                                         {{ Form::label('status', 'Status') }}
                                         {{ Form::select('status', \App\Models\Company\Company::getStatusList(), old('status'), ['class' => 'form-control']) }}
                                     </div>
                                 </div>
+                                <div class="clearfix"></div>
                                 @if (count($folders))
                                     <div class="col-md-6 col-sm-6 col-xs-12 left">
                                         <br />

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Permission\UpdatePermissionsRequest;
 use App\Models\Company\Company;
 use App\Models\User\User;
+use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
@@ -21,21 +22,31 @@ class PermissionController extends Controller
     /**
      * Display a index page.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $company_id = $request->session()->get('company_id');
+
+        if ($company_id) {
+            return redirect()->route('permissions.edit', ['company_id' => $company_id]);
+        }
+
         return view('permissions.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @param \App\Models\Company\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company)
+    public function edit(Request $request, Company $company)
     {
+        $request->session()->put('company_id', $company->id);
+
         return view('permissions.edit', [
             'company' => $company,
             'users' => $company->users,

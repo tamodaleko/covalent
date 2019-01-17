@@ -31,7 +31,7 @@ class UpdateUserRequest extends FormRequest
             'password' => 'nullable|string|min:6|max:191|confirmed',
             'status' => 'required|integer',
             'is_admin' => 'required|boolean',
-            'folders' => 'nullable|array'
+            'folders' => 'required|array'
         ];
     }
 }

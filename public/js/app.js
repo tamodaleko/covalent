@@ -86,6 +86,18 @@ $(function () {
         window.location.href = '/permissions/' + $(this).val();
     });
 
+    $('#admin').on('change', function () {
+        var is_admin = $(this).val();
+
+        if (is_admin == 1) {
+            $('#company_form_group').hide();
+            $('#folders_ajax_container').hide();
+        } else {
+            $('#company_form_group').show();
+            $('#folders_ajax_container').show();
+        }
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 });
 /*************************************************************************/
