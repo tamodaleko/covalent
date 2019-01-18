@@ -3,6 +3,8 @@ $(function () {
     $('#uploadFileModal').on('show.bs.modal', function () {
         var folder_id = $('#upload_file_button').data('id');
         $('#folder_id').val(folder_id);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#uploadFileModal').on('hidden.bs.modal', function () {
@@ -13,10 +15,10 @@ $(function () {
         var folder_id = $('#create_folder_button').data('id');
         var company_id = $('#create_folder_button').data('company_id');
 
-        $('#store-folder-selected-folder').html('<small><b>' + $('#folder_path').text() + '</b></small>');
-
         $('#company_id').val(company_id);
         $('#parent_folder_id').val(folder_id);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#createFolderModal').on('shown.bs.modal', function (e) {
@@ -31,12 +33,16 @@ $(function () {
         var folder_id = $('#edit_status_button').data('id');
         var url = '/folders/' + folder_id + '/status';
         $('#edit_status_form').attr('action', url);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#editTagModal').on('show.bs.modal', function () {
         var folder_id = $('#edit_tag_button').data('id');
         var url = '/folders/' + folder_id + '/tag';
         $('#edit_tag_form').attr('action', url);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#imagePreviewModal').on('show.bs.modal', function (e) {
@@ -48,18 +54,24 @@ $(function () {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/rename';
         $('#rename_folder_form').attr('action', url);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#copyFolderModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/copy';
         $('#copy_folder_form').attr('action', url);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#moveFolderModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/move';
         $('#move_folder_form').attr('action', url);
+
+        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#renameFileModal').on('show.bs.modal', function (e) {
@@ -184,7 +196,7 @@ $('.main_container').on('click', '.folder_name', function () {
     $(this).addClass('active');
 
     $('#create_folder_button').attr('data-id', folder_id);
-    $('#create-folder-selected-folder').html('<small><b>/' + folder_path + '</b></small>');
+    $('.selected-path').html('<small><b>/' + folder_path + '</b></small>');
 });
 /*************************************************************************/
 
