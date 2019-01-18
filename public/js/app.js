@@ -8,7 +8,7 @@ $(function () {
     });
 
     $('#uploadFileModal').on('hidden.bs.modal', function () {
-        location.reload();
+        $("table tbody.files").empty();
     });
 
     $('#storeFolderModal').on('show.bs.modal', function () {

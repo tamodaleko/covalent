@@ -20,6 +20,11 @@ $(function () {
         url: $(this).attr('action')
     });
 
+    $('#fileupload').bind('fileuploadprogress', function (e, data) {
+        // Log the current bitrate for this upload:
+        console.log(data.bitrate);
+    });
+
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
         'option',

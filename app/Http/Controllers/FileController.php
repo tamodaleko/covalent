@@ -33,41 +33,42 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        $file = $request->file('file');
-        $clientName = $file->getClientOriginalName();
-
-        $name = pathinfo($clientName, PATHINFO_FILENAME);
-        $extension = pathinfo($clientName, PATHINFO_EXTENSION);
-
-        $fileService = new FileService($file);
-
-        $folder = Folder::find($request->folder_id);
-        $filename = File::getValidName($folder->id, $name, $extension);
-
         $responseJson = new \stdClass();
+        $files = $request->file('files');
 
-        $response = [
-            'name' => $clientName,
-            'size' => $file->getClientSize()
-        ];
+        foreach ($files as $file) {
+            $clientName = $file->getClientOriginalName();
 
-        if (!$fileService->uploadToS3($folder->getPath(), $filename . '.' . $extension)) {
-            $response['error'] = 'The file could not be uploaded.';
+            $name = pathinfo($clientName, PATHINFO_FILENAME);
+            $extension = pathinfo($clientName, PATHINFO_EXTENSION);
+
+            $fileService = new FileService($file);
+
+            $folder = Folder::find($request->folder_id);
+            $filename = File::getValidName($folder->id, $name, $extension);
+
+            $response = [
+                'name' => $clientName,
+                'size' => $file->getClientSize()
+            ];
+
+            if (!$fileService->uploadToS3($folder->getPath(), $filename . '.' . $extension)) {
+                $response['error'] = 'The file could not be uploaded.';
+            } else {
+                $fileRecord = File::create([
+                    'folder_id' => $request->folder_id,
+                    'name' => $filename,
+                    'extension' => $extension,
+                    'size' => $file->getClientSize()
+                ]);
+
+                $response['thumbnailUrl'] = $fileRecord->isViewable() ? $fileRecord->getLink() : '';
+                $response['url'] = $fileRecord->getLink(true);
+            }
+
             $responseJson->files[] = $response;
-            return response()->json($responseJson);
         }
 
-        $fileRecord = File::create([
-            'folder_id' => $request->folder_id,
-            'name' => $filename,
-            'extension' => $extension,
-            'size' => $file->getClientSize()
-        ]);
-
-        $response['thumbnailUrl'] = $fileRecord->isViewable() ? $fileRecord->getLink() : '';
-        $response['url'] = $fileRecord->getLink(true);
-
-        $responseJson->files[] = $response;
         return response()->json($responseJson);
     }
 

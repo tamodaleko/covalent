@@ -29,7 +29,7 @@
                                     <span class="btn btn-success fileinput-button">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         <span>Select files...</span>
-                                        <input type="file" name="file">
+                                        <input type="file" name="files[]" multiple>
                                     </span>
                                     <!-- The global file processing state -->
                                     <span class="fileupload-process"></span>
