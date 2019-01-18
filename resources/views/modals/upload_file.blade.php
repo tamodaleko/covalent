@@ -31,6 +31,10 @@
                                         <span>Select files...</span>
                                         <input type="file" name="files[]" multiple>
                                     </span>
+                                    <button id="start_upload" type="submit" class="btn btn-primary start" style="display: none;">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span>Start upload</span>
+                                    </button>
                                     <!-- The global file processing state -->
                                     <span class="fileupload-process"></span>
                                 </div>

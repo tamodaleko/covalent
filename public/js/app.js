@@ -112,6 +112,10 @@ $(function () {
         }
     });
 
+    $('input:file').change(function () {
+        $('#start_upload').show();
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 });
 /*************************************************************************/
