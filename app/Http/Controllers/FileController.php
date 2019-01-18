@@ -64,6 +64,9 @@ class FileController extends Controller
             'size' => $file->getClientSize()
         ]);
 
+        $response['thumbnailUrl'] = $fileRecord->isViewable() ? $fileRecord->getLink() : '';
+        $response['url'] = $fileRecord->getLink(true);
+
         $responseJson->files[] = $response;
         return response()->json($responseJson);
     }
