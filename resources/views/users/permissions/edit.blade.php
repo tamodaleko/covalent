@@ -25,18 +25,20 @@
 
                             {!! Form::model($user, ['method' => 'PATCH', 'route' => ['users.permissions.update', $user->id]]) !!}
 
-                                <div class="dashboard-widget-content">
-                                    <div>
-                                        <ul class="tree-file">
-                                            @foreach ($folders as $folder)
-                                                @include('partials.permissions.folders')
-                                            @endforeach
-                                        </ul>
+                                @if ($user->company && $folders)
+                                    <div class="dashboard-widget-content">
+                                        <div>
+                                            <ul class="tree-file">
+                                                @foreach ($folders as $folder)
+                                                    @include('partials.permissions.folders')
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="{{ $user->company_id }}">
+                                            <i class="fa fa-folder-open-o"></i> Create Folder
+                                        </button>
                                     </div>
-                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="{{ $user->company_id }}">
-                                        <i class="fa fa-folder-open-o"></i> Create Folder
-                                    </button>
-                                </div>
+                                @endif
 
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     @if ($user->company && $folders)

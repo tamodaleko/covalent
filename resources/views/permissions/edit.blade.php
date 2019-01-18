@@ -54,23 +54,25 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <br />
-                                            <div class="form-group">
-                                                {{ Form::label('folders', 'Folders:') }}
-                                                
-                                                <ul class="tree-file">
-                                                    @foreach ($folders as $folder)
-                                                        @include('partials.permissions.folders', ['selected' => []])
-                                                    @endforeach
-                                                </ul>
+                                    @if ($users->count() && $folders)
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <br />
+                                                <div class="form-group">
+                                                    {{ Form::label('folders', 'Folders:') }}
+                                                    
+                                                    <ul class="tree-file">
+                                                        @foreach ($folders as $folder)
+                                                            @include('partials.permissions.folders', ['selected' => []])
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="{{ $company->id }}">
+                                                    <i class="fa fa-folder-open-o"></i> Create Folder
+                                                </button>
                                             </div>
-                                            <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="{{ $company->id }}">
-                                                <i class="fa fa-folder-open-o"></i> Create Folder
-                                            </button>
                                         </div>
-                                    </div>
+                                    @endif
 
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
