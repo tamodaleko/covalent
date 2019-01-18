@@ -13,6 +13,8 @@ $(function () {
         var folder_id = $('#create_folder_button').data('id');
         var company_id = $('#create_folder_button').data('company_id');
 
+        $('#store-folder-selected-folder').html('<small><b>' + $('#folder_path').text() + '</b></small>');
+
         $('#company_id').val(company_id);
         $('#parent_folder_id').val(folder_id);
     });
@@ -176,11 +178,13 @@ $('.main_container').on('click', '.name', function () {
 
 $('.main_container').on('click', '.folder_name', function () {
     var folder_id = $(this).data('id');
+    var folder_path = $(this).data('path');
 
     $('.folder_name').removeClass('active');
     $(this).addClass('active');
 
     $('#create_folder_button').attr('data-id', folder_id);
+    $('#create-folder-selected-folder').html('<small><b>/' + folder_path + '</b></small>');
 });
 /*************************************************************************/
 

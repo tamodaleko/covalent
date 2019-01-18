@@ -14,7 +14,7 @@
         <i class="fa fa-folder-open-o"></i>
         
         <span>
-            <a href="javascript:;" class="sub_folders_toggle folder_name" data-id="{{ $folder->id }}">
+            <a href="javascript:;" class="sub_folders_toggle folder_name" data-id="{{ $folder->id }}" data-path="{{ $folder->getPath() }}">
                 <span class="name-prefix-perm">{{ $folder->name }}</span>
             </a>
         </span>

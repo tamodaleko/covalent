@@ -11,6 +11,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Will create folder under: </span><span id="create-folder-selected-folder">/</span>
+                    </div>
+                </div>
                 <div class="row" style="margin-top: 5px;">
                     <form method="POST" action="{{ route('folders.create') }}">
 
