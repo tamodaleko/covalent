@@ -121,7 +121,14 @@ class UserController extends Controller
             return redirect()->route('users.index')->withError('User could not be updated.');
         }
 
-        $user->updatePermissions($request->folders);
+        $folders = !$validated['is_admin'] ? $request->folders : [];
+
+        $user->updatePermissions($folders);
+
+        if ($validated['is_admin']) {
+            $user->company_id = null;
+            $user->save();
+        }
 
         return redirect()->route('users.index')->withSuccess('User has been updated successfully.');
     }

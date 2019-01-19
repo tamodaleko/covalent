@@ -31,7 +31,7 @@ class StoreUserRequest extends FormRequest
             'password' => 'required|string|min:6|max:191|confirmed',
             'status' => 'required|integer',
             'is_admin' => 'required|boolean',
-            'folders' => 'sometimes|nullable|array'
+            'folders' => 'sometimes|array'
         ];
     }
 }

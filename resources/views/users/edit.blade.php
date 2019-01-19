@@ -66,14 +66,14 @@
                                     </div>
                                 </div>
                                 <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">
-                                    @if ($folders)
-                                        <span>
+                                    <span>
+                                        @if ($folders && !$user->is_admin)
                                             @include('partials.permissions.folders_ajax')
-                                        </span>
-                                        <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders[0]->id }}" data-company_id="{{ $user->company_id }}">
-                                            <i class="fa fa-folder-open-o"></i> Create Folder
-                                        </button>
-                                    @endif
+                                        @endif
+                                    </span>
+                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders ? $folders[0]->id : '' }}" data-company_id="{{ $user->company_id }}" @if (!$folders || $user->is_admin) style="display: none;" @endif>
+                                        <i class="fa fa-folder-open-o"></i> Create Folder
+                                    </button>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
                                     {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}

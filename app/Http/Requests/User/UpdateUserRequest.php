@@ -27,11 +27,11 @@ class UpdateUserRequest extends FormRequest
             'first_name' => 'required|string|max:191',
             'last_name' => 'required|string|max:191',
             'email' => 'required|email|max:191|unique:users,email,' . $this->route()->user->id,
-            'company_id' => 'required|integer|exists:companies,id',
+            'company_id' => 'sometimes|nullable|integer|exists:companies,id',
             'password' => 'nullable|string|min:6|max:191|confirmed',
             'status' => 'required|integer',
             'is_admin' => 'required|boolean',
-            'folders' => 'required|array'
+            'folders' => 'sometimes|array'
         ];
     }
 }
