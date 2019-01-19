@@ -36,13 +36,13 @@
                     </a>
                 </span>
                 
-                <span data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                <span data-toggle="modal" data-target="#moveFolderModal" data-id="{{ $folder->id }}" data-company_id="{{ $company->id }}" style="margin-right: 5px;">
                     <a href="javascript:;" data-toggle="tooltip" title="Move Folder">
                         <i class="fa fa-folder-o"></i>
                     </a>
                 </span>
 
-                <span data-toggle="modal" data-target="#copyFolderModal" data-id="{{ $folder->id }}" style="margin-right: 5px;">
+                <span data-toggle="modal" data-target="#copyFolderModal" data-id="{{ $folder->id }}" data-company_id="{{ $company->id }}" style="margin-right: 5px;">
                     <a href="javascript:;" data-toggle="tooltip" title="Copy Folder">
                         <i class="fa fa-copy"></i>
                     </a>

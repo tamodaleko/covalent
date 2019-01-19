@@ -133,4 +133,28 @@ class CompanyController extends Controller
             'selected' => []
         ]);
     }
+
+    /**
+     * Get folders for copy ajax.
+     *
+     * @param \App\Models\Company\Company $company
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function foldersCopy(Company $company, Folder $folder)
+    {
+        return response()->json($company->getFoldersForCopy($folder));
+    }
+
+    /**
+     * Get folders for move ajax.
+     *
+     * @param \App\Models\Company\Company $company
+     * @param \App\Models\Folder $folder
+     * @return \Illuminate\Http\Response
+     */
+    public function foldersMove(Company $company, Folder $folder)
+    {
+        return response()->json($company->getFoldersForMove($folder));
+    }
 }

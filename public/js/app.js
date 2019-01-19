@@ -60,18 +60,60 @@ $(function () {
 
     $('#copyFolderModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
+        var company_id = $(e.relatedTarget).data('company_id');
         var url = '/folders/' + id + '/copy';
         $('#copy_folder_form').attr('action', url);
 
         $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
+
+        $('#parent_folder_id_copy').empty();
+
+        $.ajax({
+            url: '/companies/' + company_id + '/folders/' + id + '/copy',
+            cache: false,
+            success: function(result) {
+                var option = new Option('Select Folder', '');
+                $(option).html('Select Folder');
+                $('#parent_folder_id_copy').append(option);
+
+                if (result) {
+                    $.each(result, function( index, value ) {
+                        var option = new Option(value['path'], value['id']);
+                        $(option).html(value['path']);
+                        $('#parent_folder_id_copy').append(option);
+                    });
+                }
+            }
+        });
     });
 
     $('#moveFolderModal').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
+        var company_id = $(e.relatedTarget).data('company_id');
         var url = '/folders/' + id + '/move';
         $('#move_folder_form').attr('action', url);
 
         $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
+
+        $('#parent_folder_id_move').empty();
+
+        $.ajax({
+            url: '/companies/' + company_id + '/folders/' + id + '/move',
+            cache: false,
+            success: function(result) {
+                var option = new Option('Select Folder', '');
+                $(option).html('Select Folder');
+                $('#parent_folder_id_move').append(option);
+
+                if (result) {
+                    $.each(result, function( index, value ) {
+                        var option = new Option(value['path'], value['id']);
+                        $(option).html(value['path']);
+                        $('#parent_folder_id_move').append(option);
+                    });
+                }
+            }
+        });
     });
 
     $('#renameFileModal').on('show.bs.modal', function (e) {

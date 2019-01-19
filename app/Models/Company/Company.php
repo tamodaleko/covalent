@@ -237,4 +237,70 @@ class Company extends Model
 
         return File::search($search, $this->getAllowedFolders());
     }
+
+    /**
+     * Get folders for copy.
+     *
+     * @param \App\Models\Folder $folder
+     * @return array
+     */
+    public function getFoldersForCopy(Folder $folder)
+    {
+        $result = [];
+        $path = $folder->getPath();
+
+        foreach ($this->getAssignedFolders() as $singleFolder) {
+            if ($folder->id == $singleFolder->id) {
+                continue;
+            }
+
+            $singlePath = $singleFolder->getPath();
+
+            if (substr($singlePath, 0, strlen($path)) === $path) {
+                continue;
+            }
+
+            $result[] = [
+                'id' => $singleFolder->id,
+                'path' => $singlePath
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get folders for move.
+     *
+     * @param \App\Models\Folder $folder
+     * @return array
+     */
+    public function getFoldersForMove(Folder $folder)
+    {
+        $result = [];
+        $path = $folder->getPath();
+
+        foreach ($this->getAssignedFolders() as $singleFolder) {
+            if ($folder->id == $singleFolder->id) {
+                continue;
+            }
+
+            if ($folder->parent_folder_id == $singleFolder->id) {
+                continue;
+            }
+
+            $singlePath = $singleFolder->getPath();
+
+            if (substr($singlePath, 0, strlen($path)) === $path) {
+                continue;
+            }
+
+            $result[] = [
+                'id' => $singleFolder->id,
+                'path' => $singlePath
+            ];
+        }
+
+        return $result;
+    }
 }

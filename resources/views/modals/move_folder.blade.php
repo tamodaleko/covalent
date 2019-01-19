@@ -23,14 +23,7 @@
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <select name="parent_folder_id" class="form-control">
-                                    <option value="">Select Folder</option>
-                                    
-                                    @foreach (\App\Models\Folder::getAllowedByCompany($company) as $folder)
-                                        <option value="{{ $folder->id }}">
-                                            {{ $folder->name }} ( /{{$folder->getPath() }} )
-                                        </option>
-                                    @endforeach
+                                <select id="parent_folder_id_move" name="parent_folder_id" class="form-control">
                                 </select>
                             </div>
                         </div>
