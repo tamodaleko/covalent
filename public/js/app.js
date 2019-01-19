@@ -54,8 +54,6 @@ $(function () {
         var id = $(e.relatedTarget).data('id');
         var url = '/folders/' + id + '/rename';
         $('#rename_folder_form').attr('action', url);
-
-        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
     $('#copyFolderModal').on('show.bs.modal', function (e) {
@@ -63,8 +61,6 @@ $(function () {
         var company_id = $(e.relatedTarget).data('company_id');
         var url = '/folders/' + id + '/copy';
         $('#copy_folder_form').attr('action', url);
-
-        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
 
         $('#parent_folder_id_copy').empty();
 
@@ -92,8 +88,6 @@ $(function () {
         var company_id = $(e.relatedTarget).data('company_id');
         var url = '/folders/' + id + '/move';
         $('#move_folder_form').attr('action', url);
-
-        $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
 
         $('#parent_folder_id_move').empty();
 
