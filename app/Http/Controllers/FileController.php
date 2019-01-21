@@ -64,6 +64,8 @@ class FileController extends Controller
 
                 $response['thumbnailUrl'] = $fileRecord->isViewable() ? $fileRecord->getLink() : '';
                 $response['url'] = $fileRecord->getLink(true);
+                $response['folder_id'] = $folder->id;
+                $response['html'] = view('partials.file', ['file' => $fileRecord, 'search' => false])->render();
             }
 
             $responseJson->files[] = $response;

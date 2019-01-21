@@ -18,6 +18,11 @@ $(function () {
     $('#fileupload').fileupload({
         // forceIframeTransport: true,
         url: $(this).attr('action')
+    })
+    .bind('fileuploaddone', function (e, data) {
+        if (data.result.files[0].folder_id) {
+            $('span#files-' + data.result.files[0].folder_id + ' ul').append(data.result.files[0].html);
+        }
     });
 
     // Enable iframe cross-domain access via redirect option:
