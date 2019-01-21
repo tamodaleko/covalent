@@ -72,6 +72,16 @@ class UserController extends Controller
         $validated = $request->validated();
         $validated['password'] = bcrypt($validated['password']);
 
+        if (!$validated['is_admin'] && is_null($validated['company_id'])) {
+            return redirect()->back()->withInput($validated)->withError('You have to choose a company.');
+        }
+
+        if ($validated['is_admin']) {
+            $validated['company_id'] = null;
+        }
+
+        $validated['verified'] = 1;
+
         $user = User::create($validated);
 
         if (!$user) {
@@ -80,7 +90,13 @@ class UserController extends Controller
 
         $user->updatePermissions($request->folders);
 
-        return redirect()->route('users.index')->withSuccess('User has been created successfully.');
+        if ($user->is_admin) {
+            return redirect()->route('users.index')
+                ->withSuccess('User has been created successfully.');
+        }
+
+        return redirect()->route('users.permissions.edit', ['id' => $user->id])
+            ->withSuccess('User has been created successfully.');
     }
 
     /**
@@ -115,6 +131,18 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
+        if (!$validated['is_admin'] && is_null($validated['company_id'])) {
+            return redirect()->back()->withInput($validated)->withError('You have to choose a company.');
+        }
+
+        if (!$validated['is_admin'] && (!isset($validated['folders'])) || !$validated['folders']) {
+            return redirect()->back()->withInput($validated)->withError('You have to choose a folder.');
+        }
+
+        if ($validated['is_admin']) {
+            $validated['company_id'] = null;
+        }
+
         $user->fill($validated);
 
         if (!$user->save()) {
@@ -124,11 +152,6 @@ class UserController extends Controller
         $folders = !$validated['is_admin'] ? $request->folders : [];
 
         $user->updatePermissions($folders);
-
-        if ($validated['is_admin']) {
-            $user->company_id = null;
-            $user->save();
-        }
 
         return redirect()->route('users.index')->withSuccess('User has been updated successfully.');
     }

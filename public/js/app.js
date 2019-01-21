@@ -142,9 +142,13 @@ $(function () {
         if (is_admin == 1) {
             $('#company_form_group').hide();
             $('#folders_ajax_container').hide();
+            $('#save-and-manage-button').hide();
+            $('#save-button').show();
         } else {
             $('#company_form_group').show();
             $('#folders_ajax_container').show();
+            $('#save-and-manage-button').show();
+            $('#save-button').hide();
         }
     });
 
