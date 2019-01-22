@@ -62,7 +62,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group" id="company_form_group" @if($user->is_admin) style="display: none;" @endif>
                                         {{ Form::label('company_id', 'Company') }}
-                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), $user->company_id, ['class' => 'form-control', 'onchange' => 'getFolders(this.value)']) }}
+                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), $user->company_id, ['class' => 'form-control', 'onchange' => 'getFolders(this.value, '.$user->id.')']) }}
                                     </div>
                                 </div>
                                 <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">

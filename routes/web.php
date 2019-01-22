@@ -28,7 +28,7 @@ Route::post('permissions/{company}', 'PermissionController@update')->name('permi
 
 // Companies
 Route::resource('companies', 'CompanyController')->except(['show']);
-Route::get('companies/{company}/folders', 'CompanyController@folders')->name('companies.folders');
+Route::get('companies/{company}/folders/{user}', 'CompanyController@folders')->name('companies.folders');
 Route::get('companies/{company}/folders/{folder}/copy', 'CompanyController@foldersCopy')->name('companies.folders.copy');
 Route::get('companies/{company}/folders/{folder}/move', 'CompanyController@foldersMove')->name('companies.folders.move');
 

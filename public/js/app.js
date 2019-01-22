@@ -313,14 +313,15 @@ function confSubmit(form) {
     form.submit();
 }
 
-function getFolders(company_id) {
-    if (!company_id) {
+function getFolders(company_id, user_id) {
+    if (!company_id || !user_id) {
         $('#folders_ajax_container span').html('');
         $('#folders_ajax_container button').hide();
+        return;
     }
 
     $.ajax({
-        url: '/companies/' + company_id + '/folders',
+        url: '/companies/' + company_id + '/folders/' + user_id,
         cache: false,
         success: function(result) {
             if (result) {

@@ -4,7 +4,7 @@
     
     <ul class="tree-file" id="permission-folders">
         @foreach ($folders as $folder)
-            @include('partials.permissions.folders')
+            @include('partials.permissions.folders', ['selected' => $selected])
         @endforeach
     </ul>
 </div>
