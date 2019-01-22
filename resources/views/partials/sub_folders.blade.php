@@ -1,12 +1,10 @@
 <li>
     <span>
-        @if (count($folder->subFolders) || count($folder->files))
-            <a href="javascript:;" class="arrow" id="arrow-{{ $folder->id }}" data-id="{{ $folder->id }}">
-                <span><i class="fa fa-caret-right"></i></span>
-            </a>
-        @else
-            <span class="no-sub"></span>
-        @endif
+        <a href="javascript:;" class="arrow" id="arrow-{{ $folder->id }}" data-id="{{ $folder->id }}" @if (!count($folder->subFolders) && !count($folder->files)) style="display: none;" @endif>
+            <span><i class="fa fa-caret-right"></i></span>
+        </a>
+
+        <span id="nosub-{{ $folder->id }}" class="no-sub" @if (count($folder->subFolders) || count($folder->files)) style="display: none;" @endif></span>
         
         <i class="fa fa-folder-open-o"></i>
 
@@ -61,7 +59,5 @@
         </span>
     @endif
 
-    @if (count($folder->files))
-        @include('partials.files', ['sub' => true])
-    @endif
+    @include('partials.files', ['sub' => true])
 </li>

@@ -8,7 +8,8 @@ $(function () {
     });
 
     $('#uploadFileModal').on('hidden.bs.modal', function () {
-        $("table tbody.files").empty();
+        $('table tbody.files').empty();
+        $('#start_upload').hide();
     });
 
     $('#storeFolderModal').on('show.bs.modal', function () {

@@ -22,6 +22,9 @@ $(function () {
     .bind('fileuploaddone', function (e, data) {
         if (data.result.files[0].folder_id) {
             $('span#files-' + data.result.files[0].folder_id + ' ul').append(data.result.files[0].html);
+            $('#nosub-' + data.result.files[0].folder_id).hide();
+            $('#arrow-' + data.result.files[0].folder_id).html('<span><i class="fa fa-caret-down"></i></span>');
+            $('#arrow-' + data.result.files[0].folder_id).show();
         }
     });
 
