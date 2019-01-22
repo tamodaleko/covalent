@@ -17,21 +17,19 @@
                     </div>
                 </div>
                 <div class="row" style="margin-top: 5px;">
-                    <form method="POST" action="{{ route('folders.create') }}">
-
-                        {!! csrf_field() !!}
+                    <form method="POST" action="{{ route('folders.create') }}" id="create_folder_form">
 
                         <input type="hidden" id="input_company_id" name="company_id">
                         <input type="hidden" id="input_parent_folder_id" name="parent_folder_id">
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <input type="text" name="name" class="form-control" placeholder="Folder Name">
+                                <input type="text" id="input_name" name="name" class="form-control" placeholder="Folder Name">
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" id="create_folder_submit" class="btn btn-primary">
                                     <i class="fa fa-check"></i> Save
                                 </button>
                             </div>

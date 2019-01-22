@@ -146,6 +146,9 @@
                     <p class="alert alert-danger" style="margin-top: 70px;"><strong>{{ Session::get('error') }}</strong></p>
                 @endif
 
+                <p id="ajax-alert-success" class="alert alert-success" style="font-weight: bold; margin-top: 70px; display:none;"></p>
+                <p id="ajax-alert-error" class="alert alert-danger" style="font-weight: bold; margin-top: 70px; display: none;"></p>
+
                 @yield('content')
             </div>
             

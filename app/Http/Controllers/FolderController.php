@@ -11,6 +11,7 @@ use App\Http\Requests\Folder\UpdateFolderStatusRequest;
 use App\Http\Requests\Folder\UpdateFolderTagRequest;
 use App\Models\Folder;
 use App\Services\AmazonS3Service;
+use Illuminate\Http\Request;
 
 class FolderController extends Controller
 {
@@ -63,36 +64,62 @@ class FolderController extends Controller
     /**
      * Create new folder.
      *
-     * @param \App\Http\Requests\Folder\CreateFolderRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateFolderRequest $request)
+    public function create(Request $request)
     {
-        $validated = $request->validated();
+        $parent_folder_id = $request->parent_folder_id;
+        $name = $request->name;
+
+        if (!$name) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Folder name is required.'
+            ], 200);
+        }
 
         $notUnique = Folder::where([
-            'parent_folder_id' => $validated['parent_folder_id'],
-            'name' => $validated['name']
+            'parent_folder_id' => $parent_folder_id,
+            'name' => $name
         ])->first();
 
         if ($notUnique) {
-            return redirect()->back()->withError('Folder name is already taken within selected folder.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Folder name is already taken within selected folder.'
+            ], 200);
         }
 
         $folder = Folder::create([
-            'parent_folder_id' => $validated['parent_folder_id'],
-            'name' => $validated['name']
+            'parent_folder_id' => $parent_folder_id,
+            'name' => $name
         ]);
 
         if (!$folder) {
-            return redirect()->back()->withError('Folder could not be created.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Folder could not be created.'
+            ], 200);
         }
 
-        if ($validated['company_id']) {
-            Folder::attachToCompany($folder->id, $validated['company_id']);
+        if ($request->company_id) {
+            Folder::attachToCompany($folder->id, $request->company_id);
         }
 
-        return redirect()->back()->withSuccess('Folder has been created successfully.');
+        $folder->subFolders = [];
+
+        if (!$folder->parent_folder_id) {
+            $html = view('partials.permissions.folders', ['folder' => $folder, 'selected' => []])->render();
+        } else {
+            $html = view('partials.permissions.sub_folders', ['folder' => $folder, 'selected' => []])->render(); 
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Folder has been created successfully.',
+            'html' => $html
+        ], 200);
     }
 
     /**

@@ -157,6 +157,49 @@ $(function () {
     });
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    $('#create_folder_submit').on('click', function (e) {
+        e.preventDefault();
+
+        var button = $(this);
+        var company_id = $('#input_company_id').val();
+        var parent_folder_id = $('#input_parent_folder_id').val();
+        var name = $('#input_name').val();
+
+        button.attr('disabled', true);
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: $('#create_folder_form').attr('action'),
+            data: { company_id:company_id, parent_folder_id:parent_folder_id, name:name },
+            cache: false,
+            success: function(result) {
+                $('#ajax-alert-error').hide();
+                $('#ajax-alert-success').hide();
+
+                if (!result['success']) {
+                    $('#ajax-alert-error').html(result['message']).show();
+                } else {
+                    if (!parent_folder_id) {
+                        $('#permission-folders').append(result['html']);
+                    } else {
+                        $('ul#ul-' + parent_folder_id).append(result['html']);
+                        $('#folder_nosub_' + parent_folder_id).hide();
+                        $('#folder_caret_' + parent_folder_id).show();
+                    }
+
+                    $('#ajax-alert-success').html(result['message']).show();
+                }
+
+                button.attr('disabled', false);
+                $('#input_name').val('');
+                $('#createFolderModal').modal('toggle');
+            }
+        });
+    });
 });
 /*************************************************************************/
 
@@ -195,6 +238,10 @@ $('.main_container').on('click', '.sub_folders_toggle', function () {
     var folder_id = $(this).data('id');
     var caret = $('#folder_caret_' + folder_id);
     var opened = $(':hidden#sub_folders_opened_' + folder_id);
+
+    if (!$(this).hasClass('active')) {
+        return;
+    }
 
     if (opened.val() === '0') {
         $('#sub-' + folder_id).show();

@@ -28,7 +28,7 @@
                                 @if ($user->company && $folders)
                                     <div class="dashboard-widget-content">
                                         <div>
-                                            <ul class="tree-file">
+                                            <ul class="tree-file" id="permission-folders">
                                                 @foreach ($folders as $folder)
                                                     @include('partials.permissions.folders')
                                                 @endforeach

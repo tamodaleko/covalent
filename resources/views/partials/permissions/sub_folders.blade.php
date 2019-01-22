@@ -1,15 +1,13 @@
 <li>
     <span>
-        <input type="hidden" id="sub_folders_opened_{{ $folder->id }}" value="0">
+        <input type="hidden" id="sub_folders_opened_{{ $folder->id }}" value="1">
         <input type="checkbox" name="folders[]" class="folder_checkbox" value="{{ $folder->id }}" @if (in_array($folder->id, $selected)) checked @endif>
 
-        @if (count($folder->subFolders))
-            <span id="folder_caret_{{ $folder->id }}" class="sub_folders_toggle" data-id="{{ $folder->id }}">
-                <i class="fa fa-caret-right"></i>
-            </span>
-        @else
-            <span class="no-sub"></span>
-        @endif
+        <span id="folder_caret_{{ $folder->id }}" class="sub_folders_toggle" data-id="{{ $folder->id }}" @if (!count($folder->subFolders)) style="display: none;" @endif>
+            <i class="fa fa-caret-down"></i>
+        </span>
+
+        <span id="folder_nosub_{{ $folder->id }}" class="no-sub" @if (count($folder->subFolders)) style="display: none;" @endif></span>
 
         <i class="fa fa-folder-open-o"></i>
         
@@ -20,13 +18,11 @@
         </span>
     </span>
 
-    @if (count($folder->subFolders))
-        <span class="sub" id="sub-{{ $folder->id }}" style="display: none;">
-            <ul class="tree-file">
-                @foreach ($folder->subFolders as $subFolder)
-                    @include('partials.permissions.sub_folders', ['folder' => $subFolder])
-                @endforeach
-            </ul>
-        </span>
-    @endif
+    <span class="sub" id="sub-{{ $folder->id }}">
+        <ul class="tree-file" id="ul-{{ $folder->id }}">
+            @foreach ($folder->subFolders as $subFolder)
+                @include('partials.permissions.sub_folders', ['folder' => $subFolder])
+            @endforeach
+        </ul>
+    </span>
 </li>
