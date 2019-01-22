@@ -7,6 +7,7 @@ use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company\Company;
 use App\Models\Folder;
 use App\Models\User\User;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -118,11 +119,11 @@ class CompanyController extends Controller
     /**
      * Get folders ajax.
      *
+     * @param \Illuminate\Http\Request
      * @param \App\Models\Company\Company $company
-     * @param \App\Models\User\User $user
      * @return \Illuminate\Http\Response
      */
-    public function folders(Company $company, User $user)
+    public function folders(Request $request, Company $company)
     {
         $folders = $company->getAllowedFolderStructure();
 
@@ -130,9 +131,11 @@ class CompanyController extends Controller
             return null;
         }
 
+        $user = User::find($request->user_id);
+
         return view('partials.permissions.folders_ajax', [
             'folders' => $folders,
-            'selected' => $user->getAllowedFolders()
+            'selected' => $user ? $user->getAllowedFolders() : []
         ]);
     }
 

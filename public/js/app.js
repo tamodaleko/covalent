@@ -24,9 +24,14 @@ $(function () {
     $('#createFolderModal').on('shown.bs.modal', function (e) {
         var folder_id = $('#create_folder_button').attr('data-id');
         var company_id = $('#create_folder_button').attr('data-company_id');
+        var path = $('#create_folder_button').attr('data-path');
 
         $('#input_company_id').val(company_id);
         $('#input_parent_folder_id').val(folder_id);
+
+        if (path) {
+            $('.selected-path').html('<small><b>' + path + '</b></small>');
+        }
     });
 
     $('#editStatusModal').on('show.bs.modal', function () {
@@ -142,13 +147,9 @@ $(function () {
         if (is_admin == 1) {
             $('#company_form_group').hide();
             $('#folders_ajax_container').hide();
-            $('#save-and-manage-button').hide();
-            $('#save-button').show();
         } else {
             $('#company_form_group').show();
             $('#folders_ajax_container').show();
-            $('#save-and-manage-button').show();
-            $('#save-button').hide();
         }
     });
 
@@ -287,7 +288,7 @@ $('.main_container').on('click', '.folder_name', function () {
     $(this).addClass('active');
 
     $('#create_folder_button').attr('data-id', folder_id);
-    $('.selected-path').html('<small><b>/' + folder_path + '</b></small>');
+    $('#create_folder_button').attr('data-path', '/' + folder_path);
 });
 /*************************************************************************/
 
@@ -314,20 +315,21 @@ function confSubmit(form) {
 }
 
 function getFolders(company_id, user_id) {
-    if (!company_id || !user_id) {
+    if (!company_id) {
         $('#folders_ajax_container span').html('');
         $('#folders_ajax_container button').hide();
         return;
     }
 
     $.ajax({
-        url: '/companies/' + company_id + '/folders/' + user_id,
+        url: '/companies/' + company_id + '/folders?user_id=' + user_id,
         cache: false,
         success: function(result) {
             if (result) {
                 $('#folders_ajax_container span').html(result);
                 $('#folders_ajax_container button').attr('data-id', $('.folder_name').first().data('id'));
                 $('#folders_ajax_container button').attr('data-company_id', company_id);
+                $('#folders_ajax_container button').attr('data-path', '/' + $('.folder_name').first().data('path'));
                 $('#folders_ajax_container button').show();
             } else {
                 $('#folders_ajax_container span').html('');

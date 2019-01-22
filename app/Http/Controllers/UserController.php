@@ -76,6 +76,10 @@ class UserController extends Controller
             return redirect()->back()->withInput($validated)->withError('You have to choose a company.');
         }
 
+        if (!$validated['is_admin'] && (!isset($validated['folders'])) || !$validated['folders']) {
+            return redirect()->back()->withInput($validated)->withError('You have to choose a folder.');
+        }
+
         if ($validated['is_admin']) {
             $validated['company_id'] = null;
         }
@@ -90,13 +94,7 @@ class UserController extends Controller
 
         $user->updatePermissions($request->folders);
 
-        if ($user->is_admin) {
-            return redirect()->route('users.index')
-                ->withSuccess('User has been created successfully.');
-        }
-
-        return redirect()->route('users.permissions.edit', ['id' => $user->id])
-            ->withSuccess('User has been created successfully.');
+        return redirect()->route('users.index')->withSuccess('User has been created successfully.');
     }
 
     /**

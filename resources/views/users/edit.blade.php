@@ -71,7 +71,7 @@
                                             @include('partials.permissions.folders_ajax')
                                         @endif
                                     </span>
-                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders ? $folders[0]->id : '' }}" data-company_id="{{ $user->company_id }}" @if (!$folders || $user->is_admin) style="display: none;" @endif>
+                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="{{ $folders ? $folders[0]->id : '' }}" data-company_id="{{ $user->company_id }}" data-path="{{ $folders ? '/' . $folders[0]->getPath() : '' }}" @if (!$folders || $user->is_admin) style="display: none;" @endif>
                                         <i class="fa fa-folder-open-o"></i> Create Folder
                                     </button>
                                 </div>

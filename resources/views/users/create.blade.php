@@ -62,14 +62,18 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12 right">
                                     <div class="form-group" id="company_form_group" @if(old('is_admin')) style="display: none;" @endif>
                                         {{ Form::label('company_id', 'Company') }}
-                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), old('company_id'), ['class' => 'form-control']) }}
+                                        {{ Form::select('company_id', \App\Models\Company\Company::getList(true), old('company_id'), ['class' => 'form-control', 'onchange' => 'getFolders(this.value, null)']) }}
                                     </div>
                                 </div>
+                                <div id="folders_ajax_container" class="col-md-6 col-sm-6 col-xs-12 left">
+                                    <span></span>
+                                    <button type="button" id="create_folder_button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal" data-id="" data-company_id="" style="display: none;">
+                                        <i class="fa fa-folder-open-o"></i> Create Folder
+                                    </button>
+                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">
-                                    {{ Form::button('<i class="fa fa-check"></i> Save & Manage Permissions', ['type' => 'submit', 'class' => 'btn btn-default', 'id' => 'save-and-manage-button']) }}
+                                    {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default']) }}
 
-                                    {{ Form::button('<i class="fa fa-check"></i> Save', ['type' => 'submit', 'class' => 'btn btn-default', 'id' => 'save-button', 'style' => 'display: none;']) }}
-                                    
                                     {{ Form::button('<i class="fa fa-repeat"></i> Reset', ['type' => 'reset', 'class' => 'btn btn-default']) }}
                                 </div>
                             
