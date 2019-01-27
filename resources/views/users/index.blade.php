@@ -26,9 +26,9 @@
                                 <option value="">Select Company</option>
                                 <option value="no-company" @if(app('request')->company_id == 'no-company') selected @endif>No Company Selected</option>
 
-                                @foreach (\App\Models\Company\Company::all() as $singleCompany)
-                                    <option value="{{ $singleCompany->id }}" @if(app('request')->company_id == $singleCompany->id) selected @endif>
-                                        {{ $singleCompany->name }}
+                                @foreach (\App\Models\Company\Company::getList() as $id => $name)
+                                    <option value="{{ $id }}" @if(app('request')->company_id == $id) selected @endif>
+                                        {{ $name }}
                                     </option>
                                 @endforeach
                             </select>

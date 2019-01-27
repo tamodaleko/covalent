@@ -38,22 +38,20 @@
                                 {!! Form::open(['route' => ['permissions.update', 'id' => $company->id]]) !!}
 
                                     <div class="row">
-                                        <div class="col-md-5 col-sm-6 col-xs-12">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
                                             <br />
-                                            <div class="form-group" style="max-width: 418px;">
-                                                {{ Form::label('folders', 'Users:') }}
-                                                
-                                                <select name="users[]" class="select2-multiple2" multiple style="width: 100%;">
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="form-group"">
+                                                {{ Form::label('users', 'Users:') }}
+
+                                                @foreach ($users as $user)
+                                                    <div class="users-permission">
+                                                        <input type="checkbox" name="users[]" value="{{ $user->id }}">
+                                                        <span>{{ $user->name }}</span>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
-                                    </div>
-
-                                    @if ($users->count() && $folders)
-                                        <div class="row">
+                                        @if ($users->count() && $folders)
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <br />
                                                 <div class="form-group">
@@ -69,8 +67,8 @@
                                                     <i class="fa fa-folder-open-o"></i> Create Folder
                                                 </button>
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-xs-12 sub-btn">

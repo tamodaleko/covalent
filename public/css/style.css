@@ -8237,3 +8237,28 @@ span#show_error:after {
 .select2-selection__arrow b {
     color: black;
 }
+
+.users-permission {
+    margin-bottom: 5px !important;
+    vertical-align: top;
+    height: 16px;
+    position: relative;
+}
+
+.users-permission input[type="checkbox"] {
+    margin: 0 !important;
+    height: 16px !important;
+    width: 16px !important;
+    margin-right: 5px !important;
+}
+
+.users-permission span {
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-left: 25px;
+}
