@@ -75,6 +75,9 @@
                                                 <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('delete', 1);">
                                                     <i class="fa fa-trash-o"></i> Delete Selected
                                                 </button>
+                                                <button type="button" class="btn btn-primary full" data-toggle="modal" data-target="#notifyUsersModal" data-company_id="{{ $company->id }}">
+                                                    <i class="fa fa-envelope-o"></i> Notify Users
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -119,6 +122,7 @@
     @include('modals.store_folder')
     @include('modals.edit_status')
     @include('modals.edit_tag')
+    @include('modals.notify_users')
     @include('modals.image_preview')
     @include('modals.rename_folder')
     @include('modals.copy_folder')

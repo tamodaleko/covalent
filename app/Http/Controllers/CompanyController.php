@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
+use App\Http\Requests\Company\UsersNotifyRequest;
 use App\Models\Company\Company;
 use App\Models\Folder;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
 {
@@ -117,6 +119,27 @@ class CompanyController extends Controller
     }
 
     /**
+     * Get users ajax.
+     *
+     * @param \Illuminate\Http\Request
+     * @param \App\Models\Company\Company $company
+     * @return \Illuminate\Http\Response
+     */
+    public function users(Request $request, Company $company)
+    {
+        $result = [];
+
+        foreach ($company->users as $user) {
+            $result['users'][] = [
+                'id' => $user->id,
+                'name' => $user->name
+            ];
+        }
+
+        return response()->json($result);
+    }
+
+    /**
      * Get folders ajax.
      *
      * @param \Illuminate\Http\Request
@@ -161,5 +184,26 @@ class CompanyController extends Controller
     public function foldersMove(Company $company, Folder $folder)
     {
         return response()->json($company->getFoldersForMove($folder));
+    }
+
+    /**
+     * Notify Users.
+     *
+     * @param \App\Http\Requests\Company\UsersNotifyRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function usersNotify(UsersNotifyRequest $request)
+    {
+        $users = User::find($request->users);
+
+        foreach ($users as $user) {
+            Mail::send([], [], function ($message) use ($request, $user) {
+                $message->to($user->email)
+                    ->subject($request->subject)
+                    ->setBody($request->message, 'text/html');
+            });
+        }
+
+        return redirect()->back()->withSuccess('Users have been notified successfully.');
     }
 }

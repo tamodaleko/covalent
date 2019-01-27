@@ -51,6 +51,26 @@ $(function () {
         $('.selected-path').html('<small><b>' + $('#folder_path').text() + '</b></small>');
     });
 
+    $('#notifyUsersModal').on('shown.bs.modal', function (e) {
+        var company_id = $(e.relatedTarget).data('company_id');
+        var url = '/companies/' + company_id + '/users/notify';
+        $('#notify_users_form').attr('action', url);
+
+        $.ajax({
+            url: '/companies/' + company_id + '/users',
+            cache: false,
+            success: function(result) {
+                if (result['users']) {
+                    $.each(result['users'], function( index, value ) {
+                        var option = new Option(value['name'], value['id']);
+                        $(option).html(value['name']);
+                        $('#notify_users_select').append(option);
+                    });
+                }
+            }
+        });
+    });
+
     $('#imagePreviewModal').on('show.bs.modal', function (e) {
         var url = $(e.relatedTarget).data('url');
         $('#image-preview').attr('src', url);
