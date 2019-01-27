@@ -20,7 +20,8 @@ class CompanyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('admin')->except(['foldersCopy', 'foldersMove']);
+        $this->middleware('auth');
     }
 
     /**

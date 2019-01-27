@@ -26,6 +26,8 @@
                 @endif
                 
                 {!! Form::open(['route' => 'password.request', 'id' => 'login', 'class' => 'form-horizontal form-label-left']) !!}
+
+                    <input type="hidden" name="token" value="{{ $token }}">
                     
                     <h1>Covalent Reset Password</h1>
                     
