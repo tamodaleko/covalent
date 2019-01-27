@@ -57,7 +57,7 @@ class Company extends Model
             $list[''] = 'Select Company';
         }
 
-        foreach (static::all() as $company) {
+        foreach (static::orderBy('name')->get() as $company) {
             $list[$company->id] = $company->name;
         }
 

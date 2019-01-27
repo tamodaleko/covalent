@@ -37,11 +37,11 @@ class UserController extends Controller
         if ($request->company_id) {
             if ($request->company_id === 'no-company') {
                 $companyName = 'No Company Selected';
-                $users = User::where('company_id', null)->get();
+                $users = User::where('company_id', null)->orderBy('first_name')->orderBy('last_name')->get();
             } else {
                 $company = Company::find($request->company_id);
                 $companyName = $company ? $company->name : null;
-                $users = User::where('company_id', $request->company_id)->get();
+                $users = User::where('company_id', $request->company_id)->orderBy('first_name')->orderBy('last_name')->get();
             }
         }
 

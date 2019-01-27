@@ -13,11 +13,9 @@
                             <div class="form-group">
                                 <br>
                                 <select id="permissions" class="form-control">
-                                    <option value="">Select Company</option>
-
-                                    @foreach (\App\Models\Company\Company::all() as $singleCompany)
-                                        <option value="{{ $singleCompany->id }}" @if($company->id === $singleCompany->id) selected @endif>
-                                            {{ $singleCompany->name }}
+                                    @foreach (\App\Models\Company\Company::getList(true) as $companyId => $companyName)
+                                        <option value="{{ $companyId }}" @if($company && $company->id === $companyId) selected @endif>
+                                            {{ $companyName }}
                                         </option>
                                     @endforeach
                                 </select>

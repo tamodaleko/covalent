@@ -13,11 +13,9 @@
                             <div class="form-group">
                                 <br>
                                 <select id="permissions" class="form-control">
-                                    <option value="">Select Company</option>
-
-                                    @foreach (\App\Models\Company\Company::all() as $singleCompany)
-                                        <option value="{{ $singleCompany->id }}">
-                                            {{ $singleCompany->name }}
+                                    @foreach (\App\Models\Company\Company::getList(true) as $companyId => $companyName)
+                                        <option value="{{ $companyId }}">
+                                            {{ $companyName }}
                                         </option>
                                     @endforeach
                                 </select>
