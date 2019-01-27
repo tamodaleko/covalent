@@ -76,7 +76,7 @@ class UserController extends Controller
             return redirect()->back()->withInput($validated)->withError('You have to choose a company.');
         }
 
-        if (!$validated['is_admin'] && (!isset($validated['folders'])) || !$validated['folders']) {
+        if (!$validated['is_admin'] && (!$request->has('folders') || !$request->folders)) {
             return redirect()->back()->withInput($validated)->withError('You have to choose a folder.');
         }
 

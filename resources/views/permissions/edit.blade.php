@@ -52,7 +52,7 @@
                                             </div>
                                         </div>
                                         @if ($users->count() && $folders)
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-md-9 col-sm-6 col-xs-12">
                                                 <br />
                                                 <div class="form-group">
                                                     {{ Form::label('folders', 'Folders:') }}
