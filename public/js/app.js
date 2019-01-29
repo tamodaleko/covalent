@@ -56,6 +56,8 @@ $(function () {
         var url = '/companies/' + company_id + '/users/notify';
         $('#notify_users_form').attr('action', url);
 
+        $('#notify_users_select').empty().trigger('change');
+
         $.ajax({
             url: '/companies/' + company_id + '/users',
             cache: false,
@@ -64,7 +66,7 @@ $(function () {
                     $.each(result['users'], function( index, value ) {
                         var option = new Option(value['name'], value['id']);
                         $(option).html(value['name']);
-                        $('#notify_users_select').append(option);
+                        $('#notify_users_select').append(option).trigger('change');
                     });
                 }
             }

@@ -66,7 +66,7 @@ class PermissionController extends Controller
         $users = User::find($request->users);
 
         foreach ($users as $user) {
-            $user->addPermissions($request->folders);
+            $user->updatePermissions($request->folders);
         }
 
         return redirect()->back()->withSuccess('Permissions have been granted successfully.');

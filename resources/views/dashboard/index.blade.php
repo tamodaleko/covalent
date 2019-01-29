@@ -73,9 +73,11 @@
                                                 <button type="button" class="btn btn-primary full" onclick="fileFormSubmit('delete', 1);">
                                                     <i class="fa fa-trash-o"></i> Delete Selected
                                                 </button>
-                                                <button type="button" class="btn btn-primary full" data-toggle="modal" data-target="#notifyUsersModal" data-company_id="{{ $company->id }}">
-                                                    <i class="fa fa-envelope-o"></i> Notify Users
-                                                </button>
+                                                @if (auth()->user()->is_admin)
+                                                    <button type="button" class="btn btn-primary full" data-toggle="modal" data-target="#notifyUsersModal" data-company_id="{{ $company->id }}">
+                                                        <i class="fa fa-envelope-o"></i> Notify Users
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
