@@ -68,7 +68,7 @@ class AmazonS3Service
             $result = $this->client->copyObject([
                 'Bucket' => $this->bucket,
                 'Key' => $targetPath,
-                'CopySource' => $this->bucket . '/' . $sourcePath,
+                'CopySource' => $this->client::encodeKey($this->bucket . '/' . $sourcePath),
                 'ACL' => 'public-read'
             ]);
         } catch (Aws\S3\Exception\S3Exception $e) {
@@ -91,7 +91,7 @@ class AmazonS3Service
             $result = $this->client->copyObject([
                 'Bucket' => $this->bucket,
                 'Key' => $targetPath,
-                'CopySource' => $this->bucket . '/' . $sourcePath,
+                'CopySource' => $this->client::encodeKey($this->bucket . '/' . $sourcePath),
                 'ACL' => 'public-read'
             ]);
         } catch (Aws\S3\Exception\S3Exception $e) {
@@ -137,7 +137,7 @@ class AmazonS3Service
             $batch[] = $this->client->getCommand('CopyObject', [
                 'Bucket' => $this->bucket,
                 'Key' => $file['targetPath'],
-                'CopySource' => $this->bucket . '/' . $file['sourcePath'],
+                'CopySource' => $this->client::encodeKey($this->bucket . '/' . $file['sourcePath']),
                 'ACL' => 'public-read'
             ]);
         }
@@ -165,7 +165,7 @@ class AmazonS3Service
             $batch[] = $this->client->getCommand('CopyObject', [
                 'Bucket' => $this->bucket,
                 'Key' => $file['targetPath'],
-                'CopySource' => $this->bucket . '/' . $file['sourcePath'],
+                'CopySource' => $this->client::encodeKey($this->bucket . '/' . $file['sourcePath']),
                 'ACL' => 'public-read'
             ]);
         }

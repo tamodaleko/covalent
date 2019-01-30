@@ -20,10 +20,10 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <h2 class="not_active">
-                                <a href="{{ route('dashboard.index') }}">File Browser</a>
-                            </h2>
-                            <h2 class="active_state">Permission Management</h2>
+                            <a href="{{ route('dashboard.index') }}">
+                                <h2 class="not_active">File Browser</h2>
+                            </a>
+                            <h2 class="active_state" style="margin-left: 5px;">Group Permissions</h2>
                             <div class="clearfix"></div>
                         </div>
 
