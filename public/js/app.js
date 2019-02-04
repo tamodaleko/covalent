@@ -263,7 +263,7 @@ $('.main_container').on('click', '.sub_folders_toggle', function () {
     var caret = $('#folder_caret_' + folder_id);
     var opened = $(':hidden#sub_folders_opened_' + folder_id);
 
-    if (!$(this).hasClass('active')) {
+    if ($(this).hasClass('folder_name') && !$(this).hasClass('active')) {
         return;
     }
 
