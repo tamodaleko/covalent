@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <hr style="margin:0;padding:0;" />
-                <div class="row" style="margin-top: 5px;">
+                <div class="row" style="margin-top: 15px;">
                     {!! Form::open(['route' => 'files.store', 'id' => 'fileupload', 'files' => true]) !!}
 
                         <input type="hidden" id="folder_id" name="folder_id">
@@ -45,7 +45,7 @@
                     {!! Form::close() !!}
                 </div>
                 <p class="alert alert-info" style="font-size: 12px;">
-                    <b>Note:</b> This will upload a new file under the selected path above.
+                    <b>Note:</b> Don't close this popup until the upload is complete, but you can leave it running in the background.
                 </p>
             </div>
             <div class="modal-footer"></div>

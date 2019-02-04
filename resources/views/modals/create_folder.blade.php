@@ -37,7 +37,7 @@
                     </form>
                 </div>
                 <p class="alert alert-info" style="font-size: 12px;">
-                    <b>Note:</b> This will create a new folder under the selected path above.
+                    <b>Allowed characters:</b> 0-9, a-z, A-Z, !, -, _, ., *, ', (, )
                 </p>
             </div>
             <div class="modal-footer"></div>
