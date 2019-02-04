@@ -31,11 +31,13 @@
                 </a>
             </span>
 
-            <span data-toggle="modal" data-target="#renameFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
-                <a href="javascript:;" data-toggle="tooltip" title="Rename File">
-                    <i class="fa fa-pencil-square-o"></i>
-                </a>
-            </span>
+            @if (auth()->user()->is_admin)
+                <span data-toggle="modal" data-target="#renameFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
+                    <a href="javascript:;" data-toggle="tooltip" title="Rename File">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </a>
+                </span>
+            @endif
 
             <span data-toggle="modal" data-target="#moveFileModal" data-id="{{ $file->id }}" style="margin-right: 5px;">
                 <a href="javascript:;" data-toggle="tooltip" title="Move File">
