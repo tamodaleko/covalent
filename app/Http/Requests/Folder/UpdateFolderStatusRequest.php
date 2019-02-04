@@ -24,7 +24,7 @@ class UpdateFolderStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'sometimes|integer'
+            'status' => 'nullable|integer'
         ];
     }
 }
