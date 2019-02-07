@@ -94,7 +94,9 @@ class UserController extends Controller
 
         $user->updatePermissions($request->folders);
 
-        return redirect()->route('users.index')->withSuccess('User has been created successfully.');
+        $company_id = $user->company_id ?: 'no-company';
+
+        return redirect()->route('users.index', ['company_id' => $company_id])->withSuccess('User has been created successfully.');
     }
 
     /**
@@ -133,7 +135,7 @@ class UserController extends Controller
             return redirect()->back()->withInput($validated)->withError('You have to choose a company.');
         }
 
-        if (!$validated['is_admin'] && (!isset($validated['folders'])) || !$validated['folders']) {
+        if (!$validated['is_admin'] && (!isset($validated['folders']) || !$validated['folders'])) {
             return redirect()->back()->withInput($validated)->withError('You have to choose a folder.');
         }
 
@@ -151,7 +153,9 @@ class UserController extends Controller
 
         $user->updatePermissions($folders);
 
-        return redirect()->route('users.index')->withSuccess('User has been updated successfully.');
+        $company_id = $user->company_id ?: 'no-company';
+
+        return redirect()->route('users.index', ['company_id' => $company_id])->withSuccess('User has been updated successfully.');
     }
 
     /**
