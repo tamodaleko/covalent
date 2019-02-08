@@ -237,6 +237,7 @@
     <script src="{{ asset('js/jquery.ui.widget.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/select2.multi-checkboxes.js') }}"></script>
     <script src="{{ asset('js/tmpl.min.js') }}"></script>
     <script src="{{ asset('js/load-image.all.min.js') }}"></script>
     <script src="{{ asset('js/jquery.iframe-transport.js') }}"></script>

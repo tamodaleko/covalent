@@ -51,6 +51,7 @@
                                         {{ Form::label('users', 'Users') }}
 
                                         <select name="users[]" class="select2-multiple2" multiple style="width: 100%;">
+                                            <option></option>
                                             @foreach (\App\Models\User\User::all() as $user)
                                                 <option value="{{ $user->id }}" @if (in_array($user->id, $users)) selected @endif>
                                                     {{ $user->name }}
